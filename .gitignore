@@ -1,0 +1,17 @@
+# Sample workflow runs under trips/ are committed on purpose (Definition of
+# Done requires ≥3 stored runs with inputs, artifacts, and execution state) —
+# do not ignore that directory.
+
+# OS / editor cruft
+Thumbs.db
+.DS_Store
+
+# secrets / local env
+.env
+.env.*
+*.pem
+*.key
+
+# local-only Claude settings and generated MCP memory graph (not sample data)
+.claude/settings.local.json
+.claude/memory/

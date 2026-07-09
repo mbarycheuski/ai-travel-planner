@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Family Trip to Minsk — 4–5 July 2026</title>
+<style>
+  :root {
+    --bg: #fdf8f2;
+    --card-bg: #ffffff;
+    --ink: #2e2620;
+    --muted: #6b5f54;
+    --accent: #c9622a;
+    --accent-dark: #9c4a1c;
+    --accent-light: #f6e2cf;
+    --green: #3f7d54;
+    --green-light: #e5f2e8;
+    --border: #e9ddcd;
+    --shadow: 0 2px 10px rgba(60, 40, 20, 0.08);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1712;
+      --card-bg: #2a2219;
+      --ink: #f1e9dc;
+      --muted: #c7b8a6;
+      --accent: #e88a4c;
+      --accent-dark: #f2a870;
+      --accent-light: #3a2c1e;
+      --green: #7fc998;
+      --green-light: #23332a;
+      --border: #4a3c2c;
+      --shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  .wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 1rem 3rem;
+  }
+
+  header.hero {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+    color: #fff;
+    padding: 2.5rem 1.5rem 2rem;
+    text-align: center;
+    border-radius: 0 0 18px 18px;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+  }
+
+  header.hero h1 {
+    margin: 0 0 0.3rem;
+    font-size: 1.9rem;
+  }
+
+  header.hero .subtitle {
+    font-size: 1.05rem;
+    opacity: 0.95;
+    margin-bottom: 1.2rem;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .chip {
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.35);
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.88rem;
+    white-space: nowrap;
+  }
+
+  .chip.total {
+    background: #fff;
+    color: var(--accent-dark);
+    font-weight: bold;
+  }
+
+  section {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.3rem 1.5rem 1.6rem;
+    margin-bottom: 1.4rem;
+    box-shadow: var(--shadow);
+  }
+
+  h2 {
+    font-family: Georgia, serif;
+    color: var(--accent-dark);
+    border-bottom: 2px solid var(--accent-light);
+    padding-bottom: 0.4rem;
+    margin-top: 0;
+    font-size: 1.35rem;
+  }
+
+  h3 {
+    color: var(--ink);
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.8rem 0;
+    font-size: 0.95rem;
+  }
+
+  caption {
+    caption-side: top;
+    text-align: left;
+    font-weight: bold;
+    color: var(--muted);
+    padding-bottom: 0.4rem;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 0.55rem 0.6rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  th {
+    background: var(--accent-light);
+    color: var(--accent-dark);
+    font-weight: bold;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  tr.total-row td {
+    font-weight: bold;
+    background: var(--green-light);
+    color: var(--green);
+  }
+
+  tr.highlight td {
+    background: var(--accent-light);
+    font-weight: bold;
+  }
+
+  .day-card {
+    border-left: 4px solid var(--accent);
+    background: var(--accent-light);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .day-card h3 {
+    margin-top: 0;
+    color: var(--accent-dark);
+  }
+
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .timeline li {
+    display: flex;
+    gap: 0.8rem;
+    padding: 0.45rem 0;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .timeline li:last-child { border-bottom: none; }
+
+  .time {
+    flex: 0 0 auto;
+    min-width: 108px;
+    font-weight: bold;
+    color: var(--accent-dark);
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+  }
+
+  .note-box {
+    background: var(--green-light);
+    border: 1px solid var(--green);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    margin: 0.8rem 0;
+    font-size: 0.93rem;
+  }
+
+  .warn-box {
+    background: #fdecec;
+    border: 1px solid #d9534f;
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    margin: 0.8rem 0;
+    font-size: 0.93rem;
+    color: #7a2c26;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .warn-box { background: #3a201e; color: #f5b7b0; border-color: #b55; }
+  }
+
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 1.2rem;
+    columns: 2;
+    column-gap: 2rem;
+  }
+
+  .checklist li {
+    break-inside: avoid;
+    padding: 0.25rem 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .checklist input[type="checkbox"] {
+    margin-top: 0.28rem;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 640px) {
+    .checklist { columns: 1; }
+    header.hero h1 { font-size: 1.5rem; }
+    table, thead, tbody, th, td, tr { font-size: 0.85rem; }
+    .time { min-width: 80px; }
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .grid-2 { grid-template-columns: 1fr; }
+  }
+
+  .tips-list {
+    padding-left: 1.2rem;
+  }
+  .tips-list li { margin-bottom: 0.6rem; }
+
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-top: 1rem;
+  }
+
+  @media print {
+    body { background: #fff; }
+    section { box-shadow: none; border: 1px solid #ccc; }
+    header.hero { background: var(--accent) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <h1>🚆 Family Trip to Minsk, Belarus</h1>
+    <div class="subtitle">4–5 July 2026 · 2 days / 1 night · Round trip from Brest</div>
+    <div class="chips">
+      <span class="chip">👪 2 adults + 2 kids (5 &amp; 8)</span>
+      <span class="chip">🏛️ Museums &amp; Culture</span>
+      <span class="chip">🌳 Parks &amp; Nature</span>
+      <span class="chip">🛌 1 night</span>
+      <span class="chip total">💰 ≈ 460 BYN total</span>
+    </div>
+  </header>
+
+  <section id="summary">
+    <h2>Trip Summary</h2>
+    <p><strong>Destination:</strong> Minsk, Belarus — a simple out-and-back loop, Brest → Minsk → Brest, with one overnight stay.</p>
+    <p><strong>Dates:</strong> Saturday-style family pacing on Friday 2026-07-04 (outbound) and Saturday 2026-07-05 (return).</p>
+    <p><strong>Party:</strong> 4 travelers — 2 adults, 1 child age 8, 1 child age 5.</p>
+    <p><strong>Interests covered:</strong> Museums &amp; culture and parks &amp; nature are both represented on <em>both</em> days.</p>
+    <div class="note-box">
+      <strong>✅ Validation:</strong> All 7 quality gates (QG1–QG7) PASS. Budget margin is thin (~40 BYN under the 500 BYN ceiling, pre-contingency) — treat listed prices as planning estimates to reconfirm before booking.
+    </div>
+  </section>
+
+  <section id="train-plan">
+    <h2>🚂 The Train Plan</h2>
+    <table>
+      <caption>Family-friendly train times (chosen over faster alternatives to avoid a pre-6&nbsp;AM wake-up or post-11&nbsp;PM homecoming for young children)</caption>
+      <thead>
+        <tr><th>Leg</th><th>Train</th><th>Departs</th><th>Arrives</th><th>Duration</th></tr>
+      </thead>
+      <tbody>
+        <tr class="highlight">
+          <td>Outbound — Brest → Minsk (Day 1)</td>
+          <td>№736Ф</td>
+          <td>Brest-Tsentralny <strong>08:09</strong></td>
+          <td>Minsk-Pasazhirsky <strong>11:54</strong></td>
+          <td>3h 45m</td>
+        </tr>
+        <tr class="highlight">
+          <td>Return — Minsk → Brest (Day 2)</td>
+          <td>№735Ф</td>
+          <td>Minsk-Pasazhirsky <strong>18:11</strong></td>
+          <td>Brest-Tsentralny <strong>22:04</strong></td>
+          <td>3h 53m</td>
+        </tr>
+      </tbody>
+    </table>
+    <ul>
+      <li>Minsk-Pasazhirsky station sits directly at <strong>Ploshcha Lyenina</strong> metro station — no transfer needed to reach the city center.</li>
+      <li><strong>Day 2 station buffer:</strong> be back at/near the station by <strong>17:40–17:45</strong> ahead of the 18:11 departure.</li>
+      <li><strong>Estimated train cost:</strong> ~110 BYN round trip for the family (2 adults + 8-year-old at a discounted fare + 5-year-old traveling free/lap-fare). Swap to ~132 BYN for a guaranteed paid seat for the 5-year-old.</li>
+    </ul>
+    <div class="warn-box">
+      ⚠️ <strong>Reconfirm before booking:</strong> exact fares/seat availability were not confirmed via live booking (dynamic pricing) — re-verify train numbers, prices, and seats on pass.rw.by close to the travel date.
+    </div>
+  </section>
+
+  <section id="itinerary">
+    <h2>🗓️ Day-by-Day Itinerary</h2>
+
+    <div class="day-card">
+      <h3>Day 1 — Friday, 2026-07-04 (Brest → Minsk)</h3>
+      <ul class="timeline">
+        <li><span class="time">08:09</span><span>Depart Brest-Tsentralny by train №736Ф</span></li>
+        <li><span class="time">11:54</span><span>Arrive Minsk-Pasazhirsky (at Ploshcha Lyenina metro)</span></li>
+        <li><span class="time">~12:15</span><span>Head into the city center; check bags at the apartment if check-in allows, or carry light</span></li>
+        <li><span class="time">~12:15–13:45</span><span><strong>Upper Town &amp; Trinity Hill</strong> (Verkhni Horad / Troitskoye Predmestye) — free open-air historic walk, ~1.5h, flat/stroller-friendly, past restored 19th-century buildings and the Holy Spirit Cathedral exterior</span></li>
+        <li><span class="time">~13:45</span><span><strong>Lunch: Lido</strong> (self-service cafeteria), Nezavisimosti Ave. 49 — pick-and-pay tray line, flexible for kids, ~15–25 BYN/person</span></li>
+        <li><span class="time">~14:30–16:00</span><span><strong>National History Museum</strong> of the Republic of Belarus, 12 Karl Marx St — targeted visit to 1–2 kid-friendly halls (~1–1.5h) rather than the full collection</span></li>
+        <li><span class="time">~16:00–18:00</span><span><strong>Gorky Park</strong> (Minsk Central Children's Park) — free entry, pay-per-ride carousel/Ferris wheel area, ~2h wind-down; near Nyamiha metro</span></li>
+        <li><span class="time">Evening</span><span><strong>Dinner:</strong> Pizza / budget bistro near the hotel/Independence Ave — casual counter-service, kid-friendly, ~10–18 BYN/person</span></li>
+        <li><span class="time">Night</span><span>Check in and sleep at <strong>Apartment, Ploshchad Pobedy</strong> (see Accommodation)</span></li>
+      </ul>
+    </div>
+
+    <div class="day-card">
+      <h3>Day 2 — Saturday, 2026-07-05 (Minsk → Brest)</h3>
+      <ul class="timeline">
+        <li><span class="time">Morning</span><span><strong>Self-catered breakfast</strong> at the apartment (kitchen available) — evening-before grocery run for bread, eggs/yogurt, fruit, juice</span></li>
+        <li><span class="time">~08:00–11:00</span><span>Checkout logistics, then travel to <strong>Central Botanical Garden</strong> (metro to Akademiya Navuk) — ~1.5–2h through flat, paved garden paths; 5-year-old enters free</span></li>
+        <li><span class="time">~11:00–12:30</span><span><strong>Lunch: Lido</strong> (self-service, second visit or different branch) — fast, flexible, important given the afternoon station cutoff</span></li>
+        <li><span class="time">Afternoon</span><span><strong>Ploshcha Nezalezhnasci</strong> (Independence Square) &amp; Upper Town shops — free, low-key wind-down (~45 min–1h), on the way back toward the station</span></li>
+        <li><span class="time">by 17:40–17:45</span><span>Be back at/near Minsk-Pasazhirsky station</span></li>
+        <li><span class="time">18:11</span><span>Depart Minsk by train №735Ф</span></li>
+        <li><span class="time">22:04</span><span>Arrive Brest-Tsentralny — trip complete</span></li>
+      </ul>
+    </div>
+
+    <div class="note-box">
+      <strong>Optional upgrade (not in core plan):</strong> Museum of Interactive Science "Kvantum" (hands-on exhibits, ~1–1.5h, north of center) could replace the free Independence Square wind-down on Day 2 for families with confirmed extra budget — adds ~84 BYN and ~20–30 min of cross-town transit. Not recommended given the current tight budget margin.
+    </div>
+  </section>
+
+  <section id="accommodation">
+    <h2>🏠 Accommodation</h2>
+    <h3>Recommended: Apartment, Ploshchad Pobedy (Option 1)</h3>
+    <ul>
+      <li>1-bedroom apartment, sleeps 4 (double bed for adults + sofa bed for the two kids)</li>
+      <li>Private kitchen (enables the Day 2 self-catered breakfast) and private bathroom, WiFi</li>
+      <li>Location: Victory Square / Independence Avenue area, ~15–20 min walk or 1–2 metro stops from the railway station</li>
+      <li><strong>Price: 86 BYN</strong> for the one night (whole apartment, not per person)</li>
+      <li>Source: vip-kvartira.by daily-rental listings, retrieved 2026-07-03</li>
+    </ul>
+    <table>
+      <caption>Backup options (use only if Option 1 is unavailable; each re-triggers a budget check)</caption>
+      <thead><tr><th>Option</th><th>Location</th><th>Price/night</th><th>Delta</th></tr></thead>
+      <tbody>
+        <tr><td>Option 2</td><td>Kirova Street 1, adjacent to the station</td><td>100 BYN</td><td>+14 BYN</td></tr>
+        <tr><td>Option 3</td><td>Lenin Street 15a, one metro stop from center</td><td>114 BYN</td><td>+28 BYN</td></tr>
+      </tbody>
+    </table>
+    <p><em>Assumption: exact real-time nightly rates/availability for 2026-07-04 were not verified on a live booking calendar; figures are representative listing prices, not confirmed reservations.</em></p>
+  </section>
+
+  <section id="transport">
+    <h2>🚇 Transportation</h2>
+    <ul>
+      <li><strong>Intercity:</strong> Round-trip train, Brest ↔ Minsk — <strong>~110 BYN</strong> for the family.</li>
+      <li><strong>Local transport in Minsk:</strong> No day-pass recommended (poor value for a ~1.5-day stay); pay per ride with a metro token/card tap (1.15 BYN/ride) or bus/tram ticket (1.10–1.15 BYN/ride). Children under 7 ride free (5-year-old free throughout); the 8-year-old pays full fare.
+        <br>Estimated <strong>~15–25 BYN</strong> total for ~4–6 paid rides across both days for the 3 fare-paying travelers (midpoint 20 BYN used in the budget total).</li>
+      <li>Central Minsk (Independence Ave corridor, Upper Town, Trinity Suburb) is compact and walkable from Ploshcha Lyenina — walking alone may suffice for much of the itinerary, with metro used opportunistically for longer hops or if the kids tire.</li>
+    </ul>
+    <div class="note-box"><strong>Transport subtotal used in budget: ~130 BYN</strong> (110 intercity + 20 local)</div>
+  </section>
+
+  <section id="activities">
+    <h2>🎡 Activity Schedule</h2>
+    <table>
+      <thead><tr><th>Day</th><th>Activity</th><th>Type</th><th>Duration</th><th>Cost (family)</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Upper Town &amp; Trinity Hill walk</td><td>Culture (free)</td><td>~1.5h</td><td>0 BYN</td></tr>
+        <tr><td>1</td><td>National History Museum</td><td>Culture</td><td>~1–1.5h</td><td>~20 BYN (unconfirmed placeholder)</td></tr>
+        <tr><td>1</td><td>Gorky Park rides</td><td>Parks/nature</td><td>~2h</td><td>15 BYN (low-end)</td></tr>
+        <tr><td>2</td><td>Central Botanical Garden</td><td>Parks/nature</td><td>~1.5–2h</td><td>22 BYN (low-end)</td></tr>
+        <tr><td>2</td><td>Independence Square &amp; Upper Town shops</td><td>Culture (free)</td><td>~45 min–1h</td><td>0 BYN</td></tr>
+        <tr class="total-row"><td colspan="4">Recommended core activities total</td><td>≈ 57 BYN</td></tr>
+        <tr><td>2 (optional)</td><td>Kvantum interactive science museum</td><td>Culture (optional, excluded)</td><td>~1–1.5h</td><td>+84 BYN</td></tr>
+      </tbody>
+    </table>
+    <p>Both stated interests (museums &amp; culture; parks &amp; nature) are represented on both days, and every day includes at least one meaningful, kid-appropriate activity.</p>
+  </section>
+
+  <section id="dining">
+    <h2>🍽️ Restaurant Recommendations</h2>
+    <table>
+      <thead><tr><th>Meal</th><th>Recommended venue</th><th>Notes</th><th>Cost (family)</th></tr></thead>
+      <tbody>
+        <tr><td>Day 1 Lunch</td><td><strong>Lido</strong> (self-service cafeteria), Nezavisimosti Ave. 49</td><td>Pick-and-pay tray line, flexible for picky kids</td><td>~64 BYN</td></tr>
+        <tr><td>Day 1 Dinner</td><td><strong>Pizza / budget bistro</strong>, near hotel/Independence Ave</td><td>Casual, familiar, fast; exact venue to confirm once hotel address is fixed</td><td>~44 BYN</td></tr>
+        <tr><td>Day 2 Breakfast</td><td><strong>Self-catered</strong> at apartment</td><td>Grocery run the evening before (bread, eggs/yogurt, fruit, juice); requires Option 1's kitchen</td><td>~15 BYN</td></tr>
+        <tr><td>Day 2 Lunch</td><td><strong>Lido</strong> (self-service, second visit/branch)</td><td>Fast, flexible — important ahead of the 17:40 station cutoff</td><td>~64 BYN</td></tr>
+        <tr class="total-row"><td colspan="3">Recommended food total</td><td>≈ 187 BYN</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Non-recommended alternatives (kept for reference)</h3>
+    <ul>
+      <li><strong>Vasilki</strong> sit-down Belarusian restaurant (Independence Ave. 89) for Day 1 dinner — more "authentic" draniki/machanka experience, but ~80 BYN vs. ~44 BYN for pizza (+36 BYN delta); only if budget headroom is confirmed.</li>
+      <li><strong>Garage Food &amp; Coffee</strong> (family cafe with kids' play area) — ~15–25 BYN/person, a mid-cost fallback for Day 1 dinner.</li>
+      <li><strong>Local bakery/coffee shop</strong> near Ploshcha Lyenina — fallback for Day 2 breakfast if the apartment kitchen is unavailable (~35–40 BYN for the family; raises the food total to ~207–212 BYN).</li>
+      <li><strong>Food Republic</strong> food court — backup for Day 2 lunch (~12–20 BYN/person).</li>
+    </ul>
+
+    <div class="note-box">
+      <strong>Local dishes to try</strong> (available via Lido's cafeteria line, no need for pricier sit-down venues): draniki (potato pancakes), machanka (pork stew), khaladnik (cold beet soup, refreshing in July), kalduny (dumplings), vareniki with berries (sweet dessert dumplings).
+    </div>
+  </section>
+
+  <section id="budget">
+    <h2>💰 Budget Summary</h2>
+    <table>
+      <thead><tr><th>Category</th><th>Line item</th><th>Cost (BYN)</th></tr></thead>
+      <tbody>
+        <tr><td>Transport — Intercity</td><td>Round-trip train, family of 4</td><td>110</td></tr>
+        <tr><td>Transport — Local</td><td>Minsk metro/bus, ~4–6 rides, 3 fare-payers</td><td>20 (range 15–25)</td></tr>
+        <tr class="total-row"><td colspan="2">Transport subtotal</td><td>130</td></tr>
+        <tr><td>Accommodation</td><td>1 night, apartment, Ploshchad Pobedy</td><td>86</td></tr>
+        <tr><td>Activities</td><td>Core recommended plan (museum, park, garden, free walks)</td><td>57</td></tr>
+        <tr><td>Food</td><td>2 lunches, 1 dinner, 1 self-catered breakfast</td><td>187</td></tr>
+        <tr class="highlight total-row"><td colspan="2"><strong>Subtotal (maps to stated ceiling)</strong></td><td><strong>460 BYN</strong></td></tr>
+        <tr><td colspan="2">Contingency (~10% buffer, planning assumption — not part of the ceiling)</td><td>+46</td></tr>
+        <tr class="total-row"><td colspan="2">Grand total with contingency</td><td>506</td></tr>
+      </tbody>
+    </table>
+
+    <div class="note-box">
+      <strong>Against the limit:</strong> The user's budget is defined as "transport + hotel + food + activities" = 300–500 BYN. The binding <strong>460 BYN</strong> subtotal is <strong>40 BYN under</strong> the 500 BYN ceiling. The contingency-inclusive figure (506 BYN) technically exceeds 500, but the contingency is a planning safety buffer, not part of the stated ceiling — margin is thin either way, so treat 460 BYN as the firm recommended cost with little room for both a buffer and an upgrade simultaneously.
+    </div>
+
+    <h3>Optional upgrades (not included in the 460 BYN total — pick at most one if adding)</h3>
+    <table>
+      <thead><tr><th>Upgrade</th><th>Delta</th><th>New subtotal (pre-contingency)</th></tr></thead>
+      <tbody>
+        <tr><td>Kvantum science museum (replaces free Day 2 wind-down)</td><td>+84 BYN</td><td>544 (over ceiling)</td></tr>
+        <tr><td>Vasilki sit-down dinner (replaces pizza/bistro)</td><td>+36 BYN</td><td>496 (near ceiling)</td></tr>
+        <tr><td>Kirova Street 1 apartment (pricier accommodation)</td><td>+14 BYN</td><td>474</td></tr>
+        <tr><td>Lenin Street 15a apartment (pricier accommodation)</td><td>+28 BYN</td><td>488</td></tr>
+        <tr><td>Paid seat for 5-year-old on intercity train</td><td>+22 BYN</td><td>482</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="packing">
+    <h2>🧳 Packing Checklist</h2>
+    <p><strong>Guiding principle:</strong> carry-on only, light packing (one shared family bag + one day bag), for a short 1-night trip with metro/walking-heavy days. Early July in Minsk is mild (avg high ~23.5°C / low ~13.3°C, ~36% chance of rain, ~74% humidity) — pack for warm days, cool evenings, and a chance of showers.</p>
+
+    <h3>Clothing</h3>
+    <ul class="checklist">
+      <li><input type="checkbox">2 sets of clothes per person (1 worn, 1 spare)</li>
+      <li><input type="checkbox">1 light long-sleeve layer per person (cool evenings)</li>
+      <li><input type="checkbox">1 packable light rain jacket or poncho per person</li>
+      <li><input type="checkbox">Comfortable, broken-in walking shoes for everyone</li>
+      <li><input type="checkbox">1 spare pair of socks/underwear per person</li>
+      <li><input type="checkbox">Light hat/cap for sun</li>
+      <li><input type="checkbox">Pajamas/sleepwear (1 set each)</li>
+      <li><input type="checkbox">Swim gear — optional, only if a park splash area is used</li>
+    </ul>
+
+    <h3>Electronics</h3>
+    <ul class="checklist">
+      <li><input type="checkbox">Phone chargers (1–2, shared)</li>
+      <li><input type="checkbox">Portable power bank</li>
+      <li><input type="checkbox">Headphones/earbuds for kids (train ride)</li>
+      <li><input type="checkbox">Camera or phone for photos</li>
+      <li><input type="checkbox">Tablet pre-loaded with offline shows/games for the ~4h train ride (optional but recommended)</li>
+    </ul>
+
+    <h3>Travel Documents</h3>
+    <ul class="checklist">
+      <li><input type="checkbox">ID/passports for all 4 travelers (children's IDs/birth certificates as required)</li>
+      <li><input type="checkbox">Train tickets, Brest→Minsk and Minsk→Brest</li>
+      <li><input type="checkbox">Hotel/apartment booking confirmation</li>
+      <li><input type="checkbox">Cash in BYN (small bills) + 1 backup card</li>
+      <li><input type="checkbox">Small day bag to carry documents/essentials (keep with an adult, not checked luggage)</li>
+    </ul>
+
+    <h3>Medicines &amp; Health</h3>
+    <ul class="checklist">
+      <li><input type="checkbox">Personal/prescription medication, original packaging</li>
+      <li><input type="checkbox">Basic first-aid kit (plasters, antiseptic wipes, blister plasters)</li>
+      <li><input type="checkbox">Children's pain/fever reliever</li>
+      <li><input type="checkbox">Motion sickness remedy if needed</li>
+      <li><input type="checkbox">Hand sanitizer / wet wipes</li>
+      <li><input type="checkbox">Insect repellent (light, for parks)</li>
+    </ul>
+
+    <h3>Destination-Specific</h3>
+    <ul class="checklist">
+      <li><input type="checkbox">Sunscreen (kid-safe SPF + adult SPF)</li>
+      <li><input type="checkbox">Reusable water bottles (1 per person)</li>
+      <li><input type="checkbox">Light snacks for the train rides (fruit, crackers)</li>
+      <li><input type="checkbox">Small entertainment kit for kids (coloring book, crayons, small toys, simple travel game)</li>
+      <li><input type="checkbox">Comfort item(s) for the 5-year-old (small stuffed toy/blanket)</li>
+      <li><input type="checkbox">Reusable tote/foldable bag for museum brochures/souvenirs</li>
+      <li><input type="checkbox">Small packet of tissues</li>
+      <li><input type="checkbox">Compact umbrella (1 shared)</li>
+    </ul>
+  </section>
+
+  <section id="tips">
+    <h2>💡 Travel Tips</h2>
+    <ul class="tips-list">
+      <li><strong>Re-verify before booking:</strong> exact train fares/seat availability (pass.rw.by), National History Museum ticket price, Central Botanical Garden summer pricing, Gorky Park ride prices, and the specific pizza/bistro venue near the hotel — all are flagged as planning-level estimates or placeholder figures in the source research, not confirmed receipts.</li>
+      <li><strong>Station-city link:</strong> Minsk-Pasazhirsky station sits directly at Ploshcha Lyenina metro station, so no separate transfer time/cost is needed to reach the city center on arrival or before departure.</li>
+      <li><strong>Buffer for the return train:</strong> be back at/near the station by 17:40–17:45 on Day 2 ahead of the 18:11 departure — this is a built-in safety margin for two young children and luggage, not a strict rule.</li>
+      <li><strong>Local transit fares:</strong> children under 7 ride free on Minsk city transport (5-year-old free); the 8-year-old pays full fare. No short-term city transit pass is worth buying for a 1.5-day visit — pay per ride.</li>
+      <li><strong>Museum pacing:</strong> at the National History Museum, target 1–2 kid-interesting halls rather than the full collection to avoid museum fatigue for the 5-year-old.</li>
+      <li><strong>Kitchen-dependent breakfast:</strong> the Day 2 self-catered breakfast plan depends on the recommended apartment's kitchen; if unavailable, fall back to a nearby bakery (~35–40 BYN for the family, raising the food total to ~207–212 BYN).</li>
+      <li><strong>Budget margin is thin</strong> (~40 BYN under the 500 BYN ceiling pre-contingency): avoid stacking more than one optional upgrade (e.g., Kvantum museum, Vasilki dinner, pricier apartment) without rechecking the total against the ceiling.</li>
+      <li><strong>Cuisine to try affordably:</strong> draniki, machanka, khaladnik, kalduny, and vareniki with berries are all available at Lido's self-service cafeteria line, so the cultural food experience doesn't require the pricier sit-down Vasilki restaurant.</li>
+    </ul>
+  </section>
+
+  <footer>
+    Family Trip to Minsk, Belarus · 2026-07-04 to 2026-07-05 · Plan approved 2026-07-03
+  </footer>
+
+</div>
+</body>
+</html>
