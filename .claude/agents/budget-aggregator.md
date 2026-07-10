@@ -39,15 +39,9 @@ reruns, also the coordinator guidance.
 ## Output format
 
 Write to the given path (`budget.md` or `budget-vN.md`). Headers verbatim; the
-table must keep exactly these columns. Begin the file with the frontmatter
-block above: `version` matching the `-vN` suffix of the output path (1 when
-unversioned), and `documentStatus: draft`.
+table must keep exactly these columns.
 
 ```markdown
----
-version: <N>
-documentStatus: draft
----
 # Budget
 
 ## Budget Breakdown

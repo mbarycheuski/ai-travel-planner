@@ -13,13 +13,13 @@ source page (hotel listing, attraction page, restaurant, operator).
 Prerequisites:
 
 1. **Claude Code** and **Node.js ≥ 22** on `PATH` (used by the project hooks
-   and by `npx` to launch the `memory` and `open-meteo` MCP servers — no
-   install step, `npx` fetches them on first use).
+   and by `npx` to launch the `open-meteo` MCP server — no install step, `npx`
+   fetches it on first use).
 
 Then: clone/open this repo in Claude Code from its root — no build step, no
 `npm install`. `.claude/settings.json` and `.mcp.json` are picked up
 automatically at the project level. On first use, Claude Code will ask you to
-approve the two project MCP servers (`memory`, `open-meteo`) — approve them.
+approve the project MCP server (`open-meteo`) — approve it.
 
 ## Run it
 
@@ -99,11 +99,12 @@ accommodation/activities/food.md → budget.md → validation.md →
 traveler approval flips it to documentStatus: approved → travel-guide.html
 ```
 
-Every markdown artifact opens with a YAML frontmatter block declaring its
-document properties — `version` (matching the `-vN` suffix) and
-`documentStatus` (`draft` | `approved` | `finished`). There is no separate
-`approval.md`: approval is recorded by setting `documentStatus: approved` on
-the daily plan itself.
+Versioning is tracked by the `-vN` filename suffix alone — artifacts carry no
+`version` frontmatter. The only frontmatter is the daily plan's
+`documentStatus` (`draft` | `approved` | `rejected`, plus a `reason:` line when
+`rejected`). There is no separate `approval.md`: approval is recorded by
+setting `documentStatus: approved` on the daily plan itself (or `rejected`,
+with the reason, on a change request).
 
 ### Skills (`.claude/skills/`)
 
@@ -121,9 +122,10 @@ Two reusable skills, invoked by the orchestrator/agents at multiple stages
 
 Each hook has a single responsibility:
 
-- `freeze-finished-guard.js` (`PreToolUse`) blocks any Write/Edit of an
-  artifact whose on-disk `documentStatus` is `approved` or `finished` — a
-  finished document is never edited in place; changes go into a new version.
+- `freeze-finished-guard.js` (`PreToolUse`) blocks any Write/Edit of the daily
+  plan whose on-disk `documentStatus` is `approved` or `rejected` — a terminal
+  daily plan is never edited in place; changes go into a new version. (No other
+  artifact carries a `documentStatus`.)
 - `approval-gate-guard.js` (`PreToolUse`) blocks writing `travel-guide.html`
   unless the latest daily plan records `documentStatus: approved` (the
   deterministic human-approval gate).
@@ -133,16 +135,16 @@ Each hook has a single responsibility:
   `trips/<slug>/workflow-state.json` whenever an artifact is written, so state
   is persisted to disk automatically.
 
-### MCP servers (`.mcp.json`)
+### MCP servers & plugins
 
-- `open-meteo` — weather forecasts/climate (no key); used by
+- `open-meteo` (`.mcp.json`) — weather forecasts/climate (no key); used by
   `packing-planner` and `daily-plan-builder`.
-- `memory` — queryable cross-run history (which gates failed for which
-  destinations), used by the orchestrator and `validator`.
 
 `accommodation-planner`, `activities-planner`, and `food-planner` source real
 listings, attractions, and restaurants via live `WebSearch`/`WebFetch` rather
-than an MCP server.
+than an MCP server. `html-builder` finds the guide's hero and background
+photos the same way — via `WebSearch` (Wikimedia Commons preferred) — then
+downloads and embeds them.
 
 See `CLAUDE.md` for full architecture details.
 
@@ -156,6 +158,8 @@ older artifact names — see the note in `CLAUDE.md`.)
 
 ## Secrets
 
-No credentials are committed. The workflow requires no API keys — the
-`memory` and `open-meteo` MCP servers need none, and content agents use plain
-`WebSearch`/`WebFetch`.
+No credentials are committed. The `open-meteo` MCP server needs no key, and
+all content and image sourcing uses plain `WebSearch`/`WebFetch`. If
+`html-builder` can't find or download a usable hero/background photo, it
+falls back to `none` and the guide renders cleanly with its plain themed
+header/background.

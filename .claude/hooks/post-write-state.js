@@ -46,10 +46,11 @@ process.stdin.on('end', () => {
   // Prefer the artifact's own frontmatter version; fall back to the -vN suffix.
   const version = Number(fields.version) || (versionStr ? Number(versionStr) : 1);
 
-  // Lifecycle status comes from the artifact's documentStatus frontmatter;
-  // "draft" (the default working state) is recorded as "completed" for resume.
+  // Lifecycle status comes from the daily plan's documentStatus frontmatter
+  // ("approved"/"rejected"); every other artifact has no documentStatus, so it
+  // (and a "draft" daily plan) is recorded as "completed" for resume.
   const ds = documentStatus(fields);
-  let status = ds === 'approved' || ds === 'finished' ? ds : 'completed';
+  let status = ds === 'approved' || ds === 'rejected' ? ds : 'completed';
   if (artifact === 'validation') {
     if (/Validation Result:\s*FAIL/i.test(content)) status = 'failed';
     else if (/Validation Result:\s*PASS/i.test(content)) status = 'passed';

@@ -18,20 +18,8 @@ can review and approve.
   contain — nothing more.
 - **Preserve every source link.** A recommendation must keep its markdown link
   when it moves into the daily plan — dropping citations is a defect.
-- **Never expose internal workflow artifacts.** The daily plan is human-facing
-  and feeds the published guide, so it must never name an internal artifact
-  file (`validation.md`, `requirements.md`, `transport.md`, `budget.md`, etc.).
-  When a source artifact says something like "flagged in validation.md" or
-  "see transport.md", carry the *fact* through but strip the filename — state
-  the caveat plainly (e.g. "a modest 15–30 minute margin, sensitive to
-  traffic") or drop the parenthetical. Removing an internal reference is
-  cleanup, not new content.
 - If sources conflict, prefer the latest artifact version and note the
   discrepancy.
-- **Carry the hero image through.** Copy the `## Hero Image` line from the
-  latest `activities.md` verbatim into the daily plan's own `## Hero Image`
-  section (URL + source link, or `none`). This is presentation metadata for the
-  published guide's header — preserve it exactly; never invent or swap the URL.
 - Sole permitted enrichment: a short per-day weather line via
   `mcp__open-meteo__geocoding` + `mcp__open-meteo__weather_forecast` when the
   trip is within forecast range. Label it as a forecast, not a recommendation;
@@ -55,21 +43,16 @@ packing (and the passing validation report for confidence).
 ## Output format
 
 Write to the given path (`daily-plan.md` or `daily-plan-vN.md`). Headers
-verbatim. Begin the file with the frontmatter block above: `version` matching
-the `-vN` suffix of the output path (1 when unversioned), and
-`documentStatus: draft`.
+verbatim. Begin the file with the frontmatter block above, always recording
+`documentStatus: draft`. (Only the orchestrator changes it later — to
+`approved` on traveler approval, or `rejected` with a `reason:` line on a
+change request; you always write `draft`.)
 
 ```markdown
 ---
-version: <N>
 documentStatus: draft
 ---
 # <Trip Title>
-
-## Hero Image
-<direct image-file URL, or `none`> — [source](<source page URL>)
-(Verbatim from the latest activities artifact — the header background for the
-published guide. Keep the line even when it is `none`.)
 
 ## Trip Summary
 Destination(s), dates/duration, party, transport mode, total cost vs limit,

@@ -12,6 +12,5 @@ Thumbs.db
 *.pem
 *.key
 
-# local-only Claude settings and generated MCP memory graph (not sample data)
+# local-only Claude settings (not sample data)
 .claude/settings.local.json
-.claude/memory/

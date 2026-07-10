@@ -1,19 +1,20 @@
 #!/usr/bin/env node
-// PreToolUse (Write|Edit) — SINGLE RESPONSIBILITY: freeze finished documents.
+// PreToolUse (Write|Edit) — SINGLE RESPONSIBILITY: freeze terminal documents.
 //
-// A workflow artifact whose on-disk frontmatter records
-// `documentStatus: approved` or `documentStatus: finished` is done and must not
-// be modified. Any further change goes into a NEW version (e.g. daily-plan-v2.md
-// with `documentStatus: draft`) — never a silent edit of a finished artifact.
+// Only the daily plan carries a documentStatus. One whose on-disk frontmatter
+// records `documentStatus: approved` or `documentStatus: rejected` is terminal
+// and must not be modified. Any further change goes into a NEW version (e.g.
+// daily-plan-v2.md with `documentStatus: draft`) — never a silent edit.
 //
 // The check reads the CURRENT on-disk status, so the write that first flips a
-// document to `approved`/`finished` is itself allowed (on disk it is still a
-// draft at that moment); only subsequent edits are blocked. Brand-new files and
-// the published travel-guide.html (no frontmatter) are naturally exempt.
+// document to `approved`/`rejected` is itself allowed (on disk it is still a
+// draft at that moment); only subsequent edits are blocked. Every other
+// artifact (no documentStatus) and the published travel-guide.html are
+// naturally exempt.
 const path = require('path');
 const { readFrontmatter, documentStatus } = require('./lib/frontmatter');
 
-const FROZEN = new Set(['approved', 'finished']);
+const FROZEN = new Set(['approved', 'rejected']);
 
 let input = '';
 process.stdin.on('data', (d) => (input += d));
@@ -34,7 +35,7 @@ process.stdin.on('end', () => {
   if (FROZEN.has(status)) {
     process.stderr.write(
       `Blocked: "${path.basename(filePath)}" is frozen (documentStatus: ${status}). ` +
-        'A finished document must not be modified. Create a new version instead ' +
+        'A terminal document must not be modified. Create a new version instead ' +
         '(e.g. daily-plan-v2.md) with documentStatus: draft and carry the change forward there.'
     );
     process.exit(2);

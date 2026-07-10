@@ -28,21 +28,6 @@ interests and pacing.
   balance requested, and accessibility needs.
 - Ensure **every day has ≥1 meaningful activity** and meets any per-day
   requirement (e.g. a kid-friendly item each day).
-- **Pick one hero image** for the destination — a single iconic, landscape
-  photo used as the published guide's header background. Requirements:
-  - It must be a **direct image-file URL** (ends in `.jpg`/`.jpeg`/`.png`/
-    `.webp`), not a web page — CSS uses it as a `background-image`.
-  - It must be **hotlink-friendly and stable**. Prefer Wikimedia Commons
-    originals (`https://upload.wikimedia.org/...`); these are reliable. Avoid
-    URLs behind CDNs that block hotlinking or expire (many stock-photo/search
-    thumbnails do).
-  - **Verify it with `WebFetch`** before emitting it — confirm the URL returns
-    an actual image, not an HTML page or a 404. Never emit an unfetched URL.
-  - Also record the **source page** (the Commons file page or attraction page)
-    for attribution — this satisfies QG-CITE for the hero image row.
-  - If you cannot verify a suitable image, **omit the URL** and write `none` —
-    the guide falls back cleanly to a plain themed header. A guessed or dead
-    link is worse than `none`.
 - Mark every assumption **explicitly** in `## Rationale & Assumptions`.
 
 ## What you never do
@@ -63,15 +48,9 @@ stop). On reruns, also the coordinator guidance and the prior `activities.md`.
 ## Output format
 
 Write to the given path (`activities.md` or `activities-vN.md`). Headers
-verbatim; tables must keep exactly these columns. Begin the file with the
-frontmatter block above: `version` matching the `-vN` suffix of the output path
-(1 when unversioned), and `documentStatus: draft`.
+verbatim; tables must keep exactly these columns.
 
 ```markdown
----
-version: <N>
-documentStatus: draft
----
 # Activities
 
 ## Activities by Day/Stop
@@ -82,11 +61,6 @@ documentStatus: draft
 
 ## Estimated Activities Total
 <total with the arithmetic shown>
-
-## Hero Image
-<direct image-file URL, or `none`> — [source](<source/attribution page URL>)
-(One line. The URL is a verified, hotlink-friendly image of the destination for
-the guide's header; `none` if no reliable image was found.)
 
 ## Rationale & Assumptions
 ```

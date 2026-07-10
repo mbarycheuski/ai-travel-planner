@@ -1,7 +1,7 @@
 ---
 description: Run the multi-agent AI travel-planner workflow end-to-end (requirements → coordination → parallel planning → validation → iteration → approval → HTML guide).
 argument-hint: <free-text travel request>
-allowed-tools: Task, AskUserQuestion, Read, Write, Glob, Bash, Skill, mcp__memory__create_entities, mcp__memory__add_observations, mcp__memory__read_graph, mcp__memory__search_nodes
+allowed-tools: Task, AskUserQuestion, Read, Write, Glob, Bash, Skill
 ---
 
 You are the **Coordinator/Orchestrator** of the AI Travel Planner multi-agent
@@ -40,20 +40,23 @@ the subagents' job.
 4. Maintain a **current-versions map** in your head: for each artifact, the
    latest filename (starts unversioned, becomes `-v2`, `-v3` on rerun). Always
    pass downstream agents the *latest* input paths.
-5. **Document properties.** Every markdown artifact opens with a YAML
-   frontmatter block declaring `version` and `documentStatus`:
+5. **Document properties.** Versioning is tracked by the filename suffix
+   (`-vN`) alone — artifacts carry **no `version` frontmatter**. The only
+   frontmatter in the whole workflow is the **daily plan's** `documentStatus`
+   (one of `draft`, `approved`, `rejected`); the daily plan opens with:
    ```yaml
    ---
-   version: <N>            # matches the -vN suffix (1 when unversioned)
-   documentStatus: draft   # draft | approved | finished
+   documentStatus: draft
    ---
    ```
-   This applies to **every** markdown artifact — the ones you write
-   (`execution-plan.md`, `iteration-plan-vN.md`) and the sub-agents'. All are
-   written as `draft`. There is **no `approval.md`** —
-   approval is recorded by flipping the daily plan's `documentStatus` to
-   `approved` (Stage 7). The freeze hook blocks any edit of an `approved`/
-   `finished` document, so always create a new version instead of editing one.
+   It is written as `draft`, flips to `approved` on traveler approval, or
+   `rejected` — with a `reason:` line capturing the traveler's rejection
+   reason — on a change request (Stage 7). Every other artifact (the ones you
+   write, `execution-plan.md` / `iteration-plan-vN.md`, and the sub-agents')
+   has no frontmatter. There is **no `approval.md`** — approval is a property
+   of the daily plan itself. The freeze hook blocks any edit of an
+   `approved`/`rejected` daily plan, so always create a new version instead of
+   editing one.
 
 ---
 
@@ -86,9 +89,6 @@ Build the execution strategy from `requirements.md` and write it to
 receives it as input, the `validator` reads its quality gates, and the resume
 path re-reads it after a restart — so write it before launching any planner.
 
-- **Before planning**, call `mcp__memory__search_nodes` for the destination:
-  prior runs may have recorded useful notes (e.g. a gate that historically
-  fails there). Factor them in.
 - Decide, in order:
   1. **Transport planner selection** — pick **exactly ONE** of
      `flight-planner`, `train-planner`, `car-planner` based on the confirmed
@@ -130,11 +130,6 @@ path re-reads it after a restart — so write it before launching any planner.
 - Write `$RUN/execution-plan.md` with exactly these sections:
   `## Agents Required`, `## Execution Groups`, `## Quality Gates`,
   `## Iteration Strategy`.
-- **After writing**, record the run in the memory knowledge graph:
-  `mcp__memory__create_entities` for the run (type `run`, named after the
-  slug, observations = agents required + gates defined) and for the
-  destination (type `destination`, if new), and relate them. This builds the
-  cross-run history the search step above reads.
 
 ## Stage 3 — Parallel planning
 - Follow the execution plan's groups. **Launch all agents in a group in a single
@@ -179,9 +174,7 @@ While validation = FAIL and iterations < 3:
    `$RUN/iteration-plan-vN.md` with sections: `## Failed Gates` (each failed
    gate + finding), `## Agents To Rerun` (deduplicated minimal list),
    `## Guidance Per Agent` (one line per agent: what to fix, e.g. "cut ~€150
-   by choosing cheaper 3★ hotels", and which latest inputs to read). Then call
-   `mcp__memory__add_observations` on the run's entity recording which gates
-   failed and which agents are being rerun.
+   by choosing cheaper 3★ hotels", and which latest inputs to read).
 2. Rerun **only those agents**, writing new versioned artifacts (e.g.
    `$RUN/budget-v2.md`). Pass each the iteration plan's guidance + latest
    inputs. Update your current-versions map.
@@ -206,8 +199,14 @@ to the user (do not proceed to a plan that fails a gate without telling them).
   no `approval.md`. This one edit is allowed (on disk the doc is still `draft`
   at that moment); afterwards the freeze hook locks the file. The
   `PostToolUse` hook then records `approved` in `workflow-state.json`.
-- If **CHANGES_REQUESTED**: leave the daily plan a `draft` (do not approve).
-  Dispatch **`requirements-interviewer`** again with the free-text feedback and
+- If **CHANGES_REQUESTED**: record the rejection **on the daily plan itself** —
+  `Edit` the latest `daily-plan(-vN).md` frontmatter, flipping
+  `documentStatus: draft` → `documentStatus: rejected` and adding a `reason:`
+  line that captures the traveler's rejection reason in their own terms (this
+  edit is allowed; on disk the doc is still `draft` at that moment, and
+  afterwards the freeze hook locks it). The `PostToolUse` hook then records
+  `rejected` in `workflow-state.json`. Then
+  dispatch **`requirements-interviewer`** again with the free-text feedback and
   the latest `requirements.md`, output path `$RUN/requirements-vN.md`, to fold
   the change into a structured update (what's wrong, which category it affects)
   — same four-section format, same never-invent rule. Treat it as a failed
@@ -235,9 +234,10 @@ to the user (do not proceed to a plan that fails a gate without telling them).
 - If web searches yield uncertain data, that's fine — agents mark assumptions;
   your job is orchestration, not content.
 - Enforcement is split across single-responsibility `PreToolUse` hooks:
-  - `freeze-finished-guard.js` blocks any Write/Edit of an artifact whose
-    on-disk `documentStatus` is `approved`/`finished` — always create a new
-    version instead of editing a finished document.
+  - `freeze-finished-guard.js` blocks any Write/Edit of the daily plan whose
+    on-disk `documentStatus` is `approved`/`rejected` — always create a new
+    version instead of editing a terminal daily plan. (No other artifact
+    carries a `documentStatus`, so this hook only ever affects the daily plan.)
   - `approval-gate-guard.js` is the actual enforcement of the Stage 8 approval
     gate: it blocks `Write` of `travel-guide.html` unless the latest
     `daily-plan(-vN).md` records `documentStatus: approved`.
@@ -248,16 +248,15 @@ to the user (do not proceed to a plan that fails a gate without telling them).
   forget to check.
 - A `PostToolUse` hook keeps `workflow-state.json` in sync automatically on
   every artifact write; you only manage `iteration_count` by hand.
-- The `memory` MCP knowledge graph is written by you (Stages 2 and 5) and by
-  `validator` (gate outcomes) — a persistent cross-run history of which
-  agents/gates each run used and which gates fail for which destinations.
 - `activities-planner`, `accommodation-planner`, and `food-planner` source
   real listings/attractions/restaurants via **WebSearch/WebFetch**;
   `packing-planner` and `daily-plan-builder` use the **Open-Meteo MCP** (no
   key). If a server is unavailable, agents fall back to WebSearch and say so.
-- **Hero image flow**: `activities-planner` picks and fetch-verifies one
-  destination hero image (a direct, hotlink-friendly image URL, or `none`) into
-  its `## Hero Image` line; `daily-plan-builder` carries that line verbatim into
-  `daily-plan.md`; `html-builder` fills the template's `{{HERO_IMAGE}}` slot
-  from it. No agent invents the URL, and `none` degrades cleanly to the plain
-  themed header — so a missing image never blocks the build.
+- **Hero image flow**: `html-builder` finds the two destination photos
+  (header + page background) at build time via **WebSearch** (Wikimedia
+  Commons preferred for stable, freely-licensed, directly-linkable files),
+  following the `trip-html-theme-builder` skill, downloads and base64-encodes
+  each, and fills the template's `{{HERO_IMAGE}}`/`{{BG_IMAGE}}` slots as
+  embedded `data:` URIs. If no usable image is found, the slot degrades to
+  `none` — the plain themed header/background — so a missing image never
+  blocks the build. No earlier agent produces or carries images.

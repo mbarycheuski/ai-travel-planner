@@ -47,15 +47,9 @@ Read the paths given in your launch prompt — always `requirements.md` and
 ## Output format
 
 Write to the given path (`transport.md` or `transport-vN.md`). Headers
-verbatim; tables must keep exactly these columns. Begin the file with the
-frontmatter block above: `version` matching the `-vN` suffix of the output path
-(1 when unversioned), and `documentStatus: draft`.
+verbatim; tables must keep exactly these columns.
 
 ```markdown
----
-version: <N>
-documentStatus: draft
----
 # Transport Plan — Flight
 
 ## Mode

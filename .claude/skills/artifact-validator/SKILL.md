@@ -45,12 +45,14 @@ registry:
 Given a file path (and optionally a custom expected-section list):
 
 1. **Read the file.** If it doesn't exist, fail with "missing artifact".
-2. **Check the frontmatter block.** The file must open with a YAML frontmatter
-   block declaring `version` (an integer matching its `-vN` suffix, or 1 when
-   unversioned) and `documentStatus` (one of `draft`, `approved`, `finished`).
-   A missing block, missing key, or out-of-vocabulary status is a **FAIL**.
-   When checking the latest daily plan at the pre-`html-builder` step, also
-   require `documentStatus: approved`.
+2. **Check frontmatter (daily plan only).** Versioning is tracked by the `-vN`
+   filename suffix, so artifacts carry no `version` frontmatter — do not require
+   one. Only `daily-plan.md` carries frontmatter: a `documentStatus` of
+   `draft`, `approved`, or `rejected` (a `rejected` daily plan also carries a
+   `reason:` line). On the daily plan, a missing block, missing status, or
+   out-of-vocabulary status is a **FAIL**; when checking the latest daily plan
+   at the pre-`html-builder` step it must be exactly `documentStatus: approved`.
+   Any other artifact needs no frontmatter.
 3. **Check every expected section header is present**, in any order. Report
    any that are missing.
 4. **Scan for unresolved placeholders** — literal `TBD`, `TODO`, `FIXME`,
@@ -64,18 +66,10 @@ Given a file path (and optionally a custom expected-section list):
 6. **Check cross-references resolve** — if the artifact was told to read
    specific input paths (e.g. the latest `transport.md`), confirm those paths
    exist and were plausibly used (the output references the same stops/legs).
-7. **Check for internal-artifact leakage** (`daily-plan.md` only — the
-   human-facing consolidation): the prose must not name any internal workflow
-   file. Fail on any match of a filename like `validation.md`,
-   `requirements.md`, `transport.md`, `budget.md`, `execution-plan.md`,
-   `approval.md`, `daily-plan.md`, or their `-vN` variants (regex:
-   `\b(requirements|execution-plan|transport|accommodation|activities|food|packing|budget|validation|daily-plan|approval|iteration-plan|workflow-state|travel-guide)(-v\d+)?\.(md|json|html)\b`).
-   The published guide is derived from this file and must never expose internal
-   filenames; report the offending line so `daily-plan-builder` can rephrase.
-8. **Report** `PASS` or `FAIL` with the specific missing section(s),
-   placeholder(s), uncited row(s), or leaked filename(s) found. On `FAIL`, name
-   the exact artifact/agent responsible so the caller can re-dispatch just that
-   one agent rather than the whole group.
+7. **Report** `PASS` or `FAIL` with the specific missing section(s),
+   placeholder(s), or uncited row(s) found. On `FAIL`, name the exact
+   artifact/agent responsible so the caller can re-dispatch just that one agent
+   rather than the whole group.
 
 ## Output contract
 This is a check, not a content generator — it never edits the artifact under

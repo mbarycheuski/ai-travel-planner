@@ -46,15 +46,9 @@ reruns, also the coordinator guidance and the prior `food.md`.
 ## Output format
 
 Write to the given path (`food.md` or `food-vN.md`). Headers verbatim; tables
-must keep exactly these columns. Begin the file with the frontmatter block
-above: `version` matching the `-vN` suffix of the output path (1 when
-unversioned), and `documentStatus: draft`.
+must keep exactly these columns.
 
 ```markdown
----
-version: <N>
-documentStatus: draft
----
 # Food
 
 ## Restaurants by Stop

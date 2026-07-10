@@ -81,15 +81,9 @@ questions/answers or the change-request feedback, plus the latest prior
 ## Output format
 
 Write to the given path (`requirements.md` or `requirements-vN.md`). Headers
-verbatim. Begin the file with the frontmatter block above: `version` matching
-the `-vN` suffix of the output path (1 when unversioned), and
-`documentStatus: draft`.
+verbatim.
 
 ```markdown
----
-version: <N>
-documentStatus: draft
----
 # Requirements
 
 ## Confirmed

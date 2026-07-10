@@ -10,18 +10,14 @@ request (same destination + month → same slug) **resumes** from
 
 - **One agent = one responsibility = one artifact.** An agent never writes
   another agent's artifact.
-- **Every artifact carries frontmatter.** Each markdown artifact opens with a
-  YAML frontmatter block declaring its document properties:
-  ```yaml
-  ---
-  version: <N>            # integer, matches the -vN suffix (1 when unversioned)
-  documentStatus: <s>     # draft | approved | finished
-  ---
-  ```
-  `draft` is the default working state. `approved` is set only on the daily
-  plan, and only by the orchestrator after human approval (Stage 7). `finished`
-  marks any artifact the orchestrator locks against further edits. Both
-  `approved` and `finished` are **frozen** (see freeze rule + **Enforcement**).
+- **Frontmatter only where it carries state.** Versioning is tracked by the
+  `-vN` filename suffix alone — artifacts carry **no `version` frontmatter**.
+  The only frontmatter in the workflow is the **daily plan's** `documentStatus`
+  (one of `draft`, `approved`, `rejected`). `draft` is the default working
+  state; `approved` is set by the orchestrator after human approval (Stage 7);
+  `rejected` — with a `reason:` line capturing the traveler's rejection
+  reason — when the traveler requests changes. Both `approved` and `rejected`
+  are **frozen** (see freeze rule + **Enforcement**).
 - **Never overwrite; always version** (`transport.md` → `transport-v2.md`). The
   orchestrator tracks the latest version per artifact and passes latest paths
   downstream.
@@ -77,11 +73,13 @@ Link to these — don't copy their content here (copies drift out of sync).
   samples predate the current roster (they use the retired `route.md` /
   `final-plan.md` artifacts and `-agent` sub-agent names) — treat them as
   historical, not as templates for the current artifact set.
-- **Tooling / MCP** (`.mcp.json`) → `memory` (cross-run knowledge graph, written
-  in Stages 2 & 5 and by `validator`) and `open-meteo` (weather for
-  `packing`/`daily-plan`, no key). Content agents source real pages via
-  **WebSearch/WebFetch** — **not TripAdvisor's MCP** (use WebSearch/WebFetch for
-  reviews/listings instead).
+- **Tooling / MCP** → `open-meteo` (`.mcp.json`; weather for
+  `packing`/`daily-plan`, no key). `html-builder` sources the guide's
+  hero/background images at build time via **WebSearch** (Wikimedia Commons
+  preferred), downloads them, and embeds them as base64 `data:` URIs — no
+  image-generation API involved. Content agents source real pages via
+  **WebSearch/WebFetch** — **not TripAdvisor's MCP** (use WebSearch/WebFetch
+  for reviews/listings instead).
 
 ## Enforcement (hooks — `.claude/hooks/`)
 
@@ -91,7 +89,7 @@ Shared frontmatter parsing lives in `lib/frontmatter.js`.
 
 | Hook | Event | Single responsibility |
 |---|---|---|
-| `freeze-finished-guard.js` | `PreToolUse` (Write\|Edit) | **Freeze rule** — block any Write/Edit of an artifact whose on-disk `documentStatus` is `approved` or `finished`. Change goes into a new version (`daily-plan-v2.md`, `documentStatus: draft`) instead. The write that *first* flips a doc to approved/finished is allowed (on disk it is still a draft at that moment); only later edits are blocked. `travel-guide.html` has no frontmatter, so it is naturally exempt. |
+| `freeze-finished-guard.js` | `PreToolUse` (Write\|Edit) | **Freeze rule** — block any Write/Edit of the daily plan whose on-disk `documentStatus` is `approved` or `rejected`. Change goes into a new version (`daily-plan-v2.md`, `documentStatus: draft`) instead. The write that *first* flips a doc to approved/rejected is allowed (on disk it is still a draft at that moment); only later edits are blocked. Every other artifact has no `documentStatus`, and `travel-guide.html` has no frontmatter, so both are naturally exempt. |
 | `approval-gate-guard.js` | `PreToolUse` (Write) | **Approval gate** — block Write of `travel-guide.html` unless the latest `daily-plan(-vN).md` in the run records `documentStatus: approved`. |
 | `no-leak-guard.js` | `PreToolUse` (Write) | **No-leak gate** — block Write of `travel-guide.html` whose content names any internal workflow artifact (`validation.md`, `transport.md`, …), so a stray "(flagged in validation.md)" can never reach the published guide. |
 | `post-write-state.js` | `PostToolUse` (Write) | **State sync** — keep `workflow-state.json` in step/version sync on every tracked artifact write, reading lifecycle status from the artifact's frontmatter. The orchestrator hand-maintains only `iteration_count`. |

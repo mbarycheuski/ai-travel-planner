@@ -46,15 +46,9 @@ parallel group).
 ## Output format
 
 Write to the given path (`packing.md` or `packing-vN.md`). Headers verbatim;
-all item sections are checklists (`- [ ] item`) grouped logically. Begin the
-file with the frontmatter block above: `version` matching the `-vN` suffix of
-the output path (1 when unversioned), and `documentStatus: draft`.
+all item sections are checklists (`- [ ] item`) grouped logically.
 
 ```markdown
----
-version: <N>
-documentStatus: draft
----
 # Packing
 
 ## Weather Outlook

@@ -159,10 +159,9 @@ the validator, and the resume path can consume them.
 
 ## MCP Requirements
 
-- At least one community or custom MCP server is installed and configured at the project level. This implementation configures two, both used by real workflow steps:
-  - **Open-Meteo** ([cmer81/open-meteo-mcp](https://github.com/cmer81/open-meteo-mcp)) — weather source for `packing-planner`'s `## Weather Outlook` and `daily-plan-builder`'s per-day forecast lines. No API key.
-  - **memory** (`@modelcontextprotocol/server-memory`) — persistent cross-run knowledge graph used by the orchestrator (Stages 2 and 5) and `validator`.
-  `accommodation-planner`, `activities-planner`, and `food-planner` source real listings/attractions/restaurants via `WebSearch`/`WebFetch` rather than an MCP server.
+- At least one community or custom MCP server is installed and configured at the project level. This implementation uses, both in real workflow steps:
+  - **Open-Meteo** ([cmer81/open-meteo-mcp](https://github.com/cmer81/open-meteo-mcp)) — weather source for `packing-planner`'s `## Weather Outlook` and `daily-plan-builder`'s per-day forecast lines. No API key. (project-level MCP, `.mcp.json`)
+  `accommodation-planner`, `activities-planner`, and `food-planner` source real listings/attractions/restaurants via `WebSearch`/`WebFetch` rather than an MCP server. `html-builder` finds the guide's hero and background photos the same way (WebSearch, Wikimedia Commons preferred), then downloads and embeds them — no image-generation plugin is used.
 
 ## Documentation Requirements
 
@@ -236,8 +235,8 @@ Strict format: `## Confirmed`, `## Optional Preferences`, `## Constraints`,
 ### Role
 
 Coordinator — executed by the **orchestrator** (the `/plan-trip` main loop),
-which first queries the memory MCP for the destination's cross-run history and
-records the run's agents/gates after planning.
+which builds the execution strategy (agents, groups, quality gates) from the
+requirements.
 
 ### Input
 
@@ -412,7 +411,7 @@ Strict format: first line `# Validation Result: PASS` or
 ### Role
 
 Coordinator — executed by the **orchestrator** (the `/plan-trip` main loop),
-which maps failures to reruns itself and records the outcome in the memory MCP.
+which maps failures to reruns itself.
 
 ### Input
 
