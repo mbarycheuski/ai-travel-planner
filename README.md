@@ -3,35 +3,53 @@
 A Claude Code multi-agent workflow that turns a free-text travel request into a
 human-approved, standalone HTML travel guide. It demonstrates human-in-the-loop
 interaction, coordinator-based orchestration, parallel + sequential execution,
-artifact-based communication, dynamic planning, quality gates, targeted
-iteration, and human approval before final output.
+artifact-based communication, dynamic planning (including dynamic sub-agent
+selection), quality gates, targeted iteration, and human approval before final
+output. Every recommendation in every artifact carries a link to its real
+source page (hotel listing, attraction page, restaurant, operator).
 
 ## Setup (clean checkout)
 
-1. Requirements: Claude Code, and Node.js on `PATH` (used by the project hooks
-   and by `npx` to launch the MCP server — no install step needed, `npx`
-   fetches it on first use).
-2. Clone/open this repo in Claude Code from its root — no build step, no
-   `npm install`. `.claude/settings.json` and `.mcp.json` are picked up
-   automatically at the project level.
-3. Run `/plan-trip <your request>` (see below).
+Prerequisites:
+
+1. **Claude Code** and **Node.js ≥ 22** on `PATH` (used by the project hooks
+   and by `npx` to launch the `memory` and `open-meteo` MCP servers — no
+   install step, `npx` fetches them on first use).
+
+Then: clone/open this repo in Claude Code from its root — no build step, no
+`npm install`. `.claude/settings.json` and `.mcp.json` are picked up
+automatically at the project level. On first use, Claude Code will ask you to
+approve the two project MCP servers (`memory`, `open-meteo`) — approve them.
 
 ## Run it
 
 ```
-/plan-trip Plan a 5-day family road trip in Tuscany for 2 adults + 2 kids
-(6, 9), land in Florence, ~€2,500 total excl. flights, mix of culture +
-outdoor, 3-star+ hotels with parking, ≤2.5h driving/day.
+/plan-trip Plan a 5-day trip to Lisbon for a family (2 adults, 2 kids).
+Departure from Warsaw on August 1, 2026.
 ```
 
-The orchestrator (the `/plan-trip` command running in the main Claude loop) will
-ask any clarifying questions, dispatch the agent team, run validation + iteration,
-ask you to approve the final plan, and then build the HTML guide.
+The orchestrator (the `/plan-trip` command running in the main Claude loop)
+will ask any clarifying questions (including transport mode — flight, train,
+or car — which decides which transport planner runs), dispatch the agent team,
+run validation + targeted iteration, ask you to approve the daily plan, and
+then build the HTML guide from the predefined template.
+
+More examples:
+
+```
+/plan-trip Warsaw → Vienna city break by train, 4 days in October, 2 adults,
+mid-range budget, vegetarian-friendly.
+```
+
+```
+/plan-trip One-week self-drive loop through Tuscany in July for 2 adults +
+2 kids, land in Florence, ≤2.5h driving/day, €2,500 excl. flights.
+```
 
 ## Resume after an interruption
 
 Run `/plan-trip` again with a request that yields the **same run slug**
-(same destination + month, e.g. `trips/tuscany-2026-07`). The orchestrator
+(same destination + month, e.g. `trips/lisbon-2026-08`). The orchestrator
 reads `trips/<slug>/workflow-state.json` first and skips every step already
 marked `completed`/`passed`/`approved`, resuming at the first
 `pending`/`failed` step — no finished work is redone. See `CLAUDE.md` for the
@@ -39,62 +57,92 @@ state file's structure.
 
 ## How it works
 
-The **orchestrator** handles all human interaction (requirements clarification
-and final approval) because subagents run non-interactively. The **content
-agents** are background workers that read and write **artifacts on disk** — no
-agent ever modifies another agent's file; reruns produce new versions
-(`route.md` → `route-v2.md`).
+The **orchestrator** plays the coordinator role: it's the only thing that can
+interact with the human (clarifying questions and final approval, via
+`AskUserQuestion` — sub-agents run non-interactively), and it makes the
+coordination decisions itself — writing the execution strategy, quality
+gates, and iteration mapping to `execution-plan.md` / `iteration-plan-vN.md`
+(never travel content). The **content agents** are background workers that
+read and write **artifacts on disk** — no agent ever modifies another agent's
+file; reruns produce new versions (`transport.md` → `transport-v2.md`). Every
+agent definition embeds the strict format of its artifact (required headers +
+table columns, including a mandatory `Link` column on recommendation tables).
 
 ### Agent roster (`.claude/agents/`)
 
 | Agent | Responsibility | Artifact |
 |-------|----------------|----------|
-| `travel-coordinator` | Execution strategy, quality gates, iteration mapping (no content) | `execution-plan.md` |
-| `route-agent` | Cities, order, durations, rationale | `route.md` |
-| `transport-agent` | Transport, transfers, local transport | `transport.md` |
-| `accommodation-agent` | Hotels, costs, rationale | `accommodation.md` |
-| `activities-agent` | Attractions, duration, family suitability | `activities.md` |
-| `food-agent` | Restaurants, local food (honors diet) | `food.md` |
-| `budget-agent` | Aggregated cost breakdown + total | `budget.md` |
-| `packing-agent` | Clothing, electronics, docs, meds | `packing.md` |
-| `validation-agent` | Quality-gate check → PASS/FAIL + findings | `validation.md` |
-| `final-plan-agent` | Merge latest artifacts (no new content) | `final-plan.md` |
-| `html-builder-agent` | Standalone HTML (no new content) | `travel-guide.html` |
+| `requirements-interviewer` | Formalizes the orchestrator's Q&A into structured requirements (incl. transport mode) — can't ask the user itself | `requirements.md` |
+| `flight-planner` | Flights + stops + local transport (runs when mode = flight) | `transport.md` |
+| `train-planner` | Rail legs + stops + local transport (runs when mode = train) | `transport.md` |
+| `car-planner` | Driving route + stops + fuel/tolls/parking (runs when mode = car) | `transport.md` |
+| `accommodation-planner` | Hotels with linked listings, costs, rationale | `accommodation.md` |
+| `activities-planner` | Attractions via live web search, duration, suitability | `activities.md` |
+| `food-planner` | Restaurants, local food (honors diet) | `food.md` |
+| `packing-planner` | Weather outlook (Open-Meteo MCP) + packing checklist | `packing.md` |
+| `budget-aggregator` | Aggregated cost breakdown + total | `budget.md` |
+| `validator` | Quality-gate check incl. citations → PASS/FAIL + findings | `validation.md` |
+| `daily-plan-builder` | Merge latest artifacts into a day-by-day plan (no new content) | `daily-plan.md` |
+| `html-builder` | Fill the predefined HTML template (no new content) | `travel-guide.html` |
 
-Content agents use live web search for real hotels, routes, prices, and
-attractions, and cite sources inline.
+**Exactly one** of the three transport planners runs per trip, selected by the
+orchestrator (in `execution-plan.md`) from the confirmed transport mode — the workflow's clearest
+dynamic-subagent-selection point. All three share one `transport.md` schema
+whose `## Stops & Nights` section owns the trip's stop structure.
 
 ### Artifact flow
 
 ```
-requirements.md → execution-plan.md → route/transport/accommodation/
-activities/food/budget/packing.md → validation.md → (versioned reruns until
-PASS) → final-plan.md → approval.md → travel-guide.html
+requirements.md → execution-plan.md → transport.md + packing.md →
+accommodation/activities/food.md → budget.md → validation.md →
+(versioned reruns until PASS, max 3) → daily-plan.md (draft) →
+traveler approval flips it to documentStatus: approved → travel-guide.html
 ```
+
+Every markdown artifact opens with a YAML frontmatter block declaring its
+document properties — `version` (matching the `-vN` suffix) and
+`documentStatus` (`draft` | `approved` | `finished`). There is no separate
+`approval.md`: approval is recorded by setting `documentStatus: approved` on
+the daily plan itself.
 
 ### Skills (`.claude/skills/`)
 
-Two reusable skills, invoked by the orchestrator at multiple stages (not tied
-to one sub-agent):
+Two reusable skills, invoked by the orchestrator/agents at multiple stages
+(not tied to one sub-agent):
 
-- `requirements-interview` — structured clarification interview (Stage 1
-  intake, and Stage 7 change-request capture).
 - `artifact-validator` — structural template check for any artifact (required
-  sections present, no placeholders) run after each parallel group and before
-  the final plan / HTML generation.
+  sections, no placeholders, **citation coverage**) run after each parallel
+  group and before the daily plan / HTML generation.
+- `trip-html-theme-builder` — HTML rendering rules + the predefined
+  `assets/template.html` that `html-builder` fills in, keeping the guide's
+  structure identical across runs (only theme tokens vary per trip).
 
 ### Hooks (`.claude/settings.json`)
 
-- `PreToolUse` blocks edits to an already-approved `final-plan.md` /
-  `travel-guide.html`.
-- `PostToolUse` updates `trips/<slug>/workflow-state.json` whenever an
-  artifact is written, so state is persisted to disk automatically.
+Each hook has a single responsibility:
 
-### MCP server
+- `freeze-finished-guard.js` (`PreToolUse`) blocks any Write/Edit of an
+  artifact whose on-disk `documentStatus` is `approved` or `finished` — a
+  finished document is never edited in place; changes go into a new version.
+- `approval-gate-guard.js` (`PreToolUse`) blocks writing `travel-guide.html`
+  unless the latest daily plan records `documentStatus: approved` (the
+  deterministic human-approval gate).
+- `no-leak-guard.js` (`PreToolUse`) blocks writing `travel-guide.html` that
+  names any internal workflow artifact.
+- `post-write-state.js` (`PostToolUse`) updates
+  `trips/<slug>/workflow-state.json` whenever an artifact is written, so state
+  is persisted to disk automatically.
 
-`.mcp.json` configures the `memory` MCP server, used by `travel-coordinator`
-and `validation-agent` to keep a queryable cross-run history (which gates
-failed for which destinations, across runs).
+### MCP servers (`.mcp.json`)
+
+- `open-meteo` — weather forecasts/climate (no key); used by
+  `packing-planner` and `daily-plan-builder`.
+- `memory` — queryable cross-run history (which gates failed for which
+  destinations), used by the orchestrator and `validator`.
+
+`accommodation-planner`, `activities-planner`, and `food-planner` source real
+listings, attractions, and restaurants via live `WebSearch`/`WebFetch` rather
+than an MCP server.
 
 See `CLAUDE.md` for full architecture details.
 
@@ -102,5 +150,12 @@ See `CLAUDE.md` for full architecture details.
 
 Each run is isolated under `trips/<destination>-<date>/`, including its
 `workflow-state.json`. Sample runs are committed to the repo on purpose (see
-`trips/tuscany-2026-07/`, `trips/minsk-2026-07/`, `trips/lisbon-2026-09/`) to
-demonstrate the workflow across different scenarios.
+`trips/tuscany-2026-07/`, `trips/minsk-2026-07/`) to demonstrate the workflow
+across different scenarios. (These predate the latest restructure and use the
+older artifact names — see the note in `CLAUDE.md`.)
+
+## Secrets
+
+No credentials are committed. The workflow requires no API keys — the
+`memory` and `open-meteo` MCP servers need none, and content agents use plain
+`WebSearch`/`WebFetch`.

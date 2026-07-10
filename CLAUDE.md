@@ -1,155 +1,97 @@
 # CLAUDE.md — AI Travel Planner Workflow
 
-This repo implements the assignment in `docs/idea.md` / `docs/ai-travel-planner-requirements.md`:
-a model-driven, hub-and-spoke multi-agent workflow, run as the `/plan-trip`
-slash command, that turns a free-text travel request into a human-approved,
-standalone HTML travel guide.
+A hub-and-spoke multi-agent workflow (spec: `docs/ai-travel-planner-requirements.md`),
+run as the `/plan-trip` slash command, that turns a free-text travel request
+into a human-approved, standalone HTML travel guide. Re-running with the same
+request (same destination + month → same slug) **resumes** from
+`trips/<slug>/workflow-state.json` rather than restarting.
 
-## Architecture
+## Invariants (non-negotiable)
 
-**Hub**: the orchestrator — the main Claude Code loop running `/plan-trip`
-(`.claude/commands/plan-trip.md`). It handles all human interaction
-(clarifying questions, approval), maintains the current-artifact-versions map,
-and dispatches every sub-agent via the `Task` tool.
+- **One agent = one responsibility = one artifact.** An agent never writes
+  another agent's artifact.
+- **Every artifact carries frontmatter.** Each markdown artifact opens with a
+  YAML frontmatter block declaring its document properties:
+  ```yaml
+  ---
+  version: <N>            # integer, matches the -vN suffix (1 when unversioned)
+  documentStatus: <s>     # draft | approved | finished
+  ---
+  ```
+  `draft` is the default working state. `approved` is set only on the daily
+  plan, and only by the orchestrator after human approval (Stage 7). `finished`
+  marks any artifact the orchestrator locks against further edits. Both
+  `approved` and `finished` are **frozen** (see freeze rule + **Enforcement**).
+- **Never overwrite; always version** (`transport.md` → `transport-v2.md`). The
+  orchestrator tracks the latest version per artifact and passes latest paths
+  downstream.
+- **QG-CITE** — every recommendation row in every content artifact carries a
+  real `http(s)://` link to its source. (Exceptions: `budget.md` cites source
+  artifacts; `packing.md` cites in `## Sources`.)
+- **Approval before HTML** — `travel-guide.html` is generated only after the
+  latest daily-plan artifact records `documentStatus: approved` in its
+  frontmatter (enforced by the hook — see **Enforcement** below). There is no
+  separate `approval.md`; approval is a property of the daily plan itself. The
+  value must be exactly `approved` (case-insensitive); any other status leaves
+  the gate un-triggered.
+- **Orchestrator produces no travel content** — only coordination artifacts
+  and human interaction (`AskUserQuestion`). Sub-agents run non-interactively
+  and communicate only through files on disk.
+- **Exactly one transport planner per trip**, chosen from the confirmed mode;
+  all three write the same `transport.md` schema.
+- **No internal-artifact leakage in user-facing output** — the daily plan and
+  the published `travel-guide.html` are for the traveler and must never name an
+  internal workflow file (`validation.md`, `requirements.md`, `transport.md`,
+  `budget.md`, etc.). Facts flow through; filenames do not. `daily-plan-builder`
+  strips such references during consolidation, and the hook blocks the HTML
+  write if any survive (see **Enforcement**).
 
-**Spokes**: 9 single-responsibility sub-agents in `.claude/agents/`, each
-producing exactly one artifact type. No agent ever modifies another agent's
-artifact — a rerun always writes a new version (`route.md` → `route-v2.md`).
+## Agent roster (`.claude/agents/`)
 
 | Agent | Responsibility | Artifact |
 |---|---|---|
-| `travel-coordinator` | Execution plan, quality gates, iteration mapping. No travel content. | `execution-plan.md` |
-| `route-agent` | Cities, order, durations, rationale | `route.md` |
-| `transport-agent` | Transport, transfers, local transport | `transport.md` |
-| `accommodation-agent` | Hotels, costs, rationale | `accommodation.md` |
-| `activities-agent` | Attractions, duration, family suitability | `activities.md` |
-| `food-agent` | Restaurants, local food, dietary constraints | `food.md` |
-| `budget-agent` | Aggregated cost breakdown + total | `budget.md` |
-| `packing-agent` | Clothing, electronics, docs, meds | `packing.md` |
-| `validation-agent` | Quality-gate check → PASS/FAIL + findings | `validation.md` |
-| `final-plan-agent` | Merge latest artifacts (no new content) | `final-plan.md` |
-| `html-builder-agent` | Standalone HTML (no new content) | `travel-guide.html` |
+| `requirements-interviewer` | Structured requirements incl. transport mode | `requirements.md` |
+| `flight-planner` / `train-planner` / `car-planner` | Transport for the chosen mode | `transport.md` |
+| `accommodation-planner` | Hotels with linked listings, costs, rationale | `accommodation.md` |
+| `activities-planner` | Attractions, duration, suitability | `activities.md` |
+| `food-planner` | Restaurants, local food, dietary constraints | `food.md` |
+| `packing-planner` | Weather outlook + packing checklist | `packing.md` |
+| `budget-aggregator` | Cost breakdown + total (invents no numbers) | `budget.md` |
+| `validator` | Quality gates incl. QG-CITE → PASS/FAIL + findings | `validation.md` |
+| `daily-plan-builder` | Merge latest artifacts (no new content) | `daily-plan.md` |
+| `html-builder` | Fill the predefined HTML template (no new content) | `travel-guide.html` |
 
-That's 10 sub-agents + 1 coordinator role (`travel-coordinator` plays both the
-planning and iteration-mapping coordinator role — it never produces content).
+**Pipeline:** `requirements` → `execution-plan` → `transport` + `packing` →
+`accommodation`/`activities`/`food` → `budget` → `validation` → (versioned
+reruns until PASS, max 3) → `daily-plan` (draft) → traveler approval flips it
+to `documentStatus: approved` → `travel-guide.html`.
 
-Dynamic subagent selection happens in `travel-coordinator` Mode A: it reads
-`requirements.md` and decides which of the 7 content agents are actually
-required and how to group them for parallel execution — the set and grouping
-differ per request (see `trips/*/execution-plan.md` for evidence across runs).
+## Where things live
 
-## Stages
+Link to these — don't copy their content here (copies drift out of sync).
 
-1. **Requirements** (orchestrator, human-in-the-loop) — via the
-   `requirements-interview` skill → `requirements.md`.
-2. **Planning** (`travel-coordinator`, Mode A) → `execution-plan.md`.
-3. **Parallel planning** — content agents launched in dependency-respecting
-   groups (e.g. `route`+`packing` in parallel, then `transport`+`accommodation`+
-   `activities`+`food` in parallel once route exists, then `budget` last).
-4. **Validation** (`validation-agent`) → `validation.md`, PASS/FAIL per gate.
-5. **Targeted iteration** (`travel-coordinator`, Mode B, max 3 rounds) — maps
-   each failed gate to the minimal set of agents to rerun; each rerun produces
-   a new artifact version (`budget-v2.md`).
-6. **Final plan** (`final-plan-agent`) → `final-plan.md`, consolidation only.
-7. **Human approval** (orchestrator) → `approval.md`
-   (`status: APPROVED` or `CHANGES_REQUESTED`). `CHANGES_REQUESTED` routes back
-   to Stage 5 targeted iteration, not a full restart.
-8. **HTML generation** (`html-builder-agent`), gated on `approval.md` actually
-   showing `status: APPROVED` → `travel-guide.html`.
+- **Operational procedure** (all stages, authoritative) → `.claude/commands/plan-trip.md`
+- **Quality gates** (defined per-run) → the run's `execution-plan.md`
+- **Artifact formats** → each agent definition in `.claude/agents/`
+- **Sample runs** → `trips/` (see `trips/README.md`). **Caveat:** the committed
+  samples predate the current roster (they use the retired `route.md` /
+  `final-plan.md` artifacts and `-agent` sub-agent names) — treat them as
+  historical, not as templates for the current artifact set.
+- **Tooling / MCP** (`.mcp.json`) → `memory` (cross-run knowledge graph, written
+  in Stages 2 & 5 and by `validator`) and `open-meteo` (weather for
+  `packing`/`daily-plan`, no key). Content agents source real pages via
+  **WebSearch/WebFetch** — **not TripAdvisor's MCP** (use WebSearch/WebFetch for
+  reviews/listings instead).
 
-## Quality gates
+## Enforcement (hooks — `.claude/hooks/`)
 
-Defined per-run by `travel-coordinator` in `execution-plan.md` (numbered
-`QG1, QG2, …`), always including budget cap, daily travel-time limit, and
-no-duplicate-attractions, plus request-specific gates (accessibility, dietary,
-hotel standard, etc.). `validation-agent` checks each gate explicitly with
-evidence — never a subjective judgment.
+**One hook = one responsibility.** Each invariant that must be deterministic
+(rather than trusting the orchestrator to remember it) lives in its own hook.
+Shared frontmatter parsing lives in `lib/frontmatter.js`.
 
-## Skills (`.claude/skills/`)
-
-Reusable capabilities usable at multiple stages, not a sub-agent's job renamed:
-
-- **`requirements-interview`** — structured clarification interview. Used in
-  Stage 1 (initial intake) and Stage 7 (turning `CHANGES_REQUESTED` feedback
-  into a structured change note).
-- **`artifact-validator`** — structural template check (required sections
-  present, no placeholders, cross-references resolve) for any artifact file.
-  Used after each parallel group, before validation, before the final plan,
-  and before HTML generation.
-
-This is distinct from `validation-agent`, which judges the *travel plan*
-against domain quality gates, not the *file structure* of an artifact.
-
-## Hooks (`.claude/settings.json`, `.claude/hooks/`)
-
-- **`PreToolUse`** (`pre-write-guard.js`) — two deterministic gates, both
-  keyed off the run's `approval.md`:
-  1. Freeze rule: blocks `Write`/`Edit` on `final-plan.md` once `approval.md`
-     already records `status: APPROVED`. Forces "new version, not silent
-     edit" on approved output.
-  2. Human-approval gate: blocks `Write` of `travel-guide.html` unless
-     `approval.md` exists **and** its current `Status:` field is `APPROVED`.
-     This is the enforcement point for "final output generation requires
-     explicit, deterministically verified human approval" — the orchestrator
-     cannot skip or forget the check, the hook rejects the tool call outright.
-- **`PostToolUse`** (`post-write-state.js`) — every time an artifact under
-  `trips/<run>/` is written, updates `trips/<run>/workflow-state.json` with
-  that artifact's status/version. This is how workflow state is persisted to
-  disk from real tool events, not maintained by hand.
-
-## MCP server
-
-`.mcp.json` configures the community **`memory`** MCP server
-(`@modelcontextprotocol/server-memory`), backed by
-`.claude/memory/workflow-graph.json`. `travel-coordinator` and
-`validation-agent` use it (`mcp__memory__*` tools) to record a persistent,
-queryable cross-run history: which agents/gates each run used, and which
-gates failed for which destinations. This is separate from
-`workflow-state.json`, which is per-run resume state.
-
-## Workflow state & resume
-
-Each run directory `trips/<slug>/` contains `workflow-state.json`:
-
-```json
-{
-  "run": "tuscany-2026-07",
-  "steps": {
-    "route": { "status": "completed", "artifact": "route.md", "version": 1 },
-    "validation": { "status": "failed", "artifact": "validation.md", "version": 1 }
-  },
-  "iteration_count": 1,
-  "retry_limit": 3,
-  "updated_at": "2026-07-01T10:00:00.000Z"
-}
-```
-
-**To resume** a killed/restarted run: run `/plan-trip` again with the same
-request (same destination/date → same slug). The orchestrator's Setup step
-reads `workflow-state.json` first; any step already `completed`/`passed`/
-`approved` is skipped, and execution resumes at the first `pending`/`failed`
-step — no completed work is redone.
-
-**Retry limit**: default 3 iterations (Stage 5). If gates are still failing
-after 3 rounds, the workflow stops and reports the unresolved failure instead
-of proceeding or looping forever.
-
-## Versioning rule
-
-One agent = one responsibility = one artifact. An agent never modifies another
-agent's file, and never overwrites its own prior output — reruns always create
-`<artifact>-v2.md`, `-v3.md`, etc. The orchestrator tracks the current latest
-version per artifact and always passes latest paths downstream.
-
-## Sample runs
-
-`trips/` contains complete sample runs (inputs, all artifacts, and
-`workflow-state.json`) demonstrating different scenarios:
-
-- `trips/tuscany-2026-07/` — family road trip, self-drive loop, went through
-  a validation failure + targeted iteration (see `-v2`/`-v3` artifacts).
-- `trips/minsk-2026-07/` — different destination/shape, multiple iteration
-  rounds (`iteration-plan-v1.md`, `food-v3.md`).
-- `trips/lisbon-2026-09/` — solo accessible single-city trip, public-transit
-  only, no rental car — exercises a different agent mix/emphasis than the
-  road-trip runs above.
+| Hook | Event | Single responsibility |
+|---|---|---|
+| `freeze-finished-guard.js` | `PreToolUse` (Write\|Edit) | **Freeze rule** — block any Write/Edit of an artifact whose on-disk `documentStatus` is `approved` or `finished`. Change goes into a new version (`daily-plan-v2.md`, `documentStatus: draft`) instead. The write that *first* flips a doc to approved/finished is allowed (on disk it is still a draft at that moment); only later edits are blocked. `travel-guide.html` has no frontmatter, so it is naturally exempt. |
+| `approval-gate-guard.js` | `PreToolUse` (Write) | **Approval gate** — block Write of `travel-guide.html` unless the latest `daily-plan(-vN).md` in the run records `documentStatus: approved`. |
+| `no-leak-guard.js` | `PreToolUse` (Write) | **No-leak gate** — block Write of `travel-guide.html` whose content names any internal workflow artifact (`validation.md`, `transport.md`, …), so a stray "(flagged in validation.md)" can never reach the published guide. |
+| `post-write-state.js` | `PostToolUse` (Write) | **State sync** — keep `workflow-state.json` in step/version sync on every tracked artifact write, reading lifecycle status from the artifact's frontmatter. The orchestrator hand-maintains only `iteration_count`. |

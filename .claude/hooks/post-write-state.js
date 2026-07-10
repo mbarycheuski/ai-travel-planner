@@ -1,9 +1,11 @@
 #!/usr/bin/env node
-// PostToolUse hook: after any workflow artifact is written under trips/<run>/,
-// updates trips/<run>/workflow-state.json so progress is persisted to disk
-// (not only in conversation memory) and a restart can resume from it.
+// PostToolUse hook — SINGLE RESPONSIBILITY: keep trips/<run>/workflow-state.json
+// in sync. After any workflow artifact is written under trips/<run>/, record
+// its status/version so progress is persisted to disk (not only in
+// conversation memory) and a restart can resume from it.
 const fs = require('fs');
 const path = require('path');
+const { parseFrontmatter, documentStatus } = require('./lib/frontmatter');
 
 let input = '';
 process.stdin.on('data', (d) => (input += d));
@@ -39,15 +41,18 @@ process.stdin.on('end', () => {
     }
   }
 
-  const version = versionStr ? Number(versionStr) : 1;
   const content = (payload.tool_input && payload.tool_input.content) || '';
-  let status = 'completed';
+  const fields = parseFrontmatter(content);
+  // Prefer the artifact's own frontmatter version; fall back to the -vN suffix.
+  const version = Number(fields.version) || (versionStr ? Number(versionStr) : 1);
+
+  // Lifecycle status comes from the artifact's documentStatus frontmatter;
+  // "draft" (the default working state) is recorded as "completed" for resume.
+  const ds = documentStatus(fields);
+  let status = ds === 'approved' || ds === 'finished' ? ds : 'completed';
   if (artifact === 'validation') {
     if (/Validation Result:\s*FAIL/i.test(content)) status = 'failed';
     else if (/Validation Result:\s*PASS/i.test(content)) status = 'passed';
-  } else if (artifact === 'approval') {
-    if (/status:\s*APPROVED/i.test(content)) status = 'approved';
-    else if (/CHANGES_REQUESTED/i.test(content)) status = 'changes_requested';
   }
 
   state.steps = state.steps || {};

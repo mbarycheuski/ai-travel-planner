@@ -1,43 +1,81 @@
 ---
 name: artifact-validator
-description: Structural template check for a workflow artifact — confirms required sections exist, no placeholders remain, and cross-references (e.g. latest artifact versions) resolve, before the artifact is treated as ready for the next step. Reusable across every stage that produces or consumes an artifact.
+description: Structural template check for a workflow artifact — confirms required sections exist, no placeholders remain, citation links are present on every recommendation, and cross-references (e.g. latest artifact versions) resolve, before the artifact is treated as ready for the next step. Reusable across every stage that produces or consumes an artifact.
 ---
 
 # Artifact Validator
 
-A reusable structural check, distinct from the domain-specific `validation-agent`.
-The `validation-agent` judges whether the *travel plan* meets quality gates
+A reusable structural check, distinct from the domain-specific `validator`
+agent. The `validator` judges whether the *travel plan* meets quality gates
 (budget, travel time, duplicates, ...). This skill instead checks that an
 individual *artifact file* is well-formed enough to be consumed at all —
 catching malformed output early, before it ever reaches a downstream agent or
-the validation-agent.
+the validator.
 
 ## When to use this skill
 - Orchestrator: after each planning agent group returns, before dispatching
-  the next group or the validation-agent.
-- Orchestrator: before dispatching `final-plan-agent`, on the latest version
+  the next group or the validator.
+- Orchestrator: before dispatching `daily-plan-builder`, on the latest version
   of every planning artifact.
-- Orchestrator: before dispatching `html-builder-agent`, on `final-plan.md`
-  and `approval.md`.
+- Orchestrator: before dispatching `html-builder`, on the latest daily plan
+  (confirm its frontmatter records `documentStatus: approved`).
 - Any future agent that produces a templated Markdown artifact.
 
+## Required-section registry
+
+The expected sections per artifact type (latest `-vN` version of each). The
+caller may pass a custom list for a new artifact type; otherwise use this
+registry:
+
+| Artifact | Required sections | Recommendation tables (Link required) |
+|---|---|---|
+| `requirements.md` | `## Confirmed`, `## Optional Preferences`, `## Constraints`, `## Assumptions (explicit)` | — |
+| `execution-plan.md` | `## Agents Required`, `## Execution Groups`, `## Quality Gates`, `## Iteration Strategy` | — |
+| `transport.md` | `## Mode`, `## Stops & Nights`, `## Legs`, `## Local Transport`, `## Estimated Transport Total`, `## Rationale & Assumptions` | Legs, Local Transport |
+| `accommodation.md` | `## Accommodations`, `## Estimated Accommodation Total`, `## Rationale & Assumptions` | Accommodations |
+| `activities.md` | `## Activities by Day/Stop`, `## Estimated Activities Total`, `## Rationale & Assumptions` | Activities by Day/Stop |
+| `food.md` | `## Restaurants by Stop`, `## Local Food to Try`, `## Estimated Food Cost`, `## Rationale & Assumptions` | Restaurants by Stop |
+| `packing.md` | `## Weather Outlook`, `## Clothing`, `## Electronics`, `## Travel Documents`, `## Medicines & Health`, `## Destination-Specific`, `## Sources` | — (Sources section instead) |
+| `budget.md` | `## Budget Breakdown`, `## Estimated Total`, `## Against Limit`, `## Assumptions` | — (cites source artifacts, not URLs) |
+| `validation.md` | a `# Validation Result: PASS` or `FAIL` heading (first line after the frontmatter), `## Gate Results`, `## Findings` | — |
+| `iteration-plan-vN.md` | `## Failed Gates`, `## Agents To Rerun`, `## Guidance Per Agent` | — |
+| `daily-plan.md` | `## Trip Summary`, `## Day-by-Day Itinerary`, `## Where You're Staying`, `## Getting There & Around`, `## Budget Summary`, `## Packing Checklist`, `## Travel Tips` | links carried through from inputs |
+
 ## Procedure
-Given a file path and its expected section list (provided by the caller, e.g.
-`## Accommodations`, `## Estimated Accommodation Total`, `## Rationale` for
-`accommodation.md`):
+Given a file path (and optionally a custom expected-section list):
 
 1. **Read the file.** If it doesn't exist, fail with "missing artifact".
-2. **Check every expected section header is present**, in any order. Report
+2. **Check the frontmatter block.** The file must open with a YAML frontmatter
+   block declaring `version` (an integer matching its `-vN` suffix, or 1 when
+   unversioned) and `documentStatus` (one of `draft`, `approved`, `finished`).
+   A missing block, missing key, or out-of-vocabulary status is a **FAIL**.
+   When checking the latest daily plan at the pre-`html-builder` step, also
+   require `documentStatus: approved`.
+3. **Check every expected section header is present**, in any order. Report
    any that are missing.
-3. **Scan for unresolved placeholders** — literal `TBD`, `TODO`, `FIXME`,
+4. **Scan for unresolved placeholders** — literal `TBD`, `TODO`, `FIXME`,
    `<placeholder>`, `???`, or empty bullet stubs. Any hit is a failure.
-4. **Check cross-references resolve** — if the artifact was told to read
-   specific input paths (e.g. the latest `route.md`), confirm those paths
+5. **Check citation coverage** (mandatory for the recommendation tables named
+   in the registry): every data row must have a non-empty `Link` cell
+   containing a markdown link with an `http(s)://` URL — e.g.
+   `[Hotel Alfama](https://www.booking.com/hotel/pt/alfama.html)`. A bare
+   name, `n/a`, or an empty cell is a **FAIL** naming the responsible agent.
+   Recommendations without a verifiable source are not acceptable.
+6. **Check cross-references resolve** — if the artifact was told to read
+   specific input paths (e.g. the latest `transport.md`), confirm those paths
    exist and were plausibly used (the output references the same stops/legs).
-5. **Report** `PASS` or `FAIL` with the specific missing section(s) or
-   placeholder(s) found. On `FAIL`, name the exact artifact/agent responsible
-   so the caller can re-dispatch just that one agent rather than the whole
-   group.
+7. **Check for internal-artifact leakage** (`daily-plan.md` only — the
+   human-facing consolidation): the prose must not name any internal workflow
+   file. Fail on any match of a filename like `validation.md`,
+   `requirements.md`, `transport.md`, `budget.md`, `execution-plan.md`,
+   `approval.md`, `daily-plan.md`, or their `-vN` variants (regex:
+   `\b(requirements|execution-plan|transport|accommodation|activities|food|packing|budget|validation|daily-plan|approval|iteration-plan|workflow-state|travel-guide)(-v\d+)?\.(md|json|html)\b`).
+   The published guide is derived from this file and must never expose internal
+   filenames; report the offending line so `daily-plan-builder` can rephrase.
+8. **Report** `PASS` or `FAIL` with the specific missing section(s),
+   placeholder(s), uncited row(s), or leaked filename(s) found. On `FAIL`, name
+   the exact artifact/agent responsible so the caller can re-dispatch just that
+   one agent rather than the whole group.
 
 ## Output contract
 This is a check, not a content generator — it never edits the artifact under
