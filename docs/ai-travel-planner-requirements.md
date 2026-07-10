@@ -16,7 +16,7 @@ The workflow should demonstrate:
 - human approval before final output
 
 This is a concrete implementation of the model-driven, hub-and-spoke
-architecture described in the parent assignment brief (`idea.md`): the
+architecture described in the parent assignment brief: the
 **coordinator/orchestrator** — the `/plan-trip` main loop — is the hub,
 planning/validation/output sub-agents are the spokes, and sub-agents are
 selected dynamically per request rather than always run as a fixed list. The
@@ -96,9 +96,9 @@ transport-v3.md
 - Human approval exists as an explicit recorded artifact/state and is checked before final output generation; missing or invalid approval blocks final output.
 - Workflow state is persisted to disk and supports resuming from the last completed step after the process is killed and restarted, without redoing finished work.
 - `CLAUDE.md` exists in the repo and documents the workflow and how to run/resume it.
-- At least 5 sub-agents and 1 coordinator are implemented (here: 12 sub-agents;
-  the coordinator is the `/plan-trip` orchestrator itself, per `idea.md` — "the
-  slash command instantiates the coordinator").
+- At least 5 sub-agents and 1 coordinator are implemented (here: 13 sub-agents;
+  the coordinator is the `/plan-trip` orchestrator itself, per the parent
+  assignment brief — "the slash command instantiates the coordinator").
 - At least 2 reusable skills are implemented.
 - At least one `PreToolUse` hook and one `PostToolUse` hook are implemented and trigger on real workflow events.
 - At least one community or custom MCP server is installed and used at the project level.
@@ -141,13 +141,20 @@ the validator, and the resume path can consume them.
 
 ## Hooks Requirements
 
-- A `PreToolUse` hook that enforces a workflow rule (blocks edits to the approved `daily-plan.md`; blocks writing `travel-guide.html` unless `approval.md` records `Status: APPROVED`).
-- A `PostToolUse` hook that reacts to a real workflow event (updates `workflow-state.json` whenever an artifact is written).
-- Both hooks trigger on real workflow events, not simulated ones.
+- `PreToolUse` hooks that enforce workflow rules: a freeze rule blocking any
+  Write/Edit of a daily plan whose on-disk `documentStatus` is `approved` or
+  `rejected` (changes must go into a new version instead); an approval gate
+  blocking `travel-guide.html` unless the latest `daily-plan(-vN).md` records
+  `documentStatus: approved`; and a no-leak gate blocking `travel-guide.html`
+  if its content names any internal workflow artifact.
+- A `PostToolUse` hook that reacts to a real workflow event (updates `workflow-state.json` whenever a tracked artifact is written).
+- All hooks trigger on real workflow events, not simulated ones.
 
 ## Human-in-the-Loop Requirements
 
-- Approval is a recorded state/artifact (e.g. `status: APPROVED`) checked deterministically by the final step — never inferred from an agent's interpretation of the conversation.
+- Approval is a recorded state — `documentStatus: approved` in the frontmatter
+  of the daily plan itself (no separate approval artifact) — checked
+  deterministically by the final step — never inferred from an agent's interpretation of the conversation.
 - Missing, stale, or rejected approval blocks final output generation and routes back to targeted iteration, not a full restart.
 
 ## Workflow State, Resume & Error Handling Requirements
@@ -159,8 +166,8 @@ the validator, and the resume path can consume them.
 
 ## MCP Requirements
 
-- At least one community or custom MCP server is installed and configured at the project level. This implementation uses, both in real workflow steps:
-  - **Open-Meteo** ([cmer81/open-meteo-mcp](https://github.com/cmer81/open-meteo-mcp)) — weather source for `packing-planner`'s `## Weather Outlook` and `daily-plan-builder`'s per-day forecast lines. No API key. (project-level MCP, `.mcp.json`)
+- At least one community or custom MCP server is installed and configured at the project level. This implementation uses, in a real workflow step:
+  - **Open-Meteo** ([cmer81/open-meteo-mcp](https://github.com/cmer81/open-meteo-mcp)) — weather source, called exclusively by `weather-planner`, which writes its per-stop outlook to `weather.md`. No API key. (project-level MCP, `.mcp.json`) `packing-planner` and `daily-plan-builder` consume `weather.md` as an input artifact and never call the weather API themselves.
   `accommodation-planner`, `activities-planner`, and `food-planner` source real listings/attractions/restaurants via `WebSearch`/`WebFetch` rather than an MCP server. `html-builder` finds the guide's hero and background photos the same way (WebSearch, Wikimedia Commons preferred), then downloads and embeds them — no image-generation plugin is used.
 
 ## Documentation Requirements
@@ -248,7 +255,10 @@ requirements.md
 
 - Analyze requirements.
 - Select exactly **one** transport planner from the confirmed mode.
-- Determine which other planning agents are required.
+- Determine which other planning agents are required, from: `weather-planner`,
+  `accommodation-planner`, `activities-planner`, `food-planner`,
+  `packing-planner`, `budget-aggregator` (`validator`, `daily-plan-builder`,
+  and `html-builder` always run).
 - Define execution dependencies and parallel execution groups.
 - Build Quality Gates (always including budget, daily travel time, no
   duplicate attractions, transport-mode match, and `QG-CITE`).
@@ -277,10 +287,19 @@ placeholders, **citation coverage**) before the next group runs.
 
 Typical grouping:
 
-- **Group A** (parallel, no deps): `<mode>-planner`, `packing-planner`
+- **Group A** (parallel, no deps beyond `requirements.md`): `<mode>-planner`,
+  `weather-planner`
 - **Group B** (parallel, needs `transport.md` → `## Stops & Nights`):
   `accommodation-planner`, `activities-planner`, `food-planner`
-- **Group C** (sequential, needs Group B): `budget-aggregator`
+- **Group C** (parallel, needs Groups A+B): `packing-planner` (reads
+  `weather.md`, `activities.md`, `accommodation.md`, and — for a car trip —
+  `transport.md`, so it always runs after those artifacts exist, never
+  alongside them), `budget-aggregator`
+
+If the destination itself is still open (the traveler wants suggestions, not
+yet narrowed to one place), `weather-planner` and `packing-planner` are
+deferred out of the current groups until a later requirements revision
+confirms a destination.
 
 ### Transport Planner (`flight-planner` | `train-planner` | `car-planner`)
 
@@ -299,6 +318,26 @@ Output: `transport.md` — strict format:
 ## Estimated Transport Total
 ## Rationale & Assumptions
 ```
+
+### Weather Planner
+
+Sole caller of the **Open-Meteo MCP** (geocoding + forecast/seasonal/archive,
+chosen by how far out the trip is). Needs only `requirements.md`, so it runs
+in the first execution group alongside the transport planner.
+
+Output: `weather.md` — strict format, one subsection per stop:
+
+```text
+# Weather Outlook
+## <Stop name>          Method: forecast | seasonal | archive; temperature
+                        range, precipitation, and what it implies for
+                        clothing/activities.
+## Assumptions
+```
+
+Citation exception: cites the Open-Meteo method used per stop, not a listing
+link. Consumed by `packing-planner` and `daily-plan-builder`, neither of which
+has weather tools or re-fetches it.
 
 ### Accommodation Planner
 
@@ -344,7 +383,8 @@ Output: `food.md` — strict format:
 
 ### Packing Planner
 
-Weather from the **Open-Meteo MCP** (geocoding + forecast/seasonal/archive).
+Reads the weather outlook from `weather.md` (written by `weather-planner`) —
+has no weather tools and never calls the Open-Meteo MCP itself.
 
 Output: `packing.md` — strict format:
 
@@ -383,8 +423,8 @@ Output: `budget.md` — strict format:
 
 ### Inputs
 
-All planning artifacts (latest versions) + `execution-plan.md` (the gates) +
-`requirements.md`.
+All planning artifacts (latest versions, including `weather.md`) +
+`execution-plan.md` (the gates) + `requirements.md`.
 
 ### Responsibilities
 
@@ -454,8 +494,8 @@ Latest validated planning artifacts.
 
 Merge all planning artifacts into a single day-by-day travel plan that is easy
 for a human to review. **No new travel content**; every source link is
-preserved. Sole enrichment: per-day weather lines via the Open-Meteo MCP when
-in forecast range.
+preserved. Sole enrichment: per-day weather lines read from `weather.md`
+(never re-fetched from the MCP).
 
 ### Output
 
@@ -467,6 +507,19 @@ Strict format: `# <Trip Title>`, `## Trip Summary`, `## Day-by-Day Itinerary`
 (`### Day <N> — <date> — <location>` blocks), `## Where You're Staying`,
 `## Getting There & Around`, `## Budget Summary`, `## Packing Checklist`,
 `## Travel Tips`.
+
+Opens with a frontmatter block carrying the workflow's **only** tracked
+document property:
+
+```yaml
+---
+documentStatus: draft
+---
+```
+
+`draft` is the default working state; the orchestrator flips it to `approved`
+or `rejected` (with a `reason:` line) after human review in Stage 7. No other
+artifact in the workflow carries frontmatter.
 
 ---
 
@@ -489,16 +542,26 @@ Present the daily plan for approval. Outcomes: `APPROVED` or
 
 ### Output
 
-```text
-approval.md
-```
+There is no separate approval artifact — approval is a property of the daily
+plan itself. The orchestrator `Edit`s the latest `daily-plan(-vN).md`
+frontmatter in place:
 
-Contains a `Status:` line (checked deterministically by the PreToolUse hook),
-the approved artifact version, date, and notes. If changes are requested, the
-orchestrator re-dispatches `requirements-interviewer` with the feedback and the
-latest `requirements.md`, producing a new version (`requirements-v2.md`) as a
-structured change note, and starts another targeted iteration (Stage 5) —
-never a full restart.
+- **APPROVED** → `documentStatus: draft` flips to `documentStatus: approved`
+  (optionally with an `approvalNotes:` line). This first flip is allowed even
+  though a freeze hook otherwise blocks Write/Edit of an already-terminal
+  daily plan — on disk the document is still `draft` at the moment of this
+  edit.
+- **CHANGES_REQUESTED** → flips to `documentStatus: rejected` with a
+  `reason:` line capturing the traveler's rejection reason in their own
+  words. The orchestrator then re-dispatches `requirements-interviewer` with
+  the feedback and the latest `requirements.md`, producing a new version
+  (`requirements-v2.md`) as a structured change note, and starts another
+  targeted iteration (Stage 5) that regenerates a new daily-plan version
+  (`daily-plan-v2.md`, `documentStatus: draft`) — never a full restart, and
+  never an edit of the now-frozen rejected version.
+
+The `PostToolUse` hook records the resulting status in `workflow-state.json`
+on each write.
 
 ---
 
@@ -511,8 +574,7 @@ never a full restart.
 ### Inputs
 
 ```text
-daily-plan.md
-approval.md
+daily-plan.md   (or the latest daily-plan-vN.md, documentStatus: approved)
 .claude/skills/trip-html-theme-builder/SKILL.md
 .claude/skills/trip-html-theme-builder/assets/template.html
 ```
@@ -523,8 +585,10 @@ Generate a standalone HTML travel guide by **filling the predefined template**
 from the `trip-html-theme-builder` skill — never designing a page from
 scratch. Per-trip customization is limited to the theme tokens (accent colors,
 hero emoji, title). The HTML Builder must **not generate new travel content**
-and must preserve every citation link as an anchor. A `PreToolUse` hook blocks
-the write unless `approval.md` records `Status: APPROVED`.
+and must preserve every citation link as an anchor. A `PreToolUse` approval
+gate hook blocks the write unless the latest `daily-plan(-vN).md` records
+`documentStatus: approved`; a second `PreToolUse` no-leak hook blocks the
+write if the rendered HTML names any internal workflow artifact.
 
 ### Output
 
@@ -560,7 +624,7 @@ execution-plan.md
         │
         ▼
 transport.md   (one of: flight-planner | train-planner | car-planner)
-packing.md
+weather.md
         │
         ▼
 accommodation.md
@@ -568,6 +632,7 @@ activities.md
 food.md
         │
         ▼
+packing.md
 budget.md
         │
         ▼
@@ -577,10 +642,7 @@ validation.md
 (updated -vN artifacts if necessary)
         │
         ▼
-daily-plan.md
-        │
-        ▼
-approval.md
+daily-plan.md   (documentStatus: draft → approved/rejected, in place)
         │
         ▼
 travel-guide.html
@@ -606,13 +668,13 @@ Coordinate (orchestrator; selects ONE transport planner + agent set)
 execution-plan.md
  │
  ▼
-Group A (parallel): <mode>-planner, packing-planner
+Group A (parallel): <mode>-planner, weather-planner
  │
  ▼
 Group B (parallel): accommodation-planner, activities-planner, food-planner
  │
  ▼
-Group C: budget-aggregator
+Group C (parallel): packing-planner, budget-aggregator
  │
  ▼
 Validator
@@ -631,16 +693,17 @@ Daily Plan Builder
 daily-plan.md
  │
  ▼
-Human Approval (orchestrator)
+Human Approval (orchestrator; flips daily-plan.md's
+documentStatus frontmatter in place — no separate approval.md)
  │
- ├──── CHANGES REQUESTED ───────────┐
- │                                  │
+ ├──── CHANGES REQUESTED (documentStatus: rejected) ────┐
+ │                                                       │
  │                     Targeted Iteration (orchestrator)
- │                                  │
- └──────── APPROVED ◄───────────────┘
+ │                                                       │
+ └──────── APPROVED (documentStatus: approved) ◄─────────┘
  │
  ▼
-HTML Builder (fills predefined template; hook-gated on approval)
+HTML Builder (fills predefined template; hook-gated on documentStatus: approved)
  │
  ▼
 travel-guide.html
@@ -667,10 +730,10 @@ flowchart TD
     req --> ForkA
 
     ForkA --> TransA["flight-planner /<br/>train-planner /<br/>car-planner<br/>(exactly one)"]
-    ForkA --> PackA["packing-planner"]
+    ForkA --> WeatherA["weather-planner<br/>(Open-Meteo MCP)"]
 
     TransA -.-> transport[/"transport.md"/]
-    PackA -.-> packing[/"packing.md"/]
+    WeatherA -.-> weather[/"weather.md"/]
 
     transport --> ForkB{{"Group B (parallel)"}}
     ForkB --> AccA["accommodation-planner"]
@@ -681,10 +744,14 @@ flowchart TD
     ActA -.-> activities[/"activities.md"/]
     FoodA -.-> food[/"food.md"/]
 
-    accommodation --> BudA["budget-aggregator"]
-    activities --> BudA
-    food --> BudA
-    transport --> BudA
+    accommodation --> ForkC{{"Group C (parallel)"}}
+    activities --> ForkC
+    weather --> ForkC
+    transport --> ForkC
+    ForkC --> PackA["packing-planner"]
+    ForkC --> BudA["budget-aggregator"]
+
+    PackA -.-> packing[/"packing.md"/]
     BudA -.-> budget[/"budget.md"/]
 
     %% Stage 4 - Validation
@@ -699,17 +766,16 @@ flowchart TD
 
     %% Stage 6 - Daily Plan
     Gate -->|PASS| FinalA["daily-plan-builder"]
-    FinalA -.-> final[/"daily-plan.md"/]
+    FinalA -.-> final[/"daily-plan.md<br/>(documentStatus: draft)"/]
 
     %% Stage 7 - Human Approval
-    final --> ApprA["Human Approval<br/>(orchestrator)"]
-    ApprA -.-> approval[/"approval.md"/]
-    approval --> ApprGate{"APPROVED or<br/>CHANGES_REQUESTED?"}
+    final --> ApprA["Human Approval<br/>(orchestrator edits<br/>daily-plan.md frontmatter<br/>in place — no approval.md)"]
+    ApprA --> ApprGate{"documentStatus:<br/>approved or rejected?"}
 
-    ApprGate -->|CHANGES_REQUESTED| Iter
+    ApprGate -->|rejected| Iter
 
     %% Stage 8 - HTML Generation
-    ApprGate -->|APPROVED| HtmlA["html-builder<br/>(predefined template)"]
+    ApprGate -->|approved| HtmlA["html-builder<br/>(predefined template)"]
     HtmlA -.-> html[/"travel-guide.html"/]
     html --> Done([Done])
 
@@ -719,10 +785,10 @@ flowchart TD
     classDef gate fill:#fef9c3,stroke:#ca8a04,color:#713f12;
     classDef human fill:#fce7f3,stroke:#db2777,color:#831843;
 
-    class TransA,PackA,AccA,ActA,FoodA,BudA,ValA,FinalA,HtmlA agent;
+    class TransA,WeatherA,PackA,AccA,ActA,FoodA,BudA,ValA,FinalA,HtmlA agent;
     class ReqA,Coord,Iter human;
-    class req,plan,transport,packing,accommodation,activities,food,budget,validation,final,approval,html artifact;
-    class Gate,ApprGate,ForkA,ForkB gate;
+    class req,plan,transport,weather,packing,accommodation,activities,food,budget,validation,final,html artifact;
+    class Gate,ApprGate,ForkA,ForkB,ForkC gate;
     class User,ApprA,Done human;
 ```
 

@@ -13,20 +13,21 @@
      alpine green for Switzerland, ...). Set them in BOTH :root blocks.
      ============================================================ */
   :root {
-    /* Per-trip accent family */
-    --accent:        #c9622a;   /* header gradient start, links, emphasis */
-    --accent-dark:   #9c4a1c;   /* header gradient end, heading text */
-    --accent-light:  #f6e2cf;   /* pale tint — table heads, chips, day cards */
+    /* Per-trip accent family — neutral placeholder; the html-builder sets
+       these per trip (see the skill's Per-trip customization section) */
+    --accent:        #57606b;   /* header gradient start, links, emphasis */
+    --accent-dark:   #3d434b;   /* header gradient end, heading text */
+    --accent-light:  #e7e9ec;   /* pale tint — table heads, chips, day cards */
 
     /* Per-trip surfaces (light tints of the accent family) */
-    --bg:            #fbf7f2;   /* page background */
+    --bg:            #f7f7f8;   /* page background */
     --card-bg:       #ffffff;   /* card / section background */
 
     /* Neutrals (kept readable against the surfaces above) */
-    --ink:           #241d17;   /* primary text */
-    --muted:         #6b5f54;   /* secondary text */
-    --border:        #ece2d5;   /* hairlines, card borders */
-    --border-strong: #dccbb6;
+    --ink:           #201f1e;   /* primary text */
+    --muted:         #63605c;   /* secondary text */
+    --border:        #e4e2df;   /* hairlines, card borders */
+    --border-strong: #cfccc7;
 
     /* Semantic */
     --ok:            #2f7d52;
@@ -38,9 +39,9 @@
     --radius:        16px;
     --radius-sm:     10px;
     --radius-pill:   999px;
-    --shadow-sm:     0 1px 2px rgba(40,25,10,.06), 0 1px 3px rgba(40,25,10,.05);
-    --shadow-md:     0 4px 12px rgba(40,25,10,.07), 0 2px 4px rgba(40,25,10,.05);
-    --shadow-lg:     0 12px 32px rgba(40,25,10,.12);
+    --shadow-sm:     0 1px 2px rgba(20,20,20,.06), 0 1px 3px rgba(20,20,20,.05);
+    --shadow-md:     0 4px 12px rgba(20,20,20,.07), 0 2px 4px rgba(20,20,20,.05);
+    --shadow-lg:     0 12px 32px rgba(20,20,20,.12);
     --maxw:          960px;
 
     /* Derived (do not hand-edit per trip — computed from accent) */
@@ -50,17 +51,22 @@
     --ring:          color-mix(in srgb, var(--accent) 45%, transparent);   /* focus ring */
   }
 
-  @media (prefers-color-scheme: dark) {
+  /* "and not print" keeps dark-mode tokens from leaking onto a printed page:
+     without it, printing while the OS is in dark mode would force the page
+     background to white (see @media print below) while --ink/--muted/etc.
+     stayed at their light-on-dark values — near-invisible light text on
+     white paper. */
+  @media (prefers-color-scheme: dark) and not print {
     :root {
-      --accent:        #e88a4c;
-      --accent-dark:   #f2a870;
-      --accent-light:  #3a2c1e;
-      --bg:            #17130f;
-      --card-bg:       #211a14;
-      --ink:           #f3ece1;
-      --muted:         #c2b3a2;
-      --border:        #3a2f24;
-      --border-strong: #4a3c2c;
+      --accent:        #8b95a1;
+      --accent-dark:   #aab3bd;
+      --accent-light:  #2c2f33;
+      --bg:            #161514;
+      --card-bg:       #201f1d;
+      --ink:           #efeeec;
+      --muted:         #b8b4ae;
+      --border:        #38352f;
+      --border-strong: #48443c;
       --ok:            #7fc998;
       --ok-bg:         #1e2f25;
       --warn:          #f0a09a;
@@ -69,7 +75,7 @@
       --shadow-md:     0 4px 14px rgba(0,0,0,.45);
       --shadow-lg:     0 14px 34px rgba(0,0,0,.55);
 
-      --accent-ink:    #1a120b;
+      --accent-ink:    #1a1a1a;
       --nav-bg:        color-mix(in srgb, var(--card-bg) 78%, transparent);
     }
   }
@@ -115,7 +121,7 @@
   a:hover { color: var(--accent); }
 
   :focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--ring);
     outline-offset: 2px;
     border-radius: 4px;
   }
@@ -145,14 +151,18 @@
      ============================================================ */
   header.hero {
     --hero-image: none;   /* overridden inline per trip via {{HERO_IMAGE}} */
-    background:
+    /* background-color is a separate (always-valid) property so an unfilled
+       {{HERO_IMAGE}} placeholder — invalid as a background-image token —
+       can only invalidate background-image, leaving this flat accent grey
+       showing rather than the whole background going transparent/white. */
+    background-color: var(--accent);
+    background-image:
       linear-gradient(135deg,
         color-mix(in srgb, var(--accent) 74%, transparent) 0%,
         color-mix(in srgb, var(--accent-dark) 82%, transparent) 100%),
-      var(--hero-image),
-      linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
-    background-size: cover, cover, cover;
-    background-position: center, center, center;
+      var(--hero-image, none);
+    background-size: cover, cover;
+    background-position: center, center;
     background-repeat: no-repeat;
     color: var(--accent-ink);
     text-align: center;
@@ -180,19 +190,14 @@
     pointer-events: none;
   }
   header.hero > * { position: relative; z-index: 1; }
-  .hero-emoji {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 5rem;
-    height: 5rem;
-    margin: 0 auto .9rem;
-    font-size: 2.6rem;
-    line-height: 1;
-    border-radius: var(--radius-pill);
-    background: rgba(255,255,255,.16);
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,.28), 0 6px 18px rgba(0,0,0,.12);
-    backdrop-filter: blur(2px);
+  header.hero .hero-kicker {
+    margin: 0 0 .6rem;
+    font-size: .78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    opacity: .85;
+    text-shadow: 0 1px 2px rgba(0,0,0,.24);
   }
   header.hero h1 {
     margin: 0;
@@ -305,10 +310,14 @@
     font-weight: 600;
     white-space: nowrap;
   }
+  /* Emphasized, not green — the total is a headline number, not a verdict
+     (whether it's good news depends on the limit, shown separately by the
+     budget gauge/status text). Filled with the trip's own accent so it
+     stands out without borrowing the ok/warn semantic colors. */
   .chip.total {
-    background: var(--ok-bg);
-    color: var(--ok);
-    border-color: color-mix(in srgb, var(--ok) 35%, transparent);
+    background: var(--accent);
+    color: var(--accent-ink);
+    border-color: var(--accent);
   }
 
   /* Trip summary strict fields — label/value grid.
@@ -320,7 +329,8 @@
     gap: 0;
     margin: 0;
   }
-  .summary-fields p {
+  .summary-fields p,
+  .summary-fields .field {
     display: grid;
     grid-template-columns: minmax(9rem, 12rem) 1fr;
     gap: .25rem 1.1rem;
@@ -328,7 +338,28 @@
     padding: .7rem 0;
     border-bottom: 1px solid var(--border);
   }
-  .summary-fields p:last-child { border-bottom: none; }
+  .summary-fields p:last-child,
+  .summary-fields .field:last-child { border-bottom: none; }
+  /* Interest tags reuse the chip visual language instead of a default
+     browser bullet list — the only place in Trip Summary that would
+     otherwise clash with the chip row right above it. */
+  .summary-fields .field > ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    margin: 0;
+    padding: 0;
+  }
+  .summary-fields .field > ul li {
+    background: var(--accent-light);
+    color: var(--accent-dark);
+    border: 1px solid var(--border-strong);
+    padding: .3rem .7rem;
+    border-radius: var(--radius-pill);
+    font-size: .85rem;
+    font-weight: 600;
+  }
   .summary-fields strong {
     color: var(--muted);
     font-weight: 600;
@@ -367,6 +398,19 @@
     border-bottom: 1px solid var(--border);
     vertical-align: top;
   }
+  /* Cost/duration/date-ish columns get tabular figures so amounts align
+     down the column instead of jittering with each row's digit widths. */
+  #transport table td:nth-child(4),
+  #transport table td:nth-child(5),
+  #accommodation table td:nth-child(5),
+  #accommodation table td:nth-child(6),
+  #activities table td:nth-child(4),
+  #activities table td:nth-child(6),
+  #budget table td:nth-child(3),
+  #weather table td:nth-child(3),
+  #weather table td:nth-child(4) {
+    font-variant-numeric: tabular-nums;
+  }
   th {
     background: var(--accent-light);
     color: var(--accent-dark);
@@ -375,29 +419,47 @@
     text-transform: uppercase;
     letter-spacing: .05em;
     white-space: nowrap;
-    position: sticky;
-    top: 0;
   }
   tbody tr:nth-child(even) td {
     background: color-mix(in srgb, var(--accent-light) 22%, transparent);
   }
   tbody tr:hover td { background: color-mix(in srgb, var(--accent-light) 55%, transparent); }
   tr:last-child td { border-bottom: none; }
+  /* Neutral, not green — a total-row is just an arithmetic sum (accommodation
+     total, activities total, budget grand total), not a verdict. Green is
+     reserved for an actual positive judgment (under-budget), applied via
+     .note-box/.budget-gauge-fill, never onto a plain total. */
   tr.total-row td {
     font-weight: 700;
-    background: var(--ok-bg) !important;
-    color: var(--ok);
-  }
-  tr.total-row:hover td { background: var(--ok-bg) !important; }
-  tr.highlight td {
     background: var(--accent-light) !important;
-    font-weight: 700;
+    color: var(--accent-dark);
   }
+  tr.total-row:hover td { background: var(--accent-light) !important; }
+
+  /* Budget gauge — a one-glance spent-vs-limit bar under the budget table,
+     since {{BUDGET_STATUS}}/{{BUDGET_AGAINST_LIMIT}} already say this in
+     text; the bar just makes "how close to the limit" scannable instantly. */
+  .budget-gauge {
+    height: 10px;
+    border-radius: var(--radius-pill);
+    background: var(--accent-light);
+    overflow: hidden;
+    margin: .9rem 0 0;
+  }
+  .budget-gauge-fill {
+    height: 100%;
+    border-radius: var(--radius-pill);
+    background: var(--ok);
+  }
+  .budget-gauge-fill.over { background: var(--warn); }
 
   /* ============================================================
      ITINERARY — day cards
      ============================================================ */
+  #itinerary { counter-reset: daycard; }
   .day-card {
+    counter-increment: daycard;
+    position: relative;
     border: 1px solid var(--border);
     border-left: 4px solid var(--accent);
     background: color-mix(in srgb, var(--accent-light) 45%, var(--card-bg));
@@ -407,6 +469,23 @@
     box-shadow: var(--shadow-sm);
   }
   .day-card:last-child { margin-bottom: 0; }
+  /* Auto-numbered position badge — purely decorative (CSS counter, no
+     content slot) so a reader scrolling a long itinerary always knows
+     which day-card they're on, independent of the h3's own "Day N" text. */
+  .day-card::before {
+    content: "Day " counter(daycard);
+    position: absolute;
+    top: -.65rem;
+    right: 1.1rem;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .03em;
+    padding: .25rem .7rem;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-sm);
+  }
   .day-card h3 {
     margin: 0 0 .8rem;
     color: var(--accent-dark);
@@ -434,24 +513,38 @@
   /* ============================================================
      BOXES & LISTS
      ============================================================ */
+  /* Body text always stays --ink for readability; only the box's accent
+     color (border + strong/label) carries the ok/warn/info meaning — a
+     warn-box full of red prose is harder to read than a neutral one with
+     a red accent, and .info-box gives non-critical notes (FYI, not risk)
+     a home instead of forcing them into the warning visual language. */
   .note-box,
-  .warn-box {
+  .warn-box,
+  .info-box {
     border-radius: var(--radius-sm);
     padding: .9rem 1.1rem;
     margin: 1rem 0 0;
     font-size: .92rem;
+    color: var(--ink);
   }
   .note-box {
     background: var(--ok-bg);
     border: 1px solid color-mix(in srgb, var(--ok) 30%, transparent);
     border-left: 3px solid var(--ok);
   }
+  .note-box strong { color: var(--ok); }
   .warn-box {
     background: var(--warn-bg);
     border: 1px solid color-mix(in srgb, var(--warn) 40%, transparent);
     border-left: 3px solid var(--warn);
-    color: var(--warn);
   }
+  .warn-box strong { color: var(--warn); }
+  .info-box {
+    background: var(--accent-light);
+    border: 1px solid var(--border-strong);
+    border-left: 3px solid var(--accent);
+  }
+  .info-box strong { color: var(--accent-dark); }
 
   .checklist {
     list-style: none;
@@ -463,10 +556,13 @@
   .checklist li {
     break-inside: avoid;
     padding: .32rem 0;
+    font-size: .94rem;
+  }
+  .checklist li label {
     display: flex;
     align-items: flex-start;
     gap: .6rem;
-    font-size: .94rem;
+    cursor: pointer;
   }
   .checklist input[type="checkbox"] {
     margin: .28rem 0 0;
@@ -496,11 +592,11 @@
     body { font-size: 15px; }
     .checklist { columns: 1; }
     header.hero { padding: 2.75rem 1.25rem 2.5rem; }
-    .hero-emoji { width: 4rem; height: 4rem; font-size: 2.1rem; }
     table { font-size: .85rem; }
     .time { min-width: 82px; }
     section { padding: 1.3rem 1.2rem 1.45rem; }
-    .summary-fields p { grid-template-columns: 1fr; gap: .1rem; padding: .6rem 0; }
+    .summary-fields p,
+    .summary-fields .field { grid-template-columns: 1fr; gap: .1rem; padding: .6rem 0; }
     .summary-fields strong { padding-top: 0; }
   }
 
@@ -543,7 +639,7 @@
        photo behind the whole page, or `none` for the plain page background.
        ============================================================ -->
   <header class="hero" style="--hero-image: {{HERO_IMAGE}};">
-    <div class="hero-emoji">{{HERO_EMOJI}}</div>
+    <p class="hero-kicker">Travel Guide</p>
     <h1>{{TRIP_TITLE}}</h1>
     <p class="hero-subtitle">{{TRIP_SUBTITLE}}</p>
   </header>
@@ -583,10 +679,7 @@
       <p><strong>Party:</strong> {{PARTY_DETAIL}}</p>
       <p><strong>Transport mode:</strong> {{TRANSPORT_MODE_DETAIL}}</p>
       <p><strong>Budget:</strong> {{BUDGET_TOTAL}} against a limit of {{BUDGET_LIMIT}} ({{BUDGET_STATUS}})</p>
-      <p><strong>Interests covered:</strong> {{INTERESTS_DETAIL}}</p>
-    </div>
-    <div class="note-box">
-      <strong>✅ Validation:</strong> {{VALIDATION_SUMMARY}}
+      <div class="field"><strong>Interests covered:</strong> <ul>{{INTERESTS_LIST}}</ul></div>
     </div>
   </section>
 
@@ -610,7 +703,7 @@
     <ul>
       {{LOCAL_TRANSPORT_ITEMS}}
     </ul>
-    <div class="note-box"><strong>Transport subtotal used in budget:</strong> {{TRANSPORT_TOTAL}}</div>
+    <div class="info-box"><strong>Transport subtotal used in budget:</strong> {{TRANSPORT_TOTAL}}</div>
     {{TRANSPORT_WARNINGS}}
   </section>
 
@@ -694,10 +787,10 @@
       </table>
     </div>
     <h3>Local food to try</h3>
-    <div class="note-box">
+    <div class="info-box">
       {{LOCAL_FOOD_ITEMS}}
     </div>
-    <div class="note-box"><strong>Food subtotal used in budget:</strong> {{FOOD_TOTAL}}</div>
+    <div class="info-box"><strong>Food subtotal used in budget:</strong> {{FOOD_TOTAL}}</div>
   </section>
 
   <!-- ============================================================
@@ -712,12 +805,23 @@
         </thead>
         <tbody>
           {{BUDGET_ROWS}}
-          <tr class="highlight total-row"><td colspan="2"><strong>Estimated total</strong></td><td><strong>{{BUDGET_TOTAL}}</strong></td></tr>
+          <tr class="total-row"><td colspan="2"><strong>Estimated total</strong></td><td><strong>{{BUDGET_TOTAL}}</strong></td></tr>
         </tbody>
       </table>
     </div>
-    <div class="note-box">
+    <!-- {{BUDGET_STATUS_BOX_CLASS}} = "note-box" (green) when spent <= limit,
+         "warn-box" (red) when spent > limit — this is the ONE place green
+         is earned rather than assumed: it reflects the actual under/over
+         verdict, not just "this is a total". Never hardcode note-box here. -->
+    <div class="{{BUDGET_STATUS_BOX_CLASS}}">
       <strong>Against the limit:</strong> {{BUDGET_AGAINST_LIMIT}}
+    </div>
+    <!-- Gauge fill width is spent/limit as a percentage, CAPPED at 100
+         (never render past the bar's edge even if over budget); class
+         matches {{BUDGET_STATUS_BOX_CLASS}}'s verdict — "over" when spent
+         > limit, otherwise omitted (defaults to --ok). -->
+    <div class="budget-gauge" role="img" aria-label="Budget {{BUDGET_STATUS}}">
+      <div class="budget-gauge-fill {{BUDGET_GAUGE_FILL_CLASS}}" style="width: {{BUDGET_GAUGE_PERCENT}}%;"></div>
     </div>
   </section>
 
@@ -733,6 +837,10 @@
           <tr><th>Day/Date</th><th>Conditions</th><th>High / Low</th><th>Precip. chance</th></tr>
         </thead>
         <tbody>
+          <!-- Each row's Conditions cell starts with one matching emoji
+               (☀️ clear, ⛅ partly cloudy, ☁️ overcast, 🌧️ rain, ⛈️ storms,
+               ❄️ snow, 🌫️ fog) so the table scans without reading every
+               cell — same emoji-as-icon language used in section headers. -->
           {{WEATHER_ROWS}}
         </tbody>
       </table>
@@ -770,7 +878,9 @@
     <ul class="checklist">
       {{PACKING_DESTINATION_ITEMS}}
     </ul>
-    <!-- Every packing item MUST be a checkbox: <li><input type="checkbox">item text</li>
+    <!-- Every packing item MUST be a checkbox wrapped in a label so tapping
+         the item text (not just the tiny box) toggles it:
+         <li><label><input type="checkbox"> item text</label></li>
          Never render packing items as plain bullets, tables, or prose. -->
   </section>
 

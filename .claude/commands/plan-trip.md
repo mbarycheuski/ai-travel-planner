@@ -95,23 +95,36 @@ path re-reads it after a restart — so write it before launching any planner.
      transport mode. Never more than one; all three produce the same
      `transport.md` artifact type. If the mode is ambiguous, go back to
      Stage 1 — do not guess.
-  2. **Other agents required** — from: `accommodation-planner`,
-     `activities-planner`, `food-planner`, `packing-planner`,
-     `budget-aggregator`. Include an agent only if the requirements justify it
-     (usually all are needed). `validator`, `daily-plan-builder`, and
-     `html-builder` always run.
-     - **`packing-planner` gate**: check `requirements.md`'s **Destination
-       Status**. Only include `packing-planner` in the current execution
-       groups when status is `confirmed` — it needs one real place to look up
-       a weather outlook for. When status is `open` (traveler wants
-       suggestions / a shortlist not yet narrowed), leave it out of this
-       execution plan and note in `## Iteration Strategy` that it is
+  2. **Other agents required** — from: `weather-planner`,
+     `accommodation-planner`, `activities-planner`, `food-planner`,
+     `packing-planner`, `budget-aggregator`. Include an agent only if the
+     requirements justify it (usually all are needed). `validator`,
+     `daily-plan-builder`, and `html-builder` always run.
+     - **`weather-planner`/`packing-planner` gate**: check `requirements.md`'s
+       **Destination Status**. Only include `weather-planner` and
+       `packing-planner` in the current execution groups when status is
+       `confirmed` — both need one real place to look up (weather-planner to
+       forecast, packing-planner to pack for). When status is `open` (traveler
+       wants suggestions / a shortlist not yet narrowed), leave both out of
+       this execution plan and note in `## Iteration Strategy` that they are
        *deferred, not skipped*: once a specific destination is settled (a
        revised `requirements.md`/`requirements-vN.md` flips Destination Status
        to `confirmed` — typically after the traveler picks from the
        candidates `activities-planner`/`accommodation-planner` surface, via a
        Stage 5-style targeted rerun), re-run Stage 2 coordination to add
-       `packing-planner` into a remaining group before validation.
+       `weather-planner` (first) then `packing-planner` into remaining groups
+       before validation.
+     - **`weather-planner` ordering**: it needs only `requirements.md`, so it
+       can run in the very first execution group, alongside the transport
+       planner.
+     - **`packing-planner` ordering**: it runs *after* `weather-planner`,
+       `activities-planner`, `accommodation-planner`, and (when the transport
+       mode is car) `car-planner` have all written their artifacts — never in
+       parallel with them. Their outputs directly shape what to pack (the
+       actual weather outlook, planned activities' gear, accommodation
+       amenities like self-catering/laundry, and road-trip specifics like
+       luggage space/car essentials), so schedule `packing-planner` into a
+       later execution group, not the first one.
   3. **Execution groups** — parallel groups honoring real data dependencies
      (typical shape below in Stage 3). Collapse or reshape when the trip shape
      allows (e.g. a single-city trip). State each group's dependency
@@ -134,14 +147,30 @@ path re-reads it after a restart — so write it before launching any planner.
 ## Stage 3 — Parallel planning
 - Follow the execution plan's groups. **Launch all agents in a group in a single
   message (multiple Task calls) so they run in parallel.** Typical shape:
-  Group A `<mode>-planner`,`packing-planner` → then Group B
+  Group A `<mode>-planner`,`weather-planner` (both need only
+  `requirements.md`, so they run together first) → then Group B
   `accommodation-planner`,`activities-planner`,`food-planner` (they need
-  `transport.md`'s `## Stops & Nights`) → then Group C `budget-aggregator`.
-  If Destination Status was `open` at Stage 2, `packing-planner` is absent
-  from Group A — once `activities-planner`/`accommodation-planner` results
-  let the traveler settle on one place (destination status flips to
-  `confirmed`, e.g. via a `requirements-v2.md`), dispatch `packing-planner` on
-  its own before Stage 4 rather than leaving it out entirely.
+  `transport.md`'s `## Stops & Nights`) → then Group C
+  `packing-planner`,`budget-aggregator` (both depend only on Groups A+B's
+  output and are independent of each other; `packing-planner` reads
+  `weather.md`, `activities.md`, `accommodation.md`, and — when the mode is
+  car — `transport.md` so its checklist reflects the actual weather outlook,
+  planned activities, lodging amenities, and road-trip logistics). Never place
+  `packing-planner` in Group A — it must always run after `weather-planner`
+  and the activities/accommodation (and, for a car trip, the transport)
+  artifacts exist.
+  If Destination Status was `open` at Stage 2, `weather-planner` and
+  `packing-planner` are absent from these groups entirely — once
+  `activities-planner`/`accommodation-planner` results let the traveler settle
+  on one place (destination status flips to `confirmed`, e.g. via a
+  `requirements-v2.md`), dispatch `weather-planner` and then `packing-planner`
+  (after those artifacts) before Stage 4 rather than leaving them out
+  entirely.
+- The Open-Meteo MCP is called **only by `weather-planner`**, exactly once per
+  trip — it writes its per-stop outlook to `$RUN/weather.md`. Give
+  `packing-planner` and (in Stage 6) `daily-plan-builder` the latest
+  `weather.md` path as an input; neither has weather tools and neither should
+  re-fetch it.
 - Each launch prompt must give the agent: its exact input artifact paths (latest
   versions) + `requirements.md` + `execution-plan.md`, and its exact output path
   (e.g. `$RUN/transport.md`). All three transport planners write the same
@@ -186,9 +215,11 @@ to the user (do not proceed to a plan that fails a gate without telling them).
 ## Stage 6 — Daily plan
 - Run the **`artifact-validator` skill** over the latest, now-passing set of
   planning artifacts one last time before merging them.
-- Launch `daily-plan-builder` with the latest version of every artifact + the
-  passing validation report; output `$RUN/daily-plan.md`. It merges only — no
-  new content — and must preserve every source link.
+- Launch `daily-plan-builder` with the latest version of every artifact
+  (including `weather.md`) + the passing validation report; output
+  `$RUN/daily-plan.md`. It merges only — no new content — and must preserve
+  every source link. It reads `weather.md` for its optional per-day weather
+  line — it has no weather tools and must not re-fetch it.
 
 ## Stage 7 — Approval (human-in-the-loop; YOU handle this)
 - Show the user a concise summary and point them to `$RUN/daily-plan.md`.
@@ -249,9 +280,13 @@ to the user (do not proceed to a plan that fails a gate without telling them).
 - A `PostToolUse` hook keeps `workflow-state.json` in sync automatically on
   every artifact write; you only manage `iteration_count` by hand.
 - `activities-planner`, `accommodation-planner`, and `food-planner` source
-  real listings/attractions/restaurants via **WebSearch/WebFetch**;
-  `packing-planner` and `daily-plan-builder` use the **Open-Meteo MCP** (no
-  key). If a server is unavailable, agents fall back to WebSearch and say so.
+  real listings/attractions/restaurants via **WebSearch/WebFetch**. The
+  **Open-Meteo MCP** (no key) is called exclusively by `weather-planner`,
+  which writes `weather.md`; `packing-planner` and `daily-plan-builder` read
+  that artifact and never call the weather API themselves. If the server is
+  unavailable, `weather-planner` says so plainly in `weather.md` so
+  `packing-planner`/`daily-plan-builder` fall back to stating the assumption
+  instead of a sourced outlook.
 - **Hero image flow**: `html-builder` finds the two destination photos
   (header + page background) at build time via **WebSearch** (Wikimedia
   Commons preferred for stable, freely-licensed, directly-linkable files),

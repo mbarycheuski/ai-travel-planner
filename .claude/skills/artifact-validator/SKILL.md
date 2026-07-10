@@ -32,6 +32,7 @@ registry:
 | `requirements.md` | `## Confirmed`, `## Optional Preferences`, `## Constraints`, `## Assumptions (explicit)` | — |
 | `execution-plan.md` | `## Agents Required`, `## Execution Groups`, `## Quality Gates`, `## Iteration Strategy` | — |
 | `transport.md` | `## Mode`, `## Stops & Nights`, `## Legs`, `## Local Transport`, `## Estimated Transport Total`, `## Rationale & Assumptions` | Legs, Local Transport |
+| `weather.md` | one `## <Stop>` section per stop, `## Assumptions` | — (per-stop Method line cites the Open-Meteo method, not a URL) |
 | `accommodation.md` | `## Accommodations`, `## Estimated Accommodation Total`, `## Rationale & Assumptions` | Accommodations |
 | `activities.md` | `## Activities by Day/Stop`, `## Estimated Activities Total`, `## Rationale & Assumptions` | Activities by Day/Stop |
 | `food.md` | `## Restaurants by Stop`, `## Local Food to Try`, `## Estimated Food Cost`, `## Rationale & Assumptions` | Restaurants by Stop |

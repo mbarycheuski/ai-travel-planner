@@ -9,7 +9,7 @@
 const path = require('path');
 
 const INTERNAL_ARTIFACT_RE =
-  /\b(requirements|execution-plan|transport|accommodation|activities|food|packing|budget|validation|daily-plan|approval|iteration-plan|workflow-state|travel-guide)(-v\d+)?\.(md|json|html)\b/i;
+  /\b(requirements|execution-plan|transport|weather|accommodation|activities|food|packing|budget|validation|daily-plan|approval|iteration-plan|workflow-state|travel-guide)(-v\d+)?\.(md|json|html)\b/i;
 
 let input = '';
 process.stdin.on('data', (d) => (input += d));
@@ -18,9 +18,14 @@ process.stdin.on('end', () => {
   try {
     payload = JSON.parse(input);
   } catch {
+    // Malformed payload — fail open (allow) rather than block the workflow
+    // on a harness bug; this gate only needs to catch real violations.
     process.exit(0);
   }
 
+  // Assumes html-builder only ever Writes travel-guide.html once (per
+  // CLAUDE.md); if that ever becomes an in-place Edit, this gate needs
+  // Edit coverage too or it would be silently bypassed.
   if (payload.tool_name !== 'Write') process.exit(0);
 
   const filePath = payload.tool_input && payload.tool_input.file_path;

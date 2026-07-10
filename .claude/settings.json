@@ -2,24 +2,19 @@
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Write|Edit",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/freeze-finished-guard.js\""
-          }
-        ]
-      },
-      {
         "matcher": "Write",
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/approval-gate-guard.js\""
+            "if": "Write(**/travel-guide.html)",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/approval-gate-guard.js\"",
+            "statusMessage": "Checking traveler approval gate..."
           },
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/no-leak-guard.js\""
+            "if": "Write(**/travel-guide.html)",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/no-leak-guard.js\"",
+            "statusMessage": "Scanning for internal-artifact leakage..."
           }
         ]
       }
@@ -30,7 +25,9 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/post-write-state.js\""
+            "if": "Write(**/trips/**)",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/post-write-state.js\"",
+            "statusMessage": "Syncing workflow-state.json..."
           }
         ]
       }

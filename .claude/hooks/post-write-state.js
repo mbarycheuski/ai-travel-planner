@@ -7,6 +7,25 @@ const fs = require('fs');
 const path = require('path');
 const { parseFrontmatter, documentStatus } = require('./lib/frontmatter');
 
+// Only these track as workflow steps (per CLAUDE.md's agent roster + pipeline
+// coordination artifacts). Anything else dropped under trips/<run>/ — stray
+// notes, scratch files — is ignored rather than recorded as bogus state.
+const TRACKED_ARTIFACTS = new Set([
+  'requirements',
+  'execution-plan',
+  'weather',
+  'transport',
+  'accommodation',
+  'activities',
+  'food',
+  'packing',
+  'budget',
+  'validation',
+  'daily-plan',
+  'iteration-plan',
+  'travel-guide',
+]);
+
 let input = '';
 process.stdin.on('data', (d) => (input += d));
 process.stdin.on('end', () => {
@@ -14,6 +33,8 @@ process.stdin.on('end', () => {
   try {
     payload = JSON.parse(input);
   } catch {
+    // Malformed payload — fail open (allow) rather than block the workflow
+    // on a harness bug; state sync just skips this write if unparseable.
     process.exit(0);
   }
 
@@ -23,11 +44,11 @@ process.stdin.on('end', () => {
   if (!filePath) process.exit(0);
 
   const norm = filePath.replace(/\\/g, '/');
-  const m = norm.match(/trips\/([^/]+)\/([a-z0-9]+(?:-[a-z0-9]+)*?)(?:-v(\d+))?\.(md|html)$/i);
+  const m = norm.match(/trips\/([^/]+)\/([a-z]+(?:-[a-z]+)*)(?:-v(\d+))?\.(md|html)$/i);
   if (!m) process.exit(0);
 
   const [, , artifact, versionStr] = m;
-  if (artifact === 'workflow-state') process.exit(0);
+  if (!TRACKED_ARTIFACTS.has(artifact.toLowerCase())) process.exit(0);
 
   const runDir = path.dirname(filePath);
   const statePath = path.join(runDir, 'workflow-state.json');

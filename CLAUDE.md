@@ -23,7 +23,8 @@ request (same destination + month → same slug) **resumes** from
   downstream.
 - **QG-CITE** — every recommendation row in every content artifact carries a
   real `http(s)://` link to its source. (Exceptions: `budget.md` cites source
-  artifacts; `packing.md` cites in `## Sources`.)
+  artifacts; `packing.md` cites in `## Sources`; `weather.md` cites the
+  Open-Meteo method used per stop, not a listing link.)
 - **Approval before HTML** — `travel-guide.html` is generated only after the
   latest daily-plan artifact records `documentStatus: approved` in its
   frontmatter (enforced by the hook — see **Enforcement** below). There is no
@@ -47,20 +48,25 @@ request (same destination + month → same slug) **resumes** from
 | Agent | Responsibility | Artifact |
 |---|---|---|
 | `requirements-interviewer` | Structured requirements incl. transport mode | `requirements.md` |
+| `weather-planner` | Per-stop weather outlook via the Open-Meteo MCP | `weather.md` |
 | `flight-planner` / `train-planner` / `car-planner` | Transport for the chosen mode | `transport.md` |
 | `accommodation-planner` | Hotels with linked listings, costs, rationale | `accommodation.md` |
 | `activities-planner` | Attractions, duration, suitability | `activities.md` |
 | `food-planner` | Restaurants, local food, dietary constraints | `food.md` |
-| `packing-planner` | Weather outlook + packing checklist | `packing.md` |
+| `packing-planner` | Packing checklist, using `weather.md`'s outlook | `packing.md` |
 | `budget-aggregator` | Cost breakdown + total (invents no numbers) | `budget.md` |
 | `validator` | Quality gates incl. QG-CITE → PASS/FAIL + findings | `validation.md` |
 | `daily-plan-builder` | Merge latest artifacts (no new content) | `daily-plan.md` |
 | `html-builder` | Fill the predefined HTML template (no new content) | `travel-guide.html` |
 
-**Pipeline:** `requirements` → `execution-plan` → `transport` + `packing` →
-`accommodation`/`activities`/`food` → `budget` → `validation` → (versioned
-reruns until PASS, max 3) → `daily-plan` (draft) → traveler approval flips it
-to `documentStatus: approved` → `travel-guide.html`.
+**Pipeline:** `requirements` → `execution-plan` → `transport` + `weather` →
+`accommodation`/`activities`/`food` → `packing` + `budget` → `validation` →
+(versioned reruns until PASS, max 3) → `daily-plan` (draft) → traveler
+approval flips it to `documentStatus: approved` → `travel-guide.html`.
+`weather` needs only a confirmed destination from `requirements`, so it runs
+alongside the transport planner. `packing` runs only after `weather`,
+`accommodation`/`activities` (and, for a car trip, `transport`) since their
+content shapes what to pack.
 
 ## Where things live
 
@@ -73,13 +79,14 @@ Link to these — don't copy their content here (copies drift out of sync).
   samples predate the current roster (they use the retired `route.md` /
   `final-plan.md` artifacts and `-agent` sub-agent names) — treat them as
   historical, not as templates for the current artifact set.
-- **Tooling / MCP** → `open-meteo` (`.mcp.json`; weather for
-  `packing`/`daily-plan`, no key). `html-builder` sources the guide's
-  hero/background images at build time via **WebSearch** (Wikimedia Commons
-  preferred), downloads them, and embeds them as base64 `data:` URIs — no
-  image-generation API involved. Content agents source real pages via
-  **WebSearch/WebFetch** — **not TripAdvisor's MCP** (use WebSearch/WebFetch
-  for reviews/listings instead).
+- **Tooling / MCP** → `open-meteo` (`.mcp.json`; no key), called exclusively by
+  the **`weather-planner`** sub-agent, which writes its outlook to
+  `weather.md`; `packing-planner` and `daily-plan-builder` read that file as
+  an input artifact and never call the weather API themselves. `html-builder`
+  sources the guide's hero/background images at build time via **WebSearch**
+  (Wikimedia Commons preferred), downloads them, and embeds them as base64
+  `data:` URIs — no image-generation API involved. Content agents source real
+  pages via **WebSearch/WebFetch** for reviews/listings.
 
 ## Enforcement (hooks — `.claude/hooks/`)
 

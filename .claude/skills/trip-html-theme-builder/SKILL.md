@@ -44,15 +44,24 @@ and a small theme layer vary per trip.
 5. **Fixed inner markup**: rows/items must follow the exact shapes the
    template documents (see Slot reference) — itinerary days are `.day-card`
    blocks with a `.timeline` list. Two shapes are absolute:
-   - **Packing items are ALWAYS checkboxes** —
-     `<li><input type="checkbox">item text</li>` — never plain bullets,
-     tables, or prose.
+   - **Packing items are ALWAYS checkboxes wrapped in a label** —
+     `<li><label><input type="checkbox"> item text</label></li>` — never
+     plain bullets, tables, prose, or a bare unwrapped checkbox (the label
+     wrap makes the whole row tappable, not just the tiny box).
    - **Travel tips are ALWAYS a bullet-point list** —
      `<li><strong>Topic:</strong> tip</li>` inside `ul.tips-list` — never a
      table, numbered list, or paragraphs.
 6. **Responsive + theme-aware + printable**: the template's CSS already
    handles mobile, `prefers-color-scheme` dark mode, and print — don't remove
    any of it.
+7. **Green (`--ok`/`note-box`) is an earned verdict, never a default for
+   "this is a total" or "this is a fact".** Plain sums (`tr.total-row`, the
+   budget headline chip, "subtotal used in budget" lines, "local food to
+   try") are neutral/`info-box`/accent-styled. Red (`--warn`/`warn-box`) is
+   for an actual risk. The only genuinely earned green in the whole page is
+   the budget-vs-limit verdict (`{{BUDGET_STATUS_BOX_CLASS}}` /
+   `{{BUDGET_GAUGE_FILL_CLASS}}`), which is conditional on the real
+   under/over comparison — never hardcode `note-box` there.
 
 ## Per-trip customization (theme layer)
 
@@ -66,7 +75,6 @@ every token below from it, in **both** the light and dark `:root` blocks.
 | `--accent`, `--accent-dark` | The trip's color family (header gradient runs `--accent` → `--accent-dark`), e.g. terracotta for Tuscany, Atlantic blue for Lisbon, alpine green for Switzerland |
 | `--accent-light` | Pale tint of the accent (light mode) / dark tint (dark mode) — used for table headers, day cards |
 | `--bg`, `--card-bg` | Page and card backgrounds as very light (light mode) / very dark (dark mode) tints of the same family, so the whole page carries the trip's mood — never leave them at the defaults if the accent changed |
-| `{{HERO_EMOJI}}` | One emoji capturing the trip (🏖️ 🏔️ 🚗 🚆 ✈️ ...) |
 | `{{TRANSPORT_MODE_EMOJI}}` | ✈️ / 🚆 / 🚗 matching the confirmed mode |
 | `{{HERO_IMAGE}}` | The header photo as a CSS value — `url("data:image/png;base64,…")` (or the matching `image/jpeg` mime) for the found destination photo, or `none` to fall back to the plain accent gradient |
 | `{{BG_IMAGE}}` | The page background photo as a CSS value — `url("data:image/png;base64,…")` for the found background photo, or `none` to fall back to the plain page background |
@@ -129,7 +137,6 @@ its links must be updated to match — but the builder never changes that set.
 |---|---|
 | `{{HERO_IMAGE}}` | header photo as a CSS value: `url("data:image/<jpeg|png>;base64,…")` (found destination photo) or `none` (gradient fallback). Set inline on `<header class="hero" style="--hero-image: …">` — see **Hero & background images** above |
 | `{{BG_IMAGE}}` | page background photo as a CSS value: `url("data:image/<jpeg|png>;base64,…")` (found destination photo) or `none` (plain background fallback). Set inline on `<body style="--bg-image: …">` — see **Hero & background images** above |
-| `{{HERO_EMOJI}}` | one emoji capturing the trip, shown above the title |
 | `{{TRIP_TITLE}}` | trip title from the daily plan's `#` heading (also used in `<title>` and footer) |
 | `{{TRIP_SUBTITLE}}` | ONE general one-line subtitle — e.g. "Tuscany, Italy · 4–5 July 2026". Keep it general; put breakdowns in Trip Summary |
 
@@ -146,8 +153,7 @@ The chip row (moved out of the hero) sits at the top of this section:
 | `{{PARTY_DETAIL}}` | traveler count + ages |
 | `{{TRANSPORT_MODE_DETAIL}}` | confirmed mode + one-line description |
 | `{{BUDGET_LIMIT}}`, `{{BUDGET_STATUS}}` | user's limit; "UNDER by X" / "OVER by X" |
-| `{{INTERESTS_DETAIL}}` | interests and how the plan covers them |
-| `{{VALIDATION_SUMMARY}}` | gates passed (e.g. "All 7 quality gates (QG1–QG7) PASS") + any caveat worth surfacing |
+| `{{INTERESTS_LIST}}` | `<li>` items, one per interest, describing how the plan covers it |
 
 ### Sections
 | Slot | Filled with |
@@ -156,7 +162,7 @@ The chip row (moved out of the hero) sits at the top of this section:
 | `{{TRANSPORT_LEG_ROWS}}` | `<tr>` rows matching the predefined columns (Leg, Detail, Day/Date, Duration, Est. Cost); links inside cells |
 | `{{LOCAL_TRANSPORT_ITEMS}}` | `<li>` items per stop, linked |
 | `{{TRANSPORT_TOTAL}}` | transport subtotal |
-| `{{TRANSPORT_WARNINGS}}` | zero or more `<div class="warn-box">…</div>` (e.g. "reconfirm fares before booking"); empty string if none |
+| `{{TRANSPORT_WARNINGS}}` | zero or more note divs; empty string if none. Use `warn-box` for a real risk (e.g. "reconfirm fares before booking"), `info-box` for a neutral FYI that isn't a risk (e.g. "this leg requires a seat reservation") — don't force every note into `warn-box` |
 | `{{DAY_CARDS}}` | one `.day-card` per day, exactly the structure documented in the template comment (h3 + `.timeline` of `<li><span class="time">…</span><span>…</span></li>`) |
 | `{{ITINERARY_NOTES}}` | zero or more `.note-box` divs (e.g. optional upgrades); empty string if none |
 | `{{ACCOMMODATION_ROWS}}` | `<tr>` rows (Stop, Property linked, Stars, Key Features, Cost/night × Nights, Subtotal) |
@@ -168,10 +174,13 @@ The chip row (moved out of the hero) sits at the top of this section:
 | `{{FOOD_TOTAL}}` | food subtotal |
 | `{{BUDGET_ROWS}}` | `<tr>` rows (Category, Notes, Cost); use `class="total-row"` for subtotal rows |
 | `{{BUDGET_AGAINST_LIMIT}}` | verdict text vs the user's limit |
+| `{{BUDGET_STATUS_BOX_CLASS}}` | `note-box` (green) when spent ≤ limit, `warn-box` (red) when spent > limit — this is the one place green is an earned verdict, not an assumed default |
+| `{{BUDGET_GAUGE_PERCENT}}` | spent ÷ limit as a whole-number percentage, **capped at 100** even when over budget (the bar never overflows its track) — pure arithmetic on numbers already in `{{BUDGET_TOTAL}}`/`{{BUDGET_LIMIT}}`, not new content |
+| `{{BUDGET_GAUGE_FILL_CLASS}}` | `over` when spent > limit, otherwise empty string (defaults to the ok color) — same verdict as `{{BUDGET_STATUS_BOX_CLASS}}`, kept in sync |
 | `{{WEATHER_OUTLOOK}}` | one-paragraph weather summary (Weather section, from the daily plan/packing artifact) |
-| `{{WEATHER_ROWS}}` | `<tr>` rows for the forecast table (Day/Date, Conditions, High / Low, Precip. chance); one per trip day |
-| `{{WEATHER_NOTES}}` | zero or more `.note-box`/`.warn-box` divs (e.g. heat/rain advisory); empty string if none |
-| `{{PACKING_*_ITEMS}}` (CLOTHING / ELECTRONICS / DOCUMENTS / MEDICINES / DESTINATION) | `<li><input type="checkbox">item</li>` items per fixed category |
+| `{{WEATHER_ROWS}}` | `<tr>` rows for the forecast table (Day/Date, Conditions, High / Low, Precip. chance); one per trip day. Conditions cell starts with one matching emoji (☀️/⛅/☁️/🌧️/⛈️/❄️/🌫️) before the text |
+| `{{WEATHER_NOTES}}` | zero or more `.note-box`/`.warn-box`/`.info-box` divs (e.g. heat/rain advisory = warn-box; a neutral seasonal note = info-box); empty string if none |
+| `{{PACKING_*_ITEMS}}` (CLOTHING / ELECTRONICS / DOCUMENTS / MEDICINES / DESTINATION) | `<li><label><input type="checkbox"> item</label></li>` items per fixed category |
 | `{{TIP_ITEMS}}` | `<li><strong>Topic:</strong> tip</li>` items |
 | `{{APPROVAL_DATE}}`, `{{RUN_SLUG}}` | from the approved daily plan's frontmatter (`approvalNotes`/date) / the run directory name |
 

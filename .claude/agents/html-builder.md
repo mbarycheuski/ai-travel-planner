@@ -23,7 +23,7 @@ only through theme tokens.
      family across `--accent` / `--accent-dark` / `--accent-light` **and** the
      page backgrounds `--bg` / `--card-bg` (in both light and dark `:root`
      blocks) — the header gradient and page background must both carry the
-     trip's character — plus `{{HERO_EMOJI}}` and `{{TRANSPORT_MODE_EMOJI}}`.
+     trip's character — plus `{{TRANSPORT_MODE_EMOJI}}`.
   4a. **Hero & background images**: find the two trip photos per the
      `trip-html-theme-builder` skill's procedure — one header photo, one page
      background — using `WebSearch` (Wikimedia Commons preferred for stable,

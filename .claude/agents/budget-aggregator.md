@@ -2,7 +2,7 @@
 name: budget-aggregator
 description: Aggregates costs from the transport, accommodation, activities, and food artifacts into a categorized budget with an estimated total, contingency, and comparison against the user's limit. Depends on those artifacts; invents no numbers. Produces budget.md.
 tools: Read, Write, Glob
-model: sonnet
+model: haiku
 ---
 
 # Budget Aggregator
