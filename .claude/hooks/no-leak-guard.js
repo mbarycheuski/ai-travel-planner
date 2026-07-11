@@ -1,37 +1,12 @@
 #!/usr/bin/env node
-// PreToolUse (Write) — SINGLE RESPONSIBILITY: no internal-artifact leakage in
-// the published guide.
-//
-// travel-guide.html is for the traveler and must never name an internal
-// workflow artifact (requirements.md, validation.md, transport.md, …). Facts
-// flow through to the guide; internal filenames do not. A phrase like
-// "(flagged in validation.md)" is a defect, not content.
-const path = require("path");
+// PreToolUse (Write) — blocks writing travel-guide.html if its content names
+// any internal workflow artifact (requirements.md, validation.md, transport.md, …).
+const { withWritePayload } = require("./lib/hook-io");
 
 const INTERNAL_ARTIFACT_RE =
   /\b(requirements|execution-plan|transport|weather|accommodation|activities|food|packing|budget|validation|daily-plan|approval|iteration-plan|workflow-state|travel-guide)(-v\d+)?\.(md|json|html)\b/i;
 
-let input = "";
-process.stdin.on("data", (d) => (input += d));
-process.stdin.on("end", () => {
-  let payload;
-  try {
-    payload = JSON.parse(input);
-  } catch {
-    // Malformed payload — fail open (allow) rather than block the workflow
-    // on a harness bug; this gate only needs to catch real violations.
-    process.exit(0);
-  }
-
-  // Assumes html-builder only ever Writes travel-guide.html once (per
-  // CLAUDE.md); if that ever becomes an in-place Edit, this gate needs
-  // Edit coverage too or it would be silently bypassed.
-  if (payload.tool_name !== "Write") process.exit(0);
-
-  const filePath = payload.tool_input && payload.tool_input.file_path;
-  if (!filePath) process.exit(0);
-  if (!/^travel-guide\.html$/i.test(path.basename(filePath))) process.exit(0);
-
+withWritePayload((payload, filePath) => {
   const content = (payload.tool_input && payload.tool_input.content) || "";
   const leak = content.match(INTERNAL_ARTIFACT_RE);
   if (leak) {

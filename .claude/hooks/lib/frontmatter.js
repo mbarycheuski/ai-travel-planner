@@ -1,14 +1,4 @@
-// Minimal YAML-frontmatter reader shared by the workflow hooks.
-//
-// Workflow artifacts open with a flat frontmatter block:
-//
-//     ---
-//     version: 2
-//     documentStatus: approved
-//     ---
-//
-// We only ever need flat `key: value` scalars (version, documentStatus), so we
-// parse just that — no YAML dependency, no nested structures.
+// Minimal flat `key: value` frontmatter reader shared by the workflow hooks.
 const fs = require("fs");
 
 function parseFrontmatter(content) {
@@ -31,7 +21,6 @@ function readFrontmatter(filePath) {
   }
 }
 
-// Normalized lower-cased documentStatus ('' when absent).
 function documentStatus(fields) {
   return String(fields.documentStatus || fields.documentstatus || "")
     .trim()
