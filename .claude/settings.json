@@ -21,11 +21,17 @@
     ],
     "PostToolUse": [
       {
-        "matcher": "Write",
+        "matcher": "Write|Edit",
         "hooks": [
           {
             "type": "command",
             "if": "Write(**/trips/**)",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/post-write-state.js\"",
+            "statusMessage": "Syncing workflow-state.json..."
+          },
+          {
+            "type": "command",
+            "if": "Edit(**/trips/**)",
             "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/post-write-state.js\"",
             "statusMessage": "Syncing workflow-state.json..."
           }

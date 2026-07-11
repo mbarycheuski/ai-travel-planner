@@ -24,7 +24,11 @@ const TRACKED_ARTIFACTS = new Set([
 ]);
 
 readPayload((payload) => {
-  if (payload.tool_name !== "Write") process.exit(0);
+  // Write creates an artifact; Edit is used to flip the daily plan's
+  // documentStatus (draft → approved/rejected) in place — both must re-sync.
+  if (payload.tool_name !== "Write" && payload.tool_name !== "Edit") {
+    process.exit(0);
+  }
 
   const filePath = payload.tool_input && payload.tool_input.file_path;
   if (!filePath) process.exit(0);
@@ -55,7 +59,16 @@ readPayload((payload) => {
     }
   }
 
-  const content = (payload.tool_input && payload.tool_input.content) || "";
+  // Write payloads carry the full content; Edit payloads don't, so read the
+  // just-written file from disk (it's the authoritative post-edit state).
+  let content = payload.tool_input && payload.tool_input.content;
+  if (typeof content !== "string") {
+    try {
+      content = fs.readFileSync(filePath, "utf8");
+    } catch {
+      content = "";
+    }
+  }
   const fields = parseFrontmatter(content);
   const version =
     Number(fields.version) || (versionStr ? Number(versionStr) : 1);

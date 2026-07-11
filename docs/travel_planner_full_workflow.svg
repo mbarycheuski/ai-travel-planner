@@ -129,13 +129,13 @@
 <!-- ===== Human approval ===== -->
 <rect class="node n-neutral" x="220" y="1140" width="240" height="56" rx="8"/>
 <text class="title t-neutral" x="340" y="1160">Human approval</text>
-<text class="sub s-neutral" x="340" y="1180">Sets frontmatter status</text>
+<text class="sub s-neutral" x="340" y="1180">Human-in-the-loop</text>
 <text class="loop" x="470" y="1168">↻ reject — targeted revision</text>
 
 <!-- ===== HTML builder ===== -->
 <rect class="node n-rose" x="220" y="1246" width="240" height="56" rx="8"/>
 <text class="title t-rose" x="340" y="1266">HTML builder</text>
-<text class="sub s-rose" x="340" y="1286">Fills template · approval-gated</text>
+<text class="sub s-rose" x="340" y="1286">Builds HTML page</text>
 
 <!-- ===== Travel guide ===== -->
 <rect class="node n-neutral" x="240" y="1352" width="200" height="44" rx="8"/>

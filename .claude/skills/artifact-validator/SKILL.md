@@ -41,7 +41,7 @@ registry:
 | `budget.md`            | `## Budget Breakdown`, `## Estimated Total`, `## Against Limit`, `## Assumptions`                                                                                   | — (cites source artifacts, not URLs)                            |
 | `validation.md`        | a `# Validation Result: PASS` or `FAIL` heading (first line after the frontmatter), `## Gate Results`, `## Findings`                                                | —                                                               |
 | `iteration-plan-vN.md` | `## Failed Gates`, `## Agents To Rerun`, `## Guidance Per Agent`                                                                                                    | —                                                               |
-| `daily-plan.md`        | `## Trip Summary`, `## Day-by-Day Itinerary`, `## Where You're Staying`, `## Getting There & Around`, `## Budget Summary`, `## Packing Checklist`, `## Travel Tips` | links carried through from inputs                               |
+| `daily-plan.md`        | `## Trip Summary`, `## Day-by-Day Itinerary`, `## Where You're Staying`, `## Getting There & Around`, `## Budget Summary`, `## Weather`, `## Packing Checklist`, `## Travel Tips` | links carried through from inputs                               |
 
 ## Procedure
 

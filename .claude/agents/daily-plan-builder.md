@@ -1,6 +1,6 @@
 ---
 name: daily-plan-builder
-description: Merges the latest validated planning artifacts into a single day-by-day travel plan for human review. Does not generate new travel content — only consolidates and formats, preserving all source links. May enrich days with a weather line read from weather.md. Produces daily-plan.md.
+description: Merges the latest validated planning artifacts into a single day-by-day travel plan for human review. Does not generate new travel content — only consolidates and formats, preserving all source links. Includes a per-trip-day weather section read from weather.md. Produces daily-plan.md.
 tools: Read, Glob, Write
 model: sonnet
 ---
@@ -61,6 +61,14 @@ Transport legs + local transport summary, linked.
 ## Budget Summary
 
 Breakdown table + total vs limit (from budget.md).
+
+## Weather
+
+A one-line outlook, then one row per trip day — read straight from weather.md,
+inventing no figures:
+
+| Day / Date | Conditions | High / Low | Precip. chance |
+| ---------- | ---------- | ---------- | -------------- |
 
 ## Packing Checklist
 
