@@ -104,6 +104,10 @@ Typical execution groups (Stage 3):
 
 ## Flow
 
+![AI Travel Planner workflow diagram](travel_planner_full_workflow.svg)
+
+**Detailed flow (Mermaid):**
+
 ```mermaid
 flowchart TD
     User([User])
