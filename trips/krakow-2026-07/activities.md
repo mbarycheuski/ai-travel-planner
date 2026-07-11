@@ -1,0 +1,39 @@
+# Activities
+
+## Activities by Day/Stop
+
+### Day 1 — Kraków (2026-07-12, arrival & main visiting day — rain expected, 93% chance)
+
+| Activity                                                | Type              | Duration  | Est. Cost                                       | Suitability                                                                                                     | Link                                                                          |
+| -------------------------------------------------------- | ----------------- | --------- | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Wawel Castle — State Rooms (interior)                    | History / Culture | ~1.5 hrs  | ~$88 (2 adults @ 95 PLN + 2 children @ 71 PLN reduced = 332 PLN) | Fully indoor, wheelchair-accessible route; royal apartments/tapestries engaging for kids with audio guide; no accessibility barriers noted. | [Wawel Royal Castle — State Rooms (official)](https://wawel.krakow.pl/en/exhibition-constant/state-rooms) |
+| Rynek Underground Museum                                  | History / Interactive | ~1.5 hrs  | ~$37 (est. family ticket, up to 4 people ~140 PLN — exact family price not published; see Rationale) | Fully indoor, climate-controlled, interactive touchscreens/holograms designed for families and school groups — strong fit for children 7–12 on a rainy day. | [Rynek Underground — Museum of Kraków (official)](https://muzeumkrakowa.pl/en/branches/rynek-underground) |
+| Cloth Hall (Sukiennice) — covered market hall browse       | Culture / Shopping | ~45 min   | $0 (ground-floor browsing; upper-floor gallery ticket optional, not included) | Fully covered/indoor Renaissance market hall in the Main Square — ideal weather-proof stop for souvenir browsing between rain showers; stroller/wheelchair accessible on ground floor. | [Cloth Hall — Kraków official tourism portal](https://krakow.travel/en/54-krakow-sukiennice) |
+| St. Mary's Basilica — interior visit                       | History / Culture | ~30–45 min | ~$16 (2 adults @ 20 PLN + 2 children @ 10 PLN reduced = 60 PLN) | Indoor, short and relaxed visit to see the famous Veit Stoss altarpiece; quiet/contemplative — good low-key close to a rainy first day for young children. | [St. Mary's Basilica — official visitor info](https://mariacki.com/en/tourists/) |
+
+### Day 2 — Kraków → Warsaw (2026-07-13, departure day — improved weather, 25% rain chance)
+
+| Activity                                          | Type              | Duration | Est. Cost                                     | Suitability                                                                                                                    | Link                                                                          |
+| ---------------------------------------------------- | ----------------- | -------- | ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Wawel Dragon's Den (Smocza Jama) + fire-breathing dragon statue | History / Outdoor-Interactive | ~30–45 min | ~$13 (2 adults @ 15 PLN + 2 children @ 10 PLN reduced = 50 PLN) | Partially open-air limestone cave with 135 spiral stairs exiting onto the Vistula riverbank; the fire-breathing dragon statue is a highlight for kids 7–12. Note: not suitable for strollers/wheelchairs (steep one-way spiral stairs) — no accessibility needs stated for this family. | [Wawel Royal Castle — Dragon's Den (official)](https://wawel.krakow.pl/en/exhibition-constant/dragon-s-den) |
+| Vistula Boulevards (Bulwary Wiślane) riverside walk  | Outdoor / Recreation | ~45–60 min | $0 | Flat, stroller/wheelchair-friendly paved riverside promenade with playgrounds, benches, and views of Wawel Hill — relaxed open-air finale before the drive back to Warsaw; timed for the drier morning per the forecast. | [Vistula Boulevards — VisitMałopolska (official regional tourism board)](https://visitmalopolska.pl/en/obiekt/-/poi/bulwary-wislane-krakow) |
+
+## Estimated Activities Total
+
+- Day 1: $88 (Wawel State Rooms) + $37 (Rynek Underground) + $0 (Cloth Hall) + $16 (St. Mary's Basilica) = **$141**
+- Day 2: $13 (Dragon's Den) + $0 (Vistula Boulevards) = **$13**
+- **Grand total (activities only, family of 4): $141 + $13 = ~$154**
+
+(PLN→USD conversion uses the ~PLN 3.77 = $1 rate applied in `transport.md`, consistent across this artifact.)
+
+## Rationale & Assumptions
+
+- **Weather-driven day split (hard constraint from `weather.md`):** July 12 has a 93% chance of moderate rain, so Day 1 is built entirely from fully-indoor or covered attractions (Wawel State Rooms, Rynek Underground Museum, Cloth Hall ground floor, St. Mary's Basilica interior). July 13 has only a 25% rain chance and milder temperatures, so the two open-air/interactive items (Dragon's Den + Vistula Boulevards) are placed there, timed for the "drier morning" the weather outlook flags before the ~3.5 hr drive back to Warsaw.
+- **Pacing:** Relaxed-to-moderate, per requirements — Day 1 has four stops within easy walking distance of each other on Wawel Hill and the Main Square (no additional driving, consistent with `transport.md`'s "minimal driving after arrival"); Day 2 is deliberately light (two short stops, both near Wawel/the river) to leave ample buffer before the return drive.
+- **Kid-friendly requirement met each day:** Day 1's Rynek Underground Museum is explicitly interactive/family-oriented (touchscreens, family tickets); Day 2's Dragon's Den (fire-breathing statue) and the Vistula Boulevards (playgrounds) are both interactive/outdoor and squarely aimed at 7–12-year-olds.
+- **No duplicates:** Each of the six attractions (Wawel State Rooms, Rynek Underground, Cloth Hall, St. Mary's Basilica, Dragon's Den, Vistula Boulevards) appears exactly once across the two days. Note Wawel Castle is represented by two distinct, non-overlapping exhibits/areas (State Rooms interior on Day 1 vs. the separately-ticketed Dragon's Den cave on Day 2) — these are different paid attractions within the same complex, not a repeat visit.
+- **Rynek Underground family-ticket price:** the official page confirms a "family ticket up to 4 people" option and lists 45 PLN as a general admission rate, but does not publish the exact bundled family price on the fetched page — I estimated ~140 PLN (~$37) for a family of 4 as a reasonable blended figure; verify against `budget.md`/final ticket purchase.
+- **Ticket pricing basis:** Wawel State Rooms (95 PLN regular / 71 PLN reduced), St. Mary's Basilica (20 PLN regular / 10 PLN reduced for ages 7–18), and Dragon's Den (15 PLN regular / 10 PLN reduced) prices are taken directly from each site's official page as fetched; children ages 7–12 are assumed to qualify for the "reduced" tier at each venue.
+- **Cloth Hall:** treated as a free browse of the ground-floor stalls (the covered structure itself is the rain-shelter value); the paid upper-floor 19th-Century Polish Art gallery is not included since it is less engaging for young children and was not required by the traveler's interests.
+- **Accessibility:** No accessibility needs were stated for this family. The Dragon's Den's steep one-way spiral staircase (135 steps, not stroller/wheelchair accessible) is flagged in its Suitability cell for transparency, but since no accessibility requirement exists, it is included as planned.
+- **No car needed for activities:** All six activities are within Kraków's Old Town/Wawel Hill walking core, consistent with `transport.md`'s plan of parking once and moving entirely on foot.
