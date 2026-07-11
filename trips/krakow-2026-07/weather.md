@@ -1,24 +1,27 @@
 # Weather Outlook
 
-## Kraków, Poland
+## Krakow, Poland
 
-**Method:** Open-Meteo short-range weather forecast (valid through ~14 days out). Data fetched 2026-07-11 for arrival period July 12–13. Forecast reliability: high (1–2 days out).
+**Method:** Forecast (Open-Meteo weather forecast; dates are 6-7 days from forecast generation, well within standard 14-day range).
 
-### July 12 (Arrival & Main Visiting Day)
-- **Temperature range:** 15.4–17.6°C (60–64°F)
-- **Precipitation:** 93% chance of moderate rain; ~3 mm expected
-- **Weather code:** Moderate rain (WMO 61)
-- **Implications:** Cool, wet day. Pack waterproof jackets, rain pants, and closed-toe waterproof shoes for all family members. Outdoor/open-air activities may be dampened; prioritize indoor attractions (Wawel Castle interior, museums, covered market areas). Bring quick-dry clothing layers and consider an umbrella for sightseeing. Rain-appropriate activities (e.g., dragon-themed walks, covered historic tours) will keep engagement high for children despite wet conditions.
+### Friday, 17 July 2026
+- **Temperature range:** 16–27°C (61–81°F)
+- **Precipitation:** 0 mm, 25% chance
+- **Conditions:** Clear sky (WMO code 2)
+- **Implications:** Excellent day for outdoor activities. Light jacket recommended for early morning/evening; children may need sun protection during midday hours. No rain expected; comfortable for sightseeing, walking tours (e.g., Wawel Castle, Main Market Square), and family-friendly parks.
 
-### July 13 (Departure Day)
-- **Temperature range:** 15.9–22.5°C (61–73°F)
-- **Precipitation:** 25% chance of light drizzle; ~0.4 mm expected
-- **Weather code:** Light rain (WMO 51)
-- **Implications:** Much improved conditions. Mostly clear to partly cloudy with mild temperatures. Light layers sufficient; waterproof backup recommended but not essential. Good conditions for any final outdoor sightseeing or park visits before departure. Suitable for varied activities (both covered and open-air). Morning/midday should be drier for the drive back to Warsaw (~3–3.5 hours).
+### Saturday, 18 July 2026
+- **Temperature range:** 19–31°C (66–87°F)
+- **Precipitation:** 0 mm, 25% chance
+- **Conditions:** Overcast (WMO code 3)
+- **Implications:** Warm day with cloud cover providing natural sun protection. Light clothing advised; sunscreen still recommended. No rain in forecast. Ideal for extended family outings, outdoor attractions, and casual sightseeing without oppressive heat.
+
+## Summary
+
+Both days show warm, dry conditions with minimal rain risk. The trip window aligns with pleasant mid-summer weather in Krakow—suitable for all planned family activities with young children (ages 5 and 8). Pack sunscreen and light clothing; no rain gear required based on this forecast.
 
 ## Assumptions
 
-- Trip dates fixed at 2026-07-12 to 2026-07-13 per requirements.
-- Only Kraków weather provided (main destination); Warsaw departure point weather not included unless activities planner requests separate transit-day conditions.
-- Forecast is for Kraków city center (coordinates: 50.06°N, 19.94°E; elevation 214 m); local microclimates (e.g., higher Wawel grounds) may vary slightly.
-- All temperatures in Celsius; converted ranges provided in parentheses for US-based travelers.
+- **Trip dates confirmed:** 17–18 July 2026 (as stated in `requirements-v2.md`).
+- **Single destination:** Krakow only (no multi-stop routing; weather applies throughout the stay).
+- **Forecast method:** Standard weather forecast valid for ~14 days; these dates fall well within that range (6–7 days ahead as of the forecast generation date), so confidence in the temperature range and precipitation trend is high. Weather code indicates general conditions but not granular hourly detail.

@@ -3,8 +3,8 @@
   "steps": {
     "requirements": {
       "status": "completed",
-      "artifact": "requirements.md",
-      "version": 1
+      "artifact": "requirements-v2.md",
+      "version": 2
     },
     "execution-plan": {
       "status": "completed",
@@ -21,6 +21,11 @@
       "artifact": "transport.md",
       "version": 1
     },
+    "food": {
+      "status": "completed",
+      "artifact": "food.md",
+      "version": 1
+    },
     "activities": {
       "status": "completed",
       "artifact": "activities.md",
@@ -31,19 +36,14 @@
       "artifact": "accommodation.md",
       "version": 1
     },
-    "food": {
+    "budget": {
       "status": "completed",
-      "artifact": "food.md",
+      "artifact": "budget.md",
       "version": 1
     },
     "packing": {
       "status": "completed",
       "artifact": "packing.md",
-      "version": 1
-    },
-    "budget": {
-      "status": "completed",
-      "artifact": "budget.md",
       "version": 1
     },
     "validation": {
@@ -52,7 +52,7 @@
       "version": 1
     },
     "daily-plan": {
-      "status": "completed",
+      "status": "approved",
       "artifact": "daily-plan.md",
       "version": 1
     },
@@ -64,5 +64,5 @@
   },
   "iteration_count": 0,
   "retry_limit": 3,
-  "updated_at": "2026-07-11T15:44:13.011Z"
+  "updated_at": "2026-07-11T21:46:03.354Z"
 }

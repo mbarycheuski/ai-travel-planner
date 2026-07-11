@@ -2,68 +2,71 @@
 
 ## Weather Outlook
 
-**Source/method:** Open-Meteo short-range weather forecast (valid ~14 days out), fetched 2026-07-11 for Kraków city center (50.06°N, 19.94°E), forecast reliability high at 1–2 days out. Per `weather.md`.
+Source/method: Open-Meteo weather **forecast** (dates 17–18 July 2026 fall 6–7 days ahead of forecast generation, well within the standard 14-day forecast range), as recorded in `weather.md`.
 
-- **Day 1 — 2026-07-12 (arrival & main visiting day):** 15.4–17.6°C (60–64°F), 93% chance of moderate rain (~3 mm, WMO code 61). Cool and wet. Day 1's itinerary (Wawel State Rooms, Rynek Underground Museum, Cloth Hall, St. Mary's Basilica) is entirely indoor/covered, but the family will still be walking between Old Town/Wawel Hill sites in the rain — pack full rain protection for all four travelers.
-- **Day 2 — 2026-07-13 (departure day):** 15.9–22.5°C (61–73°F), only 25% chance of light drizzle (~0.4 mm, WMO code 51). Milder and mostly dry. The itinerary includes the outdoor Vistula Boulevards riverside walk and the partially-open-air Dragon's Den (135 spiral stone steps down to the riverbank) — pack sturdy, grippy closed-toe shoes and a light layer; keep rain backup handy but it's a secondary priority versus Day 1.
+- **Friday, 17 July 2026 — Krakow:** 16–27°C, clear sky (WMO code 2), 0 mm precipitation (25% chance). Warm and dry all day; cool at the morning drive/departure and again in the evening, hot around midday.
+- **Saturday, 18 July 2026 — Krakow:** 19–31°C, overcast (WMO code 3), 0 mm precipitation (25% chance). Warmest day of the trip; cloud cover gives some natural shade but UV/heat exposure is still a concern for the children during the Zoo visit.
+
+**Implication:** Both days are warm and dry — no rain gear is needed based on this forecast. Pack light, breathable layers, sun protection (hats, sunscreen, sunglasses), and extra water/hydration for the children, especially for the outdoor midday activities (Wawel grounds, Vistula Boulevards, Kraków Zoo). A light layer for the cooler morning departure/evening return drive is still worth including.
 
 ## Clothing
 
-- [ ] Waterproof/rain jacket for each traveler (4x) — essential for Day 1's 93% rain chance
-- [ ] Compact travel umbrella (1–2, family-sized or one per adult)
-- [ ] Rain pants or waterproof overtrousers for the children (optional for adults) — for walking between Old Town sites in sustained rain
-- [ ] Waterproof, closed-toe walking shoes for each traveler (4 pairs) — needed both for wet cobblestones Day 1 and the 135 spiral stone steps of Dragon's Den on Day 2
-- [ ] 1 extra pair of shoes/socks per person in case shoes get soaked on Day 1
-- [ ] Quick-dry long-sleeve layers/light sweater (2 per person) — 15–18°C on Day 1 is cool
-- [ ] Lighter short-sleeve top or light layer for Day 2's milder 16–23°C range
-- [ ] Light jacket or fleece for morning/evening chill both days
-- [ ] Warm socks (extra pair per person, in case of wet feet Day 1)
-- [ ] Pajamas/sleepwear for the 1 overnight
-- [ ] Underwear — 2 sets per person (2 days)
-- [ ] Swimwear not needed (no pool/water activity planned)
-- [ ] Comfortable trousers/jeans suitable for both museum visits and the riverside walk
-- [ ] Sun hat/cap and sunglasses (light packing item in case Day 2 clears up beyond forecast)
+- [ ] 2 sets of lightweight, breathable outfits per person, per day (2 days) — shorts/T-shirts/light dresses
+- [ ] 1 light jacket or long-sleeve layer per person (cool morning departure and evening drive back)
+- [ ] Comfortable closed-toe walking shoes for everyone (Old Town cobblestones, Dragon's Den stairs, Zoo trails)
+- [ ] Wide-brimmed sun hats or caps for all 4 travelers (both days call for sun protection)
+- [ ] Sunglasses for adults and children
+- [ ] Extra change of clothes for each child (ages 5 and 8) — spills/Zoo/playground mishaps
+- [ ] Swimwear only if the hotel/route offers a pool — not confirmed for Hotel Wielopole, so optional/skip
+- [ ] Pajamas/sleepwear for the 1 night at Hotel Wielopole
+- [ ] Underwear and socks for 2 days + 1 spare set per child
+- [ ] Light rain-resistant layer is **not required** — forecast shows 0 mm precipitation both days
 
 ## Electronics
 
-- [ ] Phone chargers (one per adult; EU/Poland uses Type C/E sockets — same as most of continental Europe, no adapter needed if traveling from elsewhere in the EU)
-- [ ] Portable power bank (useful for a full day of walking/photos with no midday hotel return)
-- [ ] Camera (optional) for Wawel Castle, Dragon's Den, and the riverside walk
-- [ ] Car phone mount/charger cable for the Warsaw–Kraków drive (both legs ~3.5 hrs)
-- [ ] Headphones/tablet with downloaded content for children during the ~3.5-hr drive each way
+- [ ] Phone chargers/cables for both adults
+- [ ] Car phone mount and 12V car charger/adapter (self-drive trip)
+- [ ] Portable power bank (for the ~3h10m each-way drive and full sightseeing days)
+- [ ] Camera or spare phone storage for photos (Wawel, Dragon's Den, Zoo)
+- [ ] Headphones/earbuds for children (car ride entertainment, tablet/audio use)
+- [ ] Tablet or portable device pre-loaded with offline shows/games for the 2 children (long car legs)
 
 ## Travel Documents
 
-- [ ] Government-issued photo ID for each adult (domestic Poland trip — Warsaw to Kraków — no passport/visa required as this is travel within Poland)
-- [ ] Children's ID or birth certificates (recommended for domestic family travel, though not legally mandated within Poland)
-- [ ] Driver's license and vehicle registration/insurance documents for the car
-- [ ] Hotel booking confirmation (Mercure Kraków Stare Miasto, 2026-07-12 check-in)
-- [ ] Pre-purchased/printed tickets or booking confirmations for Wawel State Rooms, Rynek Underground Museum, St. Mary's Basilica, and Dragon's Den (all timed-entry attractions per `activities.md`)
-- [ ] Payment cards / some cash in PLN (Polish złoty) for parking, tolls, and small purchases
-- [ ] Car toll payment method (A4 motorway toll plazas near Kraków — cash or card accepted)
+- [ ] Valid national ID card or passport for each adult (domestic Poland trip — Łódź to Kraków — no border crossing, so only standard Polish ID is required; no visa/entry document search was needed for this leg)
+- [ ] Children's ID cards or birth certificates (recommended for a Polish domestic trip in case of ID checks, even though not legally mandated for travel within Poland)
+- [ ] Driver's license for the designated driver(s)
+- [ ] Rental car agreement/confirmation (pickup and return in Łódź, per `transport.md`)
+- [ ] Hotel booking confirmation for Hotel Wielopole (1 night, 17–18 July)
+- [ ] Printed/digital tickets or confirmations for the Rynek Underground Museum family ticket and Kraków Zoo family ticket (pre-booking recommended to skip queues, per `activities.md`)
+- [ ] Proof of car insurance/rental insurance documents (kept in the vehicle)
+- [ ] Copy of the day's route/parking confirmation (Straszewski Old Town car park, per `transport.md`)
 
 ## Medicines & Health
 
-- [ ] Any personal prescription medications for each family member (none flagged as required per `requirements.md` — no dietary or accessibility needs stated)
-- [ ] Basic first-aid kit (band-aids, antiseptic wipes, blister plasters — useful given a full day of walking on wet cobblestones)
-- [ ] Children's pain/fever reliever (age-appropriate, e.g., paracetamol) in case of travel fatigue
-- [ ] Travel sickness tablets for the children if prone to car sickness (2 x ~3.5-hr drives)
-- [ ] Hand sanitizer / wet wipes
-- [ ] Tissues (useful both for weather and general family travel)
+- [ ] Sunscreen (family/kids' formula, SPF 30+) — explicitly recommended in `weather.md` for both days
+- [ ] After-sun/soothing gel or aloe vera in case of mild sunburn
+- [ ] Insect repellent (suitable for children) — useful for the Vistula Boulevards riverside walk and Zoo
+- [ ] Basic first-aid kit: plasters/band-aids, antiseptic wipes, blister plasters (lots of walking on cobblestones and Zoo trails)
+- [ ] Children's pain/fever reliever (e.g., paracetamol/ibuprofen syrup, age-appropriate dosing) — no health restrictions noted in `requirements.md`, but standard for family travel with young children
+- [ ] Any personal/prescription medication for either adult, in original packaging
+- [ ] Rehydration sachets or extra water bottles — important given the 19–31°C peak on Saturday
+- [ ] Motion-sickness remedy for children if prone to car sickness (≈3h10m each-way drive)
+- [ ] Hand sanitizer and travel-size tissues/wet wipes
 
 ## Destination-Specific
 
-- [ ] Reusable water bottles for each family member (refillable, useful for the riverside walk and museum visits)
-- [ ] Small day backpack to carry rain gear, snacks, and water while sightseeing on foot
-- [ ] Snacks for the children for both the drive and between-attraction stretches on Day 1
-- [ ] Car essentials: sunshades/window shades for children in the back seat, a small trash bag, and entertainment/travel games for the ~3.5-hr drives each way
-- [ ] Grippy, non-slip footwear specifically for Dragon's Den's 135 spiral stone steps (steep, one-way, narrow — not stroller/wheelchair accessible per `activities.md`)
-- [ ] Small flashlight/phone flashlight as backup for the partially-underground Dragon's Den cave
-- [ ] Zip-lock/waterproof bag or pouch to protect phones/cameras during Day 1's rain
-- [ ] Coins/small change for any pay-and-display street parking near the hotel (Old Town paid parking Mon–Sat 10:00–20:00 per `transport.md`)
+- [ ] Reusable water bottles for all 4 travelers (refill during Old Town walk, Wawel grounds, Zoo)
+- [ ] Small daypack/backpack for carrying water, snacks, sunscreen, and layers during the walking day
+- [ ] Snacks for the children for both the car ride and between-activity gaps (economical, "no-frills" trip per `requirements.md` — packing snacks saves on casual dining costs)
+- [ ] Small amount of PLN cash for parking (Straszewski Old Town car park, per `transport.md`) and any incidental purchases (Cloth Hall souvenirs, Zoo snacks)
+- [ ] Portable phone/car charger cable already listed under Electronics — double-check car adapter is packed before departure
+- [ ] Comfortable child carrier or foldable stroller if the 5-year-old tires on longer stretches (Old Town is flat/stroller-friendly per `activities.md`; Wawel and Zoo paths are also flat/paved)
+- [ ] A card game, coloring book, or small quiet toy for St. Mary's Basilica (quiet-inside expectations) and any car-ride downtime
+- [ ] Foldable shopping bag or spare tote for any souvenirs from the Cloth Hall
+- [ ] Travel-size laundry is not needed — single 1-night stay, no self-catering/laundry noted at Hotel Wielopole
 
 ## Sources
 
-- [Open-Meteo forecast data, per `weather.md`](https://open-meteo.com/) — short-range forecast method for Kraków, July 12–13, 2026 (temperature, precipitation, WMO codes)
-- Weather implications, activity mix (indoor Day 1 / outdoor-interactive Day 2), and Dragon's Den's 135-step spiral staircase detail — carried forward from `weather.md` and `activities.md` (internal trip artifacts, not external links)
-- Domestic travel within Poland (Warsaw–Kraków) requires no passport/visa; only standard photo ID — no separate entry-requirement citation needed as this is not international travel
+- Weather data: Open-Meteo weather forecast, as recorded and cited in `trips/krakow-2026-07/weather.md` (method: forecast, dates within the standard 14-day range).
+- Domestic Poland travel (Łódź → Kraków) does not cross an international border, so no visa/entry-document research was performed; only standard Polish ID/travel documents are listed above, consistent with `requirements.md`'s confirmed origin (Lodz, Poland) and destination (Krakow, Poland).

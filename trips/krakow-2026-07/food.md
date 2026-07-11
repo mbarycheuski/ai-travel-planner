@@ -2,43 +2,46 @@
 
 ## Restaurants by Stop
 
-| Stop                                                               | Restaurant | Cuisine | Price Range | Dietary Fit | Link |
-| ------------------------------------------------------------------ | ---------- | ------- | ----------- | ----------- | ---- |
-| Kraków — Day 1 lunch/dinner (Old Town, near Main Market Square) | Hard Rock Café – Kraków | American / international (burgers, ribs, salads) | $$$ — mains ~35–65 PLN (~$9–17); family of 4 ~200–280 PLN (~$53–74) | No dietary restrictions to accommodate; kids' menu available, dedicated kids' corner so children can play while parents eat | [Hard Rock Cafe Krakow — official page](https://cafe.hardrock.com/krakow/) |
-| Kraków — Day 1 or Day 2 dinner (Old Town, ul. Grodzka, ~5 min walk from Main Square/Wawel route) | Pod Aniołami | Traditional Polish (Old Polish/Galician cuisine — pierogi, roast pork knuckle, soups) | $$ — mains ~40–75 PLN (~$11–20); family of 4 ~250–350 PLN (~$66–93) | No dietary restrictions to accommodate; hearty family-style Polish sit-down dinner with historic cellar/courtyard seating, good for introducing children to local cuisine | [Pod Aniołami — menu (RestaurantGuru)](https://restaurantguru.com/Pod-Aniolami-Krakow/menu) |
-| Kraków — Day 2 breakfast/lunch (Old Town, ul. Św. Tomasza, ~5 min walk from Main Square) | Milkbar Tomasza | Traditional Polish "milk bar" (cafeteria-style; pierogi, soups, cutlets, daily specials) | $ — most dishes 6–25 PLN (~$1.50–6.50); family of 4 ~80–130 PLN (~$21–34) — very budget-friendly | No dietary restrictions to accommodate; fast, casual, kid-tolerant self-service format good for a quick family lunch between sightseeing | [Milkbar Tomasza review — The Travel Mentor](https://www.thetravelmentor.com/milkbar-tomasza-modern-polish-milk-bar-in-krakow-poland/) |
+| Stop   | Restaurant                          | Cuisine                          | Price Range           | Dietary Fit                                  | Link |
+| ------ | ------------------------------------ | --------------------------------- | ---------------------- | --------------------------------------------- | ---- |
+| Krakow | Milkbar Tomasza (ul. Św. Tomasza 24) | Polish comfort food / milk bar    | 6–30 PLN per dish; daily set ≈30 PLN | No dietary constraints stated; casual, kid-friendly portions, quick service | [In Your Pocket — Milkbar Tomasza](https://www.inyourpocket.com/krakow/milkbar-tomasza_95031v) |
+| Krakow | Pod Wawelem Kompania Kuflowa (ul. Św. Gertrudy 26-29) | Traditional Polish / beer-hall    | ≈25–45 PLN mains       | No dietary constraints stated; explicitly family-friendly with a dedicated kids' play/"rumpus" area | [In Your Pocket — Pod Wawelem](https://www.inyourpocket.com/krakow/pod-wawelem_33621v) |
+| Krakow | Mini-Bar Endzior (Pl. Nowy 4B, Kazimierz) | Zapiekanka (Polish street food)  | ≈15–25 PLN per zapiekanka | No dietary constraints stated; cheap, fast, easy-to-share option for kids | [In Your Pocket — Mini-Bar Endzior](https://www.inyourpocket.com/krakow/Mini-Bar-Endzior_19875v) |
 
 ## Local Food to Try
 
-| Specialty | Where | Notes | Link |
-| --------- | ----- | ----- | ---- |
-| Pierogi (Polish dumplings — ruskie, meat, sweet fillings) | Milkbar Tomasza or Pod Aniołami (both listed above) | Kraków's signature comfort food; milk bars serve them cheaply (a few zł each), sit-down restaurants offer more elaborate fillings (duck, truffle, seasonal). Good for kids — mild flavors, familiar dumpling shape. | [Milkbar Tomasza — The Travel Mentor](https://www.thetravelmentor.com/milkbar-tomasza-modern-polish-milk-bar-in-krakow-poland/) |
-| Zapiekanka (open-face toasted baguette with mushrooms, cheese, toppings) | Okrąglak stalls, Plac Nowy, Kazimierz district (~15–20 min walk from Old Town — optional side trip, not required for the core itinerary) | Iconic Kraków street food, sold from ~7–12 PLN (~$2–3); large portion easily shared/split for kids; open late. | [Zapiekanki at Plac Nowy — Cityglide](https://escooters.krakow.pl/en/attractions-2/zapiekanki-at-plac-nowy-a-cult-street-food-in-the-heart-of-kazimierz/) |
-| Obwarzanek krakowski (ring-shaped bread, similar to a bagel) | Street vendor carts throughout the Old Town and around Main Market Square | Cheap grab-and-go snack (2–5 PLN, ~$0.50–1.30), sold plain or topped with sesame/poppy seed/cheese salt — an easy, kid-friendly morning snack while walking to sights. | [Foodie Flashpacker — Krakow Old Town food guide](https://www.foodieflashpacker.com/krakow-old-town-restaurants/) |
-| Good Lood artisan ice cream | Good Lood shops around Kraków (nearest locations around Kazimierz/Old Town fringe, e.g. ul. Grodzka) | Popular modern Polish ice-cream chain, sold by weight; a natural end-of-day treat for the children after a day of sightseeing. | [Good Lood — official site](https://www.goodlood.com/en) |
+| Specialty            | Where                                              | Notes                                                                                                   | Link |
+| --------------------- | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ---- |
+| Pierogi (ruskie, and sweet varieties) | Milkbar Tomasza, ul. Św. Tomasza 24            | Classic boiled dumplings; milk-bar pricing keeps a family plate well under 30 PLN each — good for kids' palates. | [In Your Pocket — Milkbar Tomasza](https://www.inyourpocket.com/krakow/milkbar-tomasza_95031v) |
+| Zapiekanka (open-faced baguette with cheese/mushroom toppings) | Mini-Bar Endzior, Pl. Nowy 4B, Kazimierz | Iconic Krakow street food from the round "Okrąglak" building; a shareable, budget snack around 15–25 PLN.  | [Like A Local Guide — Zapiekanki](https://www.likealocalguide.com/listing/zapiekanki/) |
+| Pork knuckle / potato pancakes / goulash | Pod Wawelem, ul. Św. Gertrudy 26-29        | Hearty Polish beer-hall classics, generous sharable portions; garden with Wawel Castle view.               | [In Your Pocket — Pod Wawelem](https://www.inyourpocket.com/krakow/pod-wawelem_33621v) |
+| Artisan ice cream (lody)   | Good Lood, multiple loodspots incl. Kazimierz (Plac Wolnica) and near Wawel (ul. Grodzka 60) | Natural, locally made ice cream with rotating flavours; a well-loved treat stop for kids after sightseeing. | [Good Lood — official site](https://www.goodlood.com/en) |
 
 ## Estimated Food Cost
 
-Assume 3 main meals for the family of 4 across the 2-day/1-night trip (Day 1 lunch + Day 1 dinner + Day 2 breakfast/lunch before the drive home), plus small snacks, per the restaurants above:
+Assumptions: 2 adults + 2 children (ages 5 and 8), 2 days / 1 night (17–18 July 2026), budget-conscious/casual dining style per requirements. Children's portions/shared plates assumed to reduce cost versus full adult meals.
 
-- Day 1 lunch/dinner — Hard Rock Café: ~$65 (mid-point of $53–74 range)
-- Day 1 or Day 2 dinner — Pod Aniołami: ~$80 (mid-point of $66–93 range)
-- Day 2 breakfast/lunch — Milkbar Tomasza: ~$27 (mid-point of $21–34 range)
-- Snacks/treats (obwarzanki, zapiekanka, ice cream — assume 2 rounds for the family across the trip): ~$20
+**Day 1 (Friday, arrival afternoon/evening — 2 meals: lunch + dinner)**
+- Lunch (Milkbar Tomasza, quick casual): 2 adults × 25 PLN + 2 children × 15 PLN (smaller portions/shared) = 50 + 30 = **80 PLN**
+- Dinner (Pod Wawelem, family sit-down): 2 adults × 40 PLN mains + 2 children × 20 PLN (kids share/smaller portion) = 80 + 40 = **120 PLN**
+- Ice cream treat (Good Lood, 4 portions × ~10 PLN) = **40 PLN**
+- Day 1 subtotal: 80 + 120 + 40 = **240 PLN**
 
-**Per-day estimate:** ~$96/day for food for the family of 4 (total ÷ 2 days).
+**Day 2 (Saturday, morning departure — breakfast + light lunch before driving home)**
+- Breakfast: assumed included with accommodation or a light bakery/café stop, budgeted at 4 × 12 PLN = **48 PLN**
+- Lunch/street food before driving back (Endzior zapiekanka): 4 × 20 PLN = **80 PLN**
+- Day 2 subtotal: 48 + 80 = **128 PLN**
 
-**Total food estimate:** $65 + $80 + $27 + $20 = **~$192** for the whole 2-day/1-night trip for the family of 4.
+**Trip total food estimate: 240 + 128 = 368 PLN**
 
-This is a moderate, sit-down-plus-street-food mix rather than the cheapest possible (milk-bar-only) option, and comfortably fits as roughly 13–19% of the traveler's stated $1,000–1,500 total trip budget, leaving the remainder for accommodation, activities, and the already-estimated ~$104 transport cost.
+This leaves roughly 1,988 PLN (remaining after transport) − 368 PLN (food) = **≈1,620 PLN** available for accommodation, comfortably within the party's 2,500 PLN all-inclusive budget.
 
 ## Rationale & Assumptions
 
-- **Stop coverage:** The confirmed `transport.md` "Stops & Nights" table lists a single stop — Kraków (1 night) — so all recommendations are for that one stop, organized by meal/day rather than by multiple geographic stops.
-- **No dietary constraints to accommodate:** `requirements.md` explicitly states "Dietary constraints: none," so the "Dietary Fit" column simply confirms each pick has no conflict and (where relevant) notes kid-friendliness, since the party includes two children aged 7–12.
-- **Walkability assumption:** Per the traveler's stated preference for minimal driving after arrival (and `transport.md`'s assumption that all in-Kraków movement is on foot), all three main-meal picks are within a 5-minute walk of the Main Market Square/Old Town core. The Kazimierz zapiekanka stop is flagged as an optional ~15–20 minute walk side trip, not a required stop, since it is slightly outside the core walkable zone the family is expected to use.
-- **Meal count assumption:** Assumed the hotel (per the 4-star accommodation requirement) includes breakfast on Day 2, or that the family has a light/free breakfast there; the Milkbar Tomasza row is positioned as a flexible breakfast-or-lunch option rather than a mandatory 4th paid meal, to keep the food budget realistic for a 2-day/1-night trip. Only 3 main paid meals are costed, consistent with arriving mid-day on Day 1 and departing after breakfast/an early lunch on Day 2.
-- **Price conversion:** PLN-to-USD figures use approximately PLN 3.77 = $1, consistent with the exchange rate implied in `transport.md`'s fuel-cost sourcing, applied to menu price ranges found via WebSearch/WebFetch.
-- **Zapiecek excluded:** An initial candidate, the well-known pierogi chain "Zapiecek" (ul. Sławkowska 32), was dropped after verification showed multiple sources (Yelp, RestaurantGuru) flagging it as "may be permanently closed" — Milkbar Tomasza is used instead as the budget pierogi/Polish-cafeteria pick, since it was independently confirmed open and operating.
-- **Restaurant selection philosophy:** One international/family-entertainment option (Hard Rock Café, for a lower-risk meal with guaranteed kids' menu and play element), one traditional sit-down Polish restaurant (Pod Aniołami, for cultural food experience), and one budget cafeteria-style option (Milkbar Tomasza, for cost control and speed) were chosen to balance the family's cultural-immersion goal against a tight overall trip budget and two young children's tolerance for long, formal meals.
-- **Cost estimate is a planning midpoint,** not a fixed quote; actual spend will vary with menu choices, drinks, and whether the family orders full portions for both children or shares/splits some dishes (common for the 7–12 age range, which would reduce the estimate further).
+- All prices are quoted directly in PLN, the trip currency confirmed in `requirements-v2.md`; no currency conversion was required since all sourced prices were already in PLN.
+- Restaurant and price data were gathered via `WebSearch` and cross-checked by `WebFetch`-ing the cited In Your Pocket, Good Lood, and Like A Local Guide pages directly; TripAdvisor and Yelp pages returned HTTP 403 (blocked) when fetched directly, so they were not cited — only pages that successfully loaded and supported the row were used as links, per QG-CITE.
+- No dietary constraints were confirmed for this trip (`requirements-v2.md` §11: "none"), so the "Dietary Fit" column notes general child-friendliness/casual suitability rather than allergen or vegetarian/vegan flags. All three picks are casual/inexpensive Polish fare consistent with the "budget-conscious, casual dining style" preference.
+- Portion/price splits for children (assuming smaller portions or shared adult plates) are an explicit assumption to keep the estimate realistic for a 5- and 8-year-old, since none of the sourced menus published a distinct "kids' menu" price.
+- Breakfast on Day 2 is assumed to be either included with the (separately planned) accommodation or a low-cost bakery/coffee stop; no specific bakery was sourced since this is a minor, flexible cost — if accommodation includes breakfast, the ≈48 PLN can be considered a buffer/removed.
+- Single stop (Krakow) per `transport.md`'s `## Stops & Nights`; no other stops require food coverage.
+- The 368 PLN food estimate is a conservative (upper-bound-leaning) figure; actual milk-bar and street-food pricing sourced during research were often lower (e.g., pierogi plates from ~15 PLN, zapiekanka from ~15 PLN), so real spend is likely to come in under this estimate, preserving budget headroom for accommodation.

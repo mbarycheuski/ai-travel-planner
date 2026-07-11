@@ -2,48 +2,50 @@
 
 ## Agents Required
 
-- `car-planner` — confirmed transport mode is CAR (Warsaw → Kraków, single direct leg)
-- `weather` — Destination Status is confirmed (Kraków, Poland), so weather runs immediately
-- `accommodation-planner` — 4-star+ hotel required
-- `activities-planner` — history/culture/interactive-outdoor mix for school-age kids
-- `food-planner` — restaurants for the family, no dietary constraints
-- `packing-planner` — deferred to Group 3 (needs weather.md, activities.md, accommodation.md, transport.md)
-- `budget-aggregator` — hard cap $1,000-1,500 total
-- `validator` — always runs
-- `daily-plan-builder` — always runs
-- `html-builder` — always runs (after approval)
+- `car-planner` — confirmed transport mode is car. Produces `transport.md`.
+- `weather` — destination status is confirmed (Krakow, Poland). Produces `weather.md`.
+- `accommodation-planner` — economical hotel needed near Krakow. Produces `accommodation.md`.
+- `activities-planner` — family-friendly itinerary for ages 5 and 8. Produces `activities.md`.
+- `food-planner` — casual, budget-conscious dining, no dietary restrictions. Produces `food.md`.
+- `packing-planner` — destination confirmed, so scheduled (not deferred). Produces `packing.md`.
+- `budget-aggregator` — aggregates all cost-bearing artifacts against the 2500 PLN all-inclusive cap. Produces `budget.md`.
+- `validator` — always runs. Produces `validation.md`.
+- `daily-plan-builder` — always runs. Produces `daily-plan.md`.
+- `html-builder` — always runs, after approval. Produces `travel-guide.html`.
 
 ## Execution Groups
 
-- **Group 1** (parallel): `car-planner`, `weather` — both need only `requirements.md`.
-- **Group 2** (parallel): `accommodation-planner`, `activities-planner`, `food-planner` — each needs `transport.md`'s `## Stops & Nights` (Kraków, 1 night) from Group 1.
-- **Group 3** (parallel): `packing-planner`, `budget-aggregator` — mutually independent.
-  - `packing-planner` needs `weather.md`, `activities.md`, `accommodation.md`, and `transport.md` (car trip).
-  - `budget-aggregator` needs `transport.md`, `accommodation.md`, `activities.md`, `food.md` (all cost-bearing artifacts).
-- **Group 4**: `validator` — needs the full latest artifact set from Groups 1-3 plus `requirements.md` and `execution-plan.md`.
-- **Group 5**: `daily-plan-builder` — needs the full validated (PASS) artifact set including `weather.md`.
-- **Group 6**: `html-builder` — needs the latest `daily-plan(-vN).md` with `documentStatus: approved`.
+1. **Group 1** (depends only on `requirements-v2.md`):
+   - `car-planner` → `transport.md`
+   - `weather` → `weather.md`
+2. **Group 2** (depends on `transport.md`'s `## Stops & Nights`):
+   - `accommodation-planner` → `accommodation.md`
+   - `activities-planner` → `activities.md`
+   - `food-planner` → `food.md`
+3. **Group 3** (depends on Group 2 outputs; `packing-planner` and `budget-aggregator` are mutually independent):
+   - `packing-planner` — needs `weather.md`, `activities.md`, `accommodation.md`, and `transport.md` (car trip) → `packing.md`
+   - `budget-aggregator` — needs `transport.md`, `accommodation.md`, `activities.md`, `food.md` → `budget.md`
 
 ## Quality Gates
 
-- **QG1 — Budget cap**: `budget.md` total (with contingency) ≤ $1,500.
-- **QG2 — Daily travel time**: driving legs match the "single direct leg, no intermediate stops" constraint; no unplanned multi-stop routing on the Warsaw-Kraków leg.
-- **QG3 — No duplicate attractions**: no attraction/activity listed more than once across `activities.md` (and not duplicated into `food.md`).
-- **QG4 — Transport mode match**: `transport.md` is authored by `car-planner` and describes car travel only (no flights/trains).
-- **QG-CITE**: every recommendation row in every content artifact (`accommodation.md`, `activities.md`, `food.md`, `transport.md`) carries a real `http(s)://` source link; `budget.md` cites source artifacts; `packing.md` cites in `## Sources`; `weather.md` cites the Open-Meteo method used.
-- **QG5 — Hotel standard**: every accommodation option in `accommodation.md` is rated 4-star or higher.
-- **QG6 — Family/accessibility suitability**: activities in `activities.md` are suitable for school-age children (7-12); no accessibility constraints to violate (none required).
-- **QG7 — Dietary**: no dietary constraints to accommodate (trivially satisfied — no exclusions needed in `food.md`).
+- **QG1** — Budget total (from `budget.md`) ≤ 2500 PLN, all-inclusive (fuel/tolls/car + hotel + food).
+- **QG2** — All costs across all artifacts are denominated in PLN.
+- **QG3** — Daily driving time ≤ 4 hours one-way for any single leg (per `transport.md`).
+- **QG4** — No duplicate attractions/activities across days in `activities.md`.
+- **QG5** — Transport mode matches confirmed mode: car (per `transport.md`, using `car-planner`).
+- **QG6 (QG-CITE)** — Every recommendation row in `transport.md`, `accommodation.md`, `activities.md`, `food.md` carries a real `http(s)://` source link.
+- **QG7** — Activities and accommodation are suitable for children ages 5 and 8 (no age-inappropriate or excessively physically demanding items without a noted alternative).
+- **QG8** — Accommodation includes parking or clear guidance on parking near the property (car trip).
 
 ## Iteration Strategy
 
-- QG1 fails → rerun `budget-aggregator` after checking whether `accommodation-planner`, `activities-planner`, or `food-planner` need cost-reducing reruns; rerun the highest-cost offending agent(s) first, then `budget-aggregator`.
-- QG2 fails → rerun `car-planner` only.
-- QG3 fails → rerun `activities-planner` (and `food-planner` only if the duplicate crosses into food listings).
-- QG4 fails → rerun `car-planner` (should not occur; mode is fixed).
-- QG-CITE fails → rerun only the specific agent(s) whose artifact has missing/broken citations.
-- QG5 fails → rerun `accommodation-planner` only.
-- QG6 fails → rerun `activities-planner` only.
-- QG7 fails → rerun `food-planner` only (not expected to trigger).
-- Any rerun that changes a cost-bearing artifact requires a `budget-aggregator` rerun downstream, and any rerun that changes `weather.md`/`activities.md`/`accommodation.md`/`transport.md` requires a `packing-planner` rerun downstream.
-- Max iterations: 3.
+- **QG1 fail (budget over cap)** → rerun `budget-aggregator` after adjusting whichever cost-bearing artifact(s) drove the overage (cheapest fix first: `accommodation-planner`, `food-planner`, or `activities-planner`); re-run `budget-aggregator` after.
+- **QG2 fail (currency mismatch)** → rerun only the offending artifact's agent.
+- **QG3 fail (travel time over cap)** → rerun `car-planner`; if stops change, rerun downstream Group 2 agents referencing `## Stops & Nights`.
+- **QG4 fail (duplicate activities)** → rerun `activities-planner`; rerun `daily-plan-builder` afterward.
+- **QG5 fail (transport mode mismatch)** → rerun `car-planner`.
+- **QG6 fail (missing citations)** → rerun only the specific agent(s) whose artifact is missing links.
+- **QG7 fail (age-inappropriate content)** → rerun `activities-planner` and/or `accommodation-planner` as applicable.
+- **QG8 fail (no parking info)** → rerun `accommodation-planner`.
+
+Max iterations: 3 (tracked via `iteration_count` in `workflow-state.json`).

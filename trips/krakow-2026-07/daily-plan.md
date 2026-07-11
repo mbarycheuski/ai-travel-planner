@@ -2,103 +2,160 @@
 documentStatus: approved
 ---
 
-# Kraków Family Weekend — Warsaw to Kraków Road Trip
+# Krakow Family Weekend Getaway
 
 ## Trip Summary
 
-A 2-day / 1-night family road trip from Warsaw to Kraków, Poland (2026-07-12 to 2026-07-13) for 2 adults + 2 children (ages 7–12), traveling by car. One overnight stay in central Kraków, with a rain-driven indoor day 1 and a milder, more outdoor day 2. Estimated total cost is **$635** (including 10% contingency), comfortably **under** the traveler's $1,000–1,500 budget. Relaxed pacing, all sightseeing done on foot from a single parked location.
+- **Destination:** Krakow, Poland (single-destination trip)
+- **Dates / Duration:** Friday 17.07.2026 – Saturday 18.07.2026 (2 days / 1 night)
+- **Party:** 2 adults + 2 children (ages 5 and 8)
+- **Transport mode:** Self-drive (rental car), round trip from Łódź
+- **Total estimated cost:** 1,562 PLN vs. a 2,500 PLN all-inclusive limit — **938 PLN under budget**
+- **Trip shape:** A relaxed weekend base in Krakow — an afternoon arrival, one full sightseeing day, and a Saturday-evening drive home. Old Town on foot, one family-friendly outdoor/nature stop (the Zoo), and casual/budget dining throughout.
 
 ## Day-by-Day Itinerary
 
-### Day 1 — 2026-07-12 — Warsaw → Kraków (arrival & main visiting day)
+### Day 1 — Friday, 17.07.2026 — Łódź → Krakow
 
-**Transport leg:** Own car, direct via the A4/S7 motorway, ~295 km, single non-stop leg (~3.5 hrs) — [TyreMap Warsaw–Kraków route guide](https://tyremap.com/routes/warsaw-to-krakow/)
+**Transport:** Rental car pickup in Łódź, then drive Łódź → Kraków via A1 → S1 → A4 (≈260 km, **≈3h 10m**, within the 4-hour cap) — [route via conadrogach.pl](https://conadrogach.pl/wyznaczanie-trasy/krakow-lodz/), tolls per the [Stalexport A4 toll price list](https://www.autostrada-a4.com.pl/pl/oplaty/cennik).
 
-**Weather:** Cool and wet — 15.4–17.6°C (60–64°F), 93% chance of moderate rain. Itinerary is built entirely around indoor/covered attractions.
-
-**Activities:**
-- Wawel Castle — State Rooms (interior), ~1.5 hrs, fully indoor, royal apartments/tapestries with audio guide — [Wawel Royal Castle — State Rooms (official)](https://wawel.krakow.pl/en/exhibition-constant/state-rooms)
-- Rynek Underground Museum, ~1.5 hrs, indoor, interactive touchscreens/holograms, strong fit for children on a rainy day — [Rynek Underground — Museum of Kraków (official)](https://muzeumkrakowa.pl/en/branches/rynek-underground)
-- Cloth Hall (Sukiennice) — covered market hall browse, ~45 min, free ground-floor browsing, weather-proof stop for souvenirs — [Cloth Hall — Kraków official tourism portal](https://krakow.travel/en/54-krakow-sukiennice)
-- St. Mary's Basilica — interior visit, ~30–45 min, quiet, indoor visit to see the Veit Stoss altarpiece — [St. Mary's Basilica — official visitor info](https://mariacki.com/en/tourists/)
+**Activities (afternoon, Old Town — all within walking distance):**
+- [Main Market Square (Rynek Główny)](https://krakow.travel/en/55-krakow-main-market-square) — free walk past the Cloth Hall, Adam Mickiewicz monument, pigeons and horse-drawn cabs (~1 h)
+- [Cloth Hall (Sukiennice)](https://krakow.travel/en/55-krakow-main-market-square) — browse the historic indoor market stalls (~30–45 min)
+- [St. Mary's Basilica (Kościół Mariacki)](https://mariacki.com/en/tourists/) — Gothic interior and Veit Stoss altarpiece (~30–45 min)
+- [Rynek Underground Museum](https://muzeumkrakowa.pl/en/branches/rynek-underground) — interactive archaeological/multimedia exhibition beneath the Main Square, family ticket (~1.5–2 h)
 
 **Dining:**
-- Lunch/dinner: Hard Rock Café Kraków — American/international, kids' menu and kids' corner, Old Town near Main Market Square — [Hard Rock Cafe Krakow — official page](https://cafe.hardrock.com/krakow/)
-- Alternative dinner option (Day 1 or Day 2): Pod Aniołami — traditional Polish (pierogi, roast pork knuckle), historic cellar/courtyard seating — [Pod Aniołami — menu (RestaurantGuru)](https://restaurantguru.com/Pod-Aniolami-Krakow/menu)
+- Lunch: [Milkbar Tomasza](https://www.inyourpocket.com/krakow/milkbar-tomasza_95031v) — Polish comfort food / milk bar, try the pierogi
+- Dinner: [Pod Wawelem Kompania Kuflowa](https://www.inyourpocket.com/krakow/pod-wawelem_33621v) — traditional Polish beer-hall fare with a kids' play area
+- Treat: [Good Lood](https://www.goodlood.com/en) artisan ice cream
 
-**Overnight stay:** Mercure Kraków Stare Miasto (4★) — Superior Room (double + sofa bed, sleeps 4), ~0.4 mi / ~10-min walk to Main Market Square, on-site underground guarded parking — [ALL Accor — Mercure Kraków Stare Miasto (official hotel page)](https://all.accor.com/hotel/9627/index.en.shtml)
+**Overnight:** [Hotel Wielopole](https://www.wielopole.pl/en/) — 3★ family room, 5–7 min walk from the Main Square
 
-### Day 2 — 2026-07-13 — Kraków → Warsaw (departure day)
+### Day 2 — Saturday, 18.07.2026 — Krakow → Łódź
 
-**Weather:** Milder and mostly dry — 15.9–22.5°C (61–73°F), only 25% chance of light drizzle. Good conditions for outdoor sightseeing before the drive home.
-
-**Activities:**
-- Wawel Dragon's Den (Smocza Jama) + fire-breathing dragon statue, ~30–45 min, partially open-air limestone cave with 135 spiral stairs to the riverbank (not stroller/wheelchair accessible) — [Wawel Royal Castle — Dragon's Den (official)](https://wawel.krakow.pl/en/exhibition-constant/dragon-s-den)
-- Vistula Boulevards (Bulwary Wiślane) riverside walk, ~45–60 min, flat, paved, stroller-friendly promenade with playgrounds and views of Wawel Hill — [Vistula Boulevards — VisitMałopolska (official regional tourism board)](https://visitmalopolska.pl/en/obiekt/-/poi/bulwary-wislane-krakow)
+**Activities (moderate-paced, outdoor-favoring day):**
+- [Wawel Royal Castle Hill grounds & Arcaded Courtyard](https://wawel.krakow.pl/en/what-to-see) — free outdoor walk with hilltop viewpoints (~45–60 min)
+- [Dragon's Den (Smocza Jama)](https://krakow.travel/en/3-krakow-dragons-den) — legendary cave beneath Wawel Hill, exiting at the fire-breathing dragon statue (~30–40 min)
+- [Vistula Boulevards (Bulwary Wiślane)](https://visitmalopolska.pl/en/obiekt/-/poi/bulwary-wislane-krakow) — riverside promenade with playgrounds and open lawns (~45–60 min)
+- [Kraków Zoo](https://zoo-krakow.pl/informacja/cennik-regulaminy/) — family ticket, animal enclosures and playgrounds (~2–2.5 h)
 
 **Dining:**
-- Breakfast/lunch: Milkbar Tomasza — traditional Polish cafeteria-style "milk bar" (pierogi, soups, cutlets), fast and budget-friendly, ~5 min walk from Main Market Square — [Milkbar Tomasza review — The Travel Mentor](https://www.thetravelmentor.com/milkbar-tomasza-modern-polish-milk-bar-in-krakow-poland/)
+- Breakfast: light bakery/café stop (or hotel breakfast, if included)
+- Lunch: [Mini-Bar Endzior](https://www.inyourpocket.com/krakow/Mini-Bar-Endzior_19875v) (Pl. Nowy 4B, Kazimierz) — zapiekanka, quick and shareable before the drive home
 
-**Local food to try (either day):**
-- Pierogi at Milkbar Tomasza or Pod Aniołami — [Milkbar Tomasza — The Travel Mentor](https://www.thetravelmentor.com/milkbar-tomasza-modern-polish-milk-bar-in-krakow-poland/)
-- Zapiekanka (optional side trip to Kazimierz, ~15–20 min walk) — [Zapiekanki at Plac Nowy — Cityglide](https://escooters.krakow.pl/en/attractions-2/zapiekanki-at-plac-nowy-a-cult-street-food-in-the-heart-of-kazimierz/)
-- Obwarzanek krakowski from street vendor carts around the Main Market Square — [Foodie Flashpacker — Krakow Old Town food guide](https://www.foodieflashpacker.com/krakow-old-town-restaurants/)
-- Good Lood artisan ice cream — [Good Lood — official site](https://www.goodlood.com/en)
-
-**Transport leg:** Own car, return via the same A4/S7 motorway, ~295 km, single non-stop leg (~3.5 hrs) — [TyreMap Warsaw–Kraków route guide](https://tyremap.com/routes/warsaw-to-krakow/)
+**Transport:** Drive Krakow → Łódź via A4 → S1 → A1 (≈260 km, **≈3h 10m**, within the 4-hour cap), then rental car return in Łódź (evening) — [route via conadrogach.pl](https://conadrogach.pl/wyznaczanie-trasy/krakow-lodz/).
 
 ## Where You're Staying
 
-| Stop   | Property | Stars | Nights | Subtotal |
-| ------ | -------- | ----- | ------ | -------- |
-| Kraków | [Mercure Kraków Stare Miasto](https://all.accor.com/hotel/9627/index.en.shtml) | 4★ | 1 | $115 |
+| Stop | Property | Nights | Subtotal |
+| ---- | -------- | ------ | -------- |
+| Krakow | [Hotel Wielopole](https://www.wielopole.pl/en/) — 3★, family "Deluxe Double or Twin" room (max 4 persons, 20 m²), on ul. Wielopole, 5–7 min walk from the Old Town | 1 | 350 PLN |
 
-Superior Room (double bed + sofa bed, 21 m², sleeps up to 4) used as a single family room; on-site underground guarded parking; ~0.4 mi / ~10-min walk to Main Market Square/Old Town.
+**Accommodation total: 350 PLN**
+
+No dedicated hotel car park; nearby public parking (see Getting There & Around) is used instead and is already counted in the transport total below.
 
 ## Getting There & Around
 
-| Leg | Detail | Duration | Est. Cost | Link |
-| --- | ------ | -------- | --------- | ---- |
-| Warsaw → Kraków (Day 1) | Own car, A4/S7 motorway, ~295 km, single non-stop leg | ~3.5 hrs | ~$32 fuel + ~$9.5 toll (one-way) | [TyreMap Warsaw–Kraków route guide](https://tyremap.com/routes/warsaw-to-krakow/) |
-| Kraków → Warsaw (Day 2) | Own car, same A4/S7 motorway, ~295 km, single non-stop leg | ~3.5 hrs | ~$32 fuel + ~$9.5 toll (one-way) | [TyreMap Warsaw–Kraków route guide](https://tyremap.com/routes/warsaw-to-krakow/) |
+**Transport legs:**
 
-**Local transport in Kraków:** Overnight parking at the hotel's on-site underground garage (~$32/night confirmed rate — see Budget note below); all in-city movement thereafter is on foot within the walkable Old Town/Wawel core, matching the family's preference for minimal driving after arrival — [Krakow For You — parking info](https://krakowforyou.com/parking-info/), [KrakowTOP — parking in Krakow](https://krakowtop.org/parking-in-krakow/)
+| Leg | Detail | Duration | Est. Cost (PLN) | Link |
+| --- | ------ | -------- | ---------------- | ---- |
+| Rental pickup, Łódź (Fri morning) | Economy category rental car pickup | — | 90 PLN/day (day 1 of 2) | [rentcars.pl — Łódź car rental](https://rentcars.pl/en/car-rental/lodz.html) |
+| Łódź → Kraków (Fri) | A1 → S1 → A4 toll section; ≈260 km | ≈3h 10m | Fuel ≈117 PLN + Toll 36 PLN = 153 PLN | [conadrogach.pl](https://conadrogach.pl/wyznaczanie-trasy/krakow-lodz/); [Stalexport toll list](https://www.autostrada-a4.com.pl/pl/oplaty/cennik) |
+| Kraków → Łódź (Sat) | Same route reversed; ≈260 km | ≈3h 10m | Fuel ≈117 PLN + Toll 36 PLN = 153 PLN | [conadrogach.pl](https://conadrogach.pl/wyznaczanie-trasy/krakow-lodz/); [Stalexport toll list](https://www.autostrada-a4.com.pl/pl/oplaty/cennik) |
+| Rental return, Łódź (Sat evening) | Economy category rental car return (2-day hire total) | — | 90 PLN/day (day 2 of 2) | [rentcars.pl — Łódź car rental](https://rentcars.pl/en/car-rental/lodz.html) |
+
+Both driving legs (≈3h 10m each) are comfortably within the 4-hour one-way cap.
+
+**Local transport in Krakow:**
+
+| Option | Est. Cost (PLN) | Link |
+| ------ | ---------------- | ---- |
+| Dedicated Old Town car park (Straszewski, near Planty/Wawel) — day-rate parking for the rental car | 12 PLN (Fri) + 15 PLN (Sat) = 27 PLN | [Old Town Parking Cracow](https://krakowparking.pl/en/old-town-parking-cracow.html) |
+| Alternative: municipal paid zone, Subzone A (Mon–Sat 10:00–20:00 only) | 6 PLN/hour while active | [Kraków Travel — Parking](https://krakow.travel/en/artykul/139/parking) |
+| Old Town / Wawel / Main Square — all walkable once parked | 0 PLN | [Kraków Travel — Parking](https://krakow.travel/en/artykul/139/parking) |
+
+**Transport total: 180 (rental) + 233 (fuel) + 72 (tolls) + 27 (parking) = 512 PLN**
 
 ## Budget Summary
 
-| Category            | Cost     |
-| -------------------- | -------- |
-| Transport: Fuel       | $65      |
-| Transport: Tolls      | $19      |
-| Transport: Parking    | $32      |
-| Accommodation         | $115     |
-| Activities            | $154     |
-| Food                  | $192     |
-| **Subtotal**          | **$577** |
-| Contingency (10%)     | $58      |
-| **Estimated Total**   | **$635** |
+| Category | Cost |
+| -------- | ---- |
+| Transport | 512 PLN |
+| Accommodation | 350 PLN |
+| Activities | 332 PLN |
+| Food | 368 PLN |
+| **Estimated Total** | **1,562 PLN** |
 
-**Against limit:** Traveler's stated budget is $1,000–1,500 total. Estimated total of **$635** is well **under** budget, leaving $365–$865 of headroom.
+**Limit:** 2,500 PLN (all-inclusive) — **Status: UNDER by 938 PLN**
 
-**Note on a source discrepancy:** the hotel's confirmed on-site parking rate is ~$32/night; an earlier estimate used a placeholder of ~$20/night before the hotel was finalized. The $32 figure is the confirmed rate used in the total above.
+No contingency percentage is specified in the source figures; the total above is the direct sum of category subtotals.
+
+## Weather
+
+Both days are warm and dry with minimal rain risk — ideal for the planned outdoor family activities; no rain gear needed.
+
+| Day / Date | Conditions | High / Low | Precip. chance |
+| ---------- | ---------- | ---------- | --------------- |
+| Fri, 17.07.2026 | Clear sky | 27°C / 16°C | 0 mm, 25% chance |
+| Sat, 18.07.2026 | Overcast | 31°C / 19°C | 0 mm, 25% chance |
 
 ## Packing Checklist
 
-**Clothing:** Waterproof/rain jacket for each traveler (4x); compact travel umbrella; rain pants/overtrousers for children; waterproof closed-toe walking shoes (4 pairs, needed for both wet cobblestones Day 1 and the Dragon's Den's 135 spiral stone steps Day 2); 1 extra pair of shoes/socks per person; quick-dry long-sleeve layers (2 per person); light layer for Day 2's milder weather; light jacket/fleece for morning/evening chill; extra warm socks; sleepwear for the 1 overnight; underwear (2 sets/person); comfortable trousers/jeans; sun hat/cap and sunglasses as a light backup.
+**Clothing**
+- [ ] 2 sets of lightweight, breathable outfits per person, per day
+- [ ] 1 light jacket/long-sleeve layer per person (cool morning departure & evening drive)
+- [ ] Comfortable closed-toe walking shoes for everyone
+- [ ] Wide-brimmed sun hats/caps and sunglasses for all 4 travelers
+- [ ] Extra change of clothes per child
+- [ ] Pajamas/sleepwear for the 1 night at the hotel
+- [ ] Underwear and socks for 2 days + 1 spare set per child
+- [ ] No rain layer needed — 0 mm precipitation forecast both days
 
-**Electronics:** Phone chargers (Type C/E sockets, no adapter needed within the EU); portable power bank; optional camera; car phone mount/charger; headphones/tablet with downloaded content for the children during the ~3.5-hr drives.
+**Electronics**
+- [ ] Phone chargers/cables for both adults
+- [ ] Car phone mount and 12V car charger/adapter
+- [ ] Portable power bank
+- [ ] Camera or spare phone storage for photos
+- [ ] Headphones/earbuds and a tablet pre-loaded with offline shows/games for the children
 
-**Travel Documents:** Government-issued photo ID for each adult (no passport/visa needed — domestic Poland travel); children's ID or birth certificates (recommended, not mandated); driver's license and vehicle registration/insurance; hotel booking confirmation; pre-purchased/printed tickets for the timed-entry attractions; payment cards and some PLN cash for parking/tolls/small purchases; toll payment method for the A4 plazas.
+**Travel Documents**
+- [ ] Valid national ID card for each adult (domestic trip, no border crossing)
+- [ ] Children's ID cards or birth certificates (recommended)
+- [ ] Driver's license for the designated driver(s)
+- [ ] Rental car agreement/confirmation
+- [ ] Hotel booking confirmation
+- [ ] Tickets/confirmations for the Rynek Underground Museum and Kraków Zoo family tickets (pre-booking recommended)
+- [ ] Car insurance/rental insurance documents
+- [ ] Parking confirmation for the Old Town car park
 
-**Medicines & Health:** Personal prescription medications as needed (none flagged as required); basic first-aid kit; children's age-appropriate pain/fever reliever; travel sickness tablets for the children if prone to car sickness; hand sanitizer/wet wipes; tissues.
+**Medicines & Health**
+- [ ] Sunscreen (family/kids' formula, SPF 30+)
+- [ ] After-sun/soothing gel or aloe vera
+- [ ] Insect repellent (child-safe)
+- [ ] Basic first-aid kit (plasters, antiseptic wipes, blister plasters)
+- [ ] Children's pain/fever reliever
+- [ ] Personal/prescription medication for either adult
+- [ ] Rehydration sachets or extra water bottles
+- [ ] Motion-sickness remedy for children if prone to car sickness
+- [ ] Hand sanitizer and travel-size wipes
 
-**Destination-Specific:** Reusable water bottles for each family member; small day backpack for rain gear/snacks/water; snacks for the children for the drives and between attractions; car essentials (window shades, small trash bag, entertainment/travel games); grippy non-slip footwear for the Dragon's Den's spiral steps; small flashlight/phone flashlight backup for the cave; zip-lock/waterproof pouch to protect phones/cameras in Day 1's rain; coins/small change for pay-and-display street parking near the hotel.
+**Destination-Specific**
+- [ ] Reusable water bottles for all 4 travelers
+- [ ] Small daypack for water, snacks, sunscreen, layers
+- [ ] Snacks for the children (car ride and between-activity gaps)
+- [ ] Small amount of PLN cash for parking and incidentals
+- [ ] Foldable stroller/child carrier for the 5-year-old if needed
+- [ ] A quiet toy/card game/coloring book for St. Mary's Basilica and car-ride downtime
+- [ ] Foldable shopping bag for any Cloth Hall souvenirs
 
 ## Travel Tips
 
-- No accessibility needs or dietary restrictions to accommodate for this family.
-- Day 1 (93% chance of moderate rain, 15–18°C) is built entirely around indoor/covered attractions; Day 2 (25% chance of light drizzle, mild 16–23°C) shifts to the outdoor/interactive picks, timed for the drier morning before the drive back.
-- The Dragon's Den's 135-step spiral staircase is steep and one-way, not stroller/wheelchair accessible — flagged for awareness, though no accessibility need was stated.
-- All in-city movement is on foot after the family parks once at the hotel; Old Town is a pedestrian/car-free zone with paid street parking Monday–Saturday 10:00–20:00.
-- The hotel is assumed to include or offer a light breakfast on Day 2; if not, budget contingency should cover an additional light meal.
-- This domestic Poland trip (Warsaw–Kraków) requires no passport or visa — standard photo ID is sufficient.
+- No accessibility needs and no dietary constraints were stated for this trip; activities and dining were chosen without those restrictions in mind.
+- The hotel does not have its own car park — parking uses the Old Town car park noted above, already folded into the transport total (no double-counting).
+- St. Mary's Basilica ticket pricing assumes the 5-year-old enters free and the 8-year-old pays the reduced (ages 7–18) rate; worth reconfirming at the door.
+- Day 2 breakfast is budgeted as a light bakery/café stop in case it isn't included with the room — treat as a buffer if breakfast turns out to be included.
+- Both days are warm and dry per the forecast; sun protection (hats, sunscreen, sunglasses) and extra hydration for the children are worth prioritizing, especially for the Saturday Zoo visit (warmest part of the trip).
+- Both driving legs run comfortably under the 4-hour one-way limit, so no intermediate overnight stop is required.
