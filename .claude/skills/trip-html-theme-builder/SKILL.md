@@ -21,11 +21,12 @@ and a small theme layer vary per trip.
 
 1. **Fully self-contained**: one file, all CSS inline in `<style>`, no
    external fonts, scripts, or asset URLs (emoji are fine). The header photo
-   (`{{HERO_IMAGE}}`) and the page background photo (`{{BG_IMAGE}}`) are both
-   real, trip-related photos found via web search, downloaded, and embedded as
-   base64 `data:` URIs — the *finished HTML* never contains a live `https://`
-   image reference, `<img>` tag, or other external asset link; the source URL
-   is only used at build time to fetch the bytes, which are then inlined.
+   (`{{HERO_IMAGE}}`) is a real, trip-related photo found via web search,
+   downloaded, and embedded as a base64 `data:` URI — the *finished HTML* never
+   contains a live `https://` image reference, `<img>` tag, or other external
+   asset link; the source URL is only used at build time to fetch the bytes,
+   which are then inlined. (There is no page-background photo — the page sits on
+   the plain themed background.)
 2. **No new travel content**: everything rendered comes verbatim from the
    approved `daily-plan.md` (plus its carried-through citations). The renderer
    reformats; it never adds, drops, or "improves" recommendations.
@@ -35,12 +36,12 @@ and a small theme layer vary per trip.
 4. **Fixed section order** (baked into the template): hero (general only) →
    trip summary (strict fields + chips) → getting there & around → day-by-day
    itinerary → where you're staying → activity schedule → dining → budget →
-   weather → packing checklist → travel tips → footer. The **hero carries only
+   weather → packing checklist → travel tips. The **hero carries only
    the title, emoji, and one general subtitle line, over an AI-generated,
    trip-related header photo** — every trip detail (party, transport, budget,
    interests, dates breakdown) lives in the Trip Summary section, not the
-   header. The page itself sits over a second, subtler AI-generated background
-   photo in the same trip's mood.
+   header. The page itself sits on the plain themed background (no background
+   photo).
 5. **Fixed inner markup**: rows/items must follow the exact shapes the
    template documents (see Slot reference) — itinerary days are `.day-card`
    blocks with a `.timeline` list. Two shapes are absolute:
@@ -76,43 +77,51 @@ every token below from it, in **both** the light and dark `:root` blocks.
 | `--accent-light` | Pale tint of the accent (light mode) / dark tint (dark mode) — used for table headers, day cards |
 | `--bg`, `--card-bg` | Page and card backgrounds as very light (light mode) / very dark (dark mode) tints of the same family, so the whole page carries the trip's mood — never leave them at the defaults if the accent changed |
 | `{{TRANSPORT_MODE_EMOJI}}` | ✈️ / 🚆 / 🚗 matching the confirmed mode |
-| `{{HERO_IMAGE}}` | The header photo as a CSS value — `url("data:image/png;base64,…")` (or the matching `image/jpeg` mime) for the found destination photo, or `none` to fall back to the plain accent gradient |
-| `{{BG_IMAGE}}` | The page background photo as a CSS value — `url("data:image/png;base64,…")` for the found background photo, or `none` to fall back to the plain page background |
+| `{{HERO_IMAGE}}` | The header photo as a CSS value — `url('data:image/png;base64,…')` (or the matching `image/jpeg` mime) for the found destination photo, or `none` to fall back to the plain accent gradient. **Use single quotes inside `url(...)`** — this value is injected into an already double-quoted `style="..."` HTML attribute, so a nested `"` truncates the attribute early and corrupts the page (images silently fail to render). |
 
-**Hero & background images.** The header shows a real, trip-related photo
-behind the title, with a semi-transparent accent overlay layered on top so
-the title, subtitle, and emoji stay legible and the trip's color family still
-reads. A second, subtler photo sits behind the page itself. The renderer
-**finds both photos itself** at build time via web search, downloads them,
-and embeds them:
+**Hero image.** The header shows a single real, trip-related photo behind the
+title, with a semi-transparent accent overlay layered on top so the title,
+subtitle, and emoji stay legible and the trip's color family still reads.
+There is **no page-background photo** — the page sits on the plain themed
+background. The renderer **finds the one hero photo itself** at build time via
+web search, downloads it, and embeds it:
 
-- Run a distinct, destination-specific `WebSearch` for each (from the trip's
-  destination in the daily plan): the header search should target an iconic,
-  landscape establishing shot of the destination (e.g. `"<destination> skyline
-  landscape wide"`); the background search should target something subtler and
-  lower-contrast — a texture/pattern or softly blurred scene from the same
-  place, unobtrusive behind page content (e.g. `"<destination> texture pattern
-  blurred bokeh"`).
+- Run a destination-specific `WebSearch` (from the trip's destination in the
+  daily plan) targeting an iconic, landscape establishing shot of the
+  destination (e.g. `"<destination> skyline landscape wide"`).
 - Prefer stable, freely-licensed, directly-linkable image sources —
   **Wikimedia Commons** (`upload.wikimedia.org`) is the first choice, since its
   URLs point straight at the raw file and its images are safe to reuse.
   Avoid search-result thumbnail/proxy URLs that require a live session.
-- Find images **one at a time, sequentially** — resolve and download the hero
-  photo fully before starting the background search — so each result (or
-  failure) is known before moving on.
 - Download the chosen URL into the run directory (e.g. `curl -sL "<url>" -o
   hero-image.jpg`; add `--ssl-no-revoke` if `curl` fails with a schannel/cert
   revocation error — common on Windows sandboxes with no path to the CA's
   OCSP/CRL endpoint) and confirm the file is actually an image (non-trivial
   size, recognizable image `file` type) before using it.
-- base64-encode the downloaded file (e.g. `base64 -w0 "<path>"`) and set its
-  slot to `url("data:image/<jpeg|png>;base64,<encoded data>")` matching the
-  actual downloaded file type.
-- If a search returns no usable/licensable image, or the download fails or
-  isn't a valid image, try one alternate query; if that also fails, set that
-  slot to `none` (that layer then renders exactly like the classic gradient
-  fallback — a safe, valid result). A missing image never blocks the build.
-- These embedded data URIs are not "external assets" — the *output HTML* never
+- **Downscale and recompress before embedding — mandatory.** Wikimedia
+  originals are routinely 3000–6000 px wide and 3–10 MB; embedded raw as base64
+  they balloon the guide to tens of MB and the header photo is slow to load.
+  Resize the image so its **long edge is ≤ 1800 px** and re-encode as **JPEG
+  quality ~82**, targeting **< 500 KB** (aim for ~200–350 KB). Use whatever
+  tool is present, e.g. Python/Pillow:
+  `python -c "from PIL import Image; im=Image.open('hero-image.jpg').convert('RGB'); im.thumbnail((1800,1800)); im.save('hero-image.jpg','JPEG',quality=82,optimize=True)"`
+  (`pip install Pillow` first if missing). If ImageMagick is available,
+  `magick <in> -resize 1800x1800\> -quality 82 <out>` works too. Verify the
+  recompressed file is < ~500 KB before encoding; the finished
+  `travel-guide.html` should be ~1 MB, not tens of MB.
+- base64-encode the **downscaled** file (e.g. `base64 -w0 "<path>"`) and set the
+  `{{HERO_IMAGE}}` slot to `url('data:image/<jpeg|png>;base64,<encoded data>')`
+  — **single quotes**, since this value is injected into an already
+  double-quoted `style="..."` HTML attribute — matching the actual file type.
+- **Fill the image through the template slot** — set `{{HERO_IMAGE}}` on the
+  `<header class="hero" style="--hero-image: …">` attribute. Do **not** hardcode
+  the base64 into the `<style>` block or strip that inline `style` attribute;
+  the template's hero background layering reads `var(--hero-image)`.
+- If the search returns no usable/licensable image, or the download fails or
+  isn't a valid image, try one alternate query; if that also fails, set
+  `{{HERO_IMAGE}}` to `none` (the hero then renders exactly like the classic
+  accent gradient — a safe, valid result). A missing image never blocks the build.
+- This embedded data URI is not an "external asset" — the *output HTML* never
   references an outside URL (see rule 1); only the build step fetches one.
 
 Keep text/border/ink tokens readable against the chosen backgrounds and keep
@@ -135,9 +144,8 @@ its links must be updated to match — but the builder never changes that set.
 ### Hero (general only — no detail chips)
 | Slot | Filled with |
 |---|---|
-| `{{HERO_IMAGE}}` | header photo as a CSS value: `url("data:image/<jpeg|png>;base64,…")` (found destination photo) or `none` (gradient fallback). Set inline on `<header class="hero" style="--hero-image: …">` — see **Hero & background images** above |
-| `{{BG_IMAGE}}` | page background photo as a CSS value: `url("data:image/<jpeg|png>;base64,…")` (found destination photo) or `none` (plain background fallback). Set inline on `<body style="--bg-image: …">` — see **Hero & background images** above |
-| `{{TRIP_TITLE}}` | trip title from the daily plan's `#` heading (also used in `<title>` and footer) |
+| `{{HERO_IMAGE}}` | header photo as a CSS value: `url('data:image/<jpeg|png>;base64,…')` — single quotes, see note above — (found destination photo) or `none` (gradient fallback). Set inline on `<header class="hero" style="--hero-image: …">` — see **Hero image** above |
+| `{{TRIP_TITLE}}` | trip title from the daily plan's `#` heading (also used in `<title>`) |
 | `{{TRIP_SUBTITLE}}` | ONE general one-line subtitle — e.g. "Tuscany, Italy · 4–5 July 2026". Keep it general; put breakdowns in Trip Summary |
 
 ### Trip Summary — chips + strict fields (every field must be filled; no field may be dropped)
@@ -182,7 +190,6 @@ The chip row (moved out of the hero) sits at the top of this section:
 | `{{WEATHER_NOTES}}` | zero or more `.note-box`/`.warn-box`/`.info-box` divs (e.g. heat/rain advisory = warn-box; a neutral seasonal note = info-box); empty string if none |
 | `{{PACKING_*_ITEMS}}` (CLOTHING / ELECTRONICS / DOCUMENTS / MEDICINES / DESTINATION) | `<li><label><input type="checkbox"> item</label></li>` items per fixed category |
 | `{{TIP_ITEMS}}` | `<li><strong>Topic:</strong> tip</li>` items |
-| `{{APPROVAL_DATE}}`, `{{RUN_SLUG}}` | from the approved daily plan's frontmatter (`approvalNotes`/date) / the run directory name |
 
 Optional slots (`{{TRANSPORT_WARNINGS}}`, `{{ITINERARY_NOTES}}`,
 `{{ACCOMMODATION_NOTES}}`, `{{ACTIVITY_NOTES}}`, `{{WEATHER_NOTES}}`) are
@@ -198,11 +205,11 @@ packing section no longer carries a weather line — its slots are only the five
 1. Read `assets/template.html` (path: `.claude/skills/trip-html-theme-builder/assets/template.html`).
 2. Read the approved `daily-plan.md` (latest approved version).
 3. Choose the theme tokens for this trip (accent color family in both light
-   and dark `:root` blocks, hero + transport emoji). Find the header and
-   background photos via web search, download, and base64-encode each (see
-   **Hero & background images**), and set `{{HERO_IMAGE}}` / `{{BG_IMAGE}}` to
-   `url("data:image/<jpeg|png>;base64,…")`, or `none` where no usable image
-   was found.
+   and dark `:root` blocks, hero + transport emoji). Find the header photo via
+   web search, download, downscale/recompress, and base64-encode it (see
+   **Hero image**), and set `{{HERO_IMAGE}}` to
+   `url('data:image/<jpeg|png>;base64,…')` — single quotes, see note above —
+   or `none` where no usable image was found.
 4. Convert each daily-plan section into the slot markup above, preserving all
    links.
 5. Replace every `{{...}}` slot; confirm **no `{{` remains** in the output.
