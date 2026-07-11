@@ -1,0 +1,51 @@
+# Validation Result: FAIL
+
+## Gate Results
+
+| QG# | Gate | Result | Evidence |
+|---|---|---|---|
+| QG1 | Budget cap ≤3000 PLN (target 2000–3000) | **FAIL** | `budget.md` Estimated Total = **2,945.6 PLN**, nominally under the 3,000 PLN ceiling by only **54.4 PLN (1.8%)**, with **zero contingency built in** (`budget.md` Assumption 5 explicitly states adding a standard 5% contingency, ≈147 PLN, would push the total to ≈3,093 PLN — over the cap). The 2,945.6 PLN figure itself is a stack of unverified estimates whose stated uncertainty ranges individually exceed the 54.4 PLN buffer: accommodation is a *midpoint of a 900–1,100 PLN range* (± up to 100 PLN per `budget.md` Assumption 2), two activities line items are explicitly flagged as unpublished-price estimates (~74 PLN combined, per `activities.md` and `budget.md` Assumption 3), and the entire food total (1,000 PLN) is a per-meal cost *model*, not sourced menu totals (per `budget.md` Assumption 4). A gate meant to keep the family under a hard 3,000 PLN ceiling should not pass on a nominal estimate whose own supporting artifacts document swings of 150–300+ PLN in either direction. |
+| QG2 | Daily travel time ~4–5h one-way tolerance | PASS | `transport.md` Legs: outbound split into Leg 1 (~1h50m) + Leg 2 (~3h05m) = ~4h55m total driving per direction, each individual leg well under the 4–5h cap; return direction mirrors this (Legs 3+4). Two independent sources (flagma.pl 377km/~5h10m undivided, rome2rio 362km/~4h) bracket the raw drive, and the Częstochowa split keeps every single segment ≤3h05m. |
+| QG3 | No duplicate attractions | PASS | `activities.md` lists 8 distinct venues across 3 days (Krupówki, Tatra Museum, Aqua Park, Gubałówka, Dolina Strążyska, Wielka Krokiew, Park Miejski, Mini Club) — no repeats, self-confirmed in the artifact's own Rationale section. |
+| QG4 | Transport mode match (must be CAR) | PASS | `requirements-v2.md`: "Transport mode: CAR (driving from Łódź to Zakopane; own/rental car)". `transport.md` `## Mode`: "Car (matches confirmed requirement...)" — route, drive times, tolls, parking all described for car travel; no other mode present. |
+| QG5 | QG-CITE — citation coverage | PASS | Checked every recommendation row across all artifacts: `transport.md` Legs (4/4 rows linked) and Local Transport (4/4 rows linked); `accommodation.md` Accommodations (1/1 row linked, multi-source); `activities.md` Day 1 (3/3), Day 2 (3/3), Day 3 (2/2) — 8/8 rows linked; `food.md` Restaurants (5/5 rows linked) and Local Food to Try (4/4 rows linked); `packing.md` has a `## Sources` section citing weather.md, activities.md, accommodation.md, transport.md, and two external driving-in-Poland links; `weather.md` cites its Open-Meteo method per stop (exempted format). `budget.md` is exempt per rule (cites source artifacts). Total: 27/27 checkable rows carry a real http(s):// markdown link. No uncited rows found. |
+| QG6 | Accommodation pool requirement | PASS | `accommodation.md`: Hotel Helios "Indoor/seasonal pool + sauna" verified via 3 independent sources — hotel's own site (hotel-helios.pl, "basen oraz sauna"), Hotels.com listing, KAYAK listing — all linked in the row's Link cell. |
+| QG7 | Kid-suitability (ages 5 and 8) | PASS | `activities.md`: Morskie Oko (7.9km hike) explicitly excluded as too strenuous/long for young children; Dolina Strążyska chosen instead as "the easiest, most child-friendly valley trail in the Tatras"; every activity's Suitability column addresses stroller/pram access, chairlift double-seating for parent+child, indoor rain fallbacks. `food.md`: all 5 restaurants are casual/family-style (milk bars, bistros, one with an explicit kids' corner); no adults-only or fine-dining venues. |
+
+## Baseline Checks
+
+| Check | Result | Evidence |
+|---|---|---|
+| Budget total ≤ user limit | FAIL (marginal) | See QG1 above — same evidence. |
+| Daily travel time ≤ user limit | PASS | See QG2. |
+| Transport mode matches confirmed requirement | PASS | See QG4. |
+| QG-CITE coverage | PASS | See QG5. |
+| All mandatory requirements satisfied | PASS | Destination (Zakopane), dates (2026-07-12 to 14), CAR mode, hotel-with-pool (Hotel Helios), no dietary/accessibility accommodations needed — all present and addressed across artifacts. |
+| No duplicate attractions | PASS | See QG3. |
+| Every day has ≥1 meaningful activity | PASS | Day 1: 3 activities (Krupówki, Tatra Museum, Aqua Park); Day 2: 3 activities (Gubałówka, Dolina Strążyska, Wielka Krokiew); Day 3: 2 activities (Park Miejski, Mini Club). |
+| Accommodation matches preferences | PASS | Pool: confirmed (QG6). No star-rating requirement stated by traveler (2★ acceptable per requirements' own assumption). No accessibility needs to accommodate — none required. Free parking is a bonus, not a stated requirement. |
+| Dietary constraints satisfied | PASS | `requirements-v2.md`: "Dietary constraints: none." `food.md` Dietary Fit column confirms no conflicts across all 5 restaurants. |
+| No unresolved placeholders / missing info | PASS (minor note) | No blocking placeholders found. One conditional/unused row exists — `transport.md` Local Transport table's "Palenica Białczańska (Morskie Oko access)" parking row is explicitly marked "if used" / "placeholder," but `activities.md` confirms Morskie Oko was deliberately excluded from the itinerary, so this row is inert context rather than missing information. Not a fail, but flagged for cleanup. |
+
+## Findings
+
+### QG1 — Budget cap: FAIL
+
+**What's wrong:** The nominal total (2,945.6 PLN) sits only 54.4 PLN (1.8%) below the 3,000 PLN hard ceiling, and `budget.md` itself documents that this figure has no contingency margin and is built from several unverified/estimated inputs whose own stated uncertainty ranges are individually larger than the remaining headroom:
+- Accommodation: 1,000 PLN is a midpoint of a cited 900–1,100 PLN range (±100 PLN swing possible).
+- Activities: two line items (Tatra NP entrance ≈24 PLN, Mini Club ≈50 PLN) are explicit placeholder estimates, not sourced prices.
+- Food: the entire 1,000 PLN figure is a per-meal cost model (not itemized restaurant quotes) — a 10–20% model error would be ±94–188 PLN.
+- `budget.md`'s own Assumption 5 states that applying even a standard 5% contingency (≈147 PLN) would push the total to ≈3,093 PLN, exceeding the cap.
+
+Given these documented uncertainty bands, it is quite plausible actual spend exceeds 3,000 PLN — the gate should not pass on a paper-thin nominal margin with no contingency buffer.
+
+**Responsible artifact/agent:** `budget-aggregator` (rollup), with contributing inputs from `accommodation-planner` (highest single-line uncertainty, ±100 PLN) and `food-planner` (least-verified line item, entirely model-based).
+
+**Concrete recommendation:** Reduce the estimated total by at least **150 PLN** (to ≈2,795 PLN or lower) to create real headroom before the 3,000 PLN cap, via one or both of:
+1. `accommodation-planner`: re-verify or select a lower-cost qualifying option nearer the low end of the cited 900–1,100 PLN range (use 900 PLN instead of the 1,000 PLN midpoint — saves 100 PLN), or find one more comparably-priced pool hotel with a directly-quoted family-room rate to remove the pricing uncertainty entirely.
+2. `food-planner`: trim the per-meal model by ~10% (e.g., 942 PLN → ≈850 PLN) by substituting one sit-down dinner for a self-catered/hotel-included option, saving ≈90 PLN.
+Either change alone, or a combination totaling ≥150 PLN, would restore a genuine buffer (≥200 PLN, ~7%) against the hard 3,000 PLN ceiling given the artifacts' own documented cost uncertainty.
+
+## Overall Result
+
+**FAIL** — 6 of 7 quality gates (QG2–QG7) pass cleanly with full evidence. QG1 (budget cap) fails on insufficient real-world headroom: the nominal total is technically under the 3,000 PLN ceiling, but by a margin (54.4 PLN) smaller than the artifacts' own documented cost uncertainty, and with no contingency reserve. Recommend `budget-aggregator` + `accommodation-planner` (and optionally `food-planner`) rerun per the QG1 recommendation above before proceeding to `daily-plan-builder`.

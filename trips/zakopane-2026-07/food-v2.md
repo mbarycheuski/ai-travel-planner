@@ -1,0 +1,56 @@
+# Food
+
+## Restaurants by Stop
+
+| Stop | Restaurant | Cuisine | Price Range | Dietary Fit | Link |
+|---|---|---|---|---|---|
+| Łódź (departure day, 2026-07-12) | Fabryka Śniadań | Polish breakfast cafe (pancakes, shakshuka, bagels) | ~11–39 PLN/dish (espresso 11 PLN, pancakes 35 PLN, shakshuka 39 PLN) | No dietary restrictions to accommodate; casual, warm-atmosphere cafe, kid-friendly menu items (pancakes) | [Fabryka Śniadań — menu](https://xn--fabrykasniada-1ic.pl/menu) |
+| Częstochowa (rest/lunch stop, both driving days) | Restauracja Cztery Pory Roku | Traditional Polish (soups, meat, pancakes, salads, fish, vegetarian options) | Mid-range (exact prices not published; comparable Częstochowa sit-down Polish restaurants run ~25–50 PLN/main) | Has a dedicated kids' corner ("kącik dziecięcy") — explicitly child-oriented; no dietary conflicts | [Restauracja Cztery Pory Roku](https://cztery-pory-roku-czestochowa.makro.bar/?lang=en) |
+| Zakopane | Regionalny Bar Mleczny | Milk bar — Polish home-style cooking (soups, pierogi, meat dishes) | Budget — full meal ≈35 PLN/person | Self-service canteen style, very casual/loud atmosphere — well tolerant of children; no dietary conflicts. **Primary lunch AND dinner pick for the cost model below** (see revision note). | [Regionalny Bar Mleczny — profile & reviews](https://wanderlog.com/place/details/1061312/regionalny-bar-mleczny) |
+| Zakopane | Bistro Schronisko Krupówki | Highlander/Podhale mountain cuisine (pork chop, grilled sausage, trout, flatbread) | Budget-to-mid — mains 27–48 PLN (signature pork chop 28 PLN) | Casual bistro, large-portion family-style plates, daytime hours (11:00–20:00); no dietary conflicts. **Optional one-off sit-down treat, not costed into the baseline daily model** (see revision note). | [Schronisko Krupówki — restaurant page](https://krupowki.pl/en/restaurant-zakopane-shelter/) |
+| Zakopane | Krupowa Izba | Highlander/Podhale regional cuisine (oscypek with cranberry, sour soup, dumplings) | Mid-range (menu prices not published online; comparable Krupówki sit-down restaurants ~30–60 PLN/main) | Restaurant explicitly markets itself as good for "a family lunch"; no dietary conflicts. **Kept as an optional alternate for a splurge meal only — no longer part of the baseline dinner cost model** (see revision note). | [Krupowa Izba — official page](https://www.restauracjezakopane.pl/en/krupowa-izba) |
+
+*(Note: Łódź and Częstochowa are not overnight "stops" in `transport.md`'s Stops & Nights table — only Łódź (origin, 0 nights) and Zakopane (2 nights) are — but since the family passes through both on driving days and needs meals, one option is included for each per the itinerary in `transport.md`'s Legs table.)*
+
+*(Revision note for this v2 — see full rationale below: to trim the food budget, the baseline cost model now assumes both Zakopane lunch **and** dinner are taken at the budget milk bar, Regionalny Bar Mleczny, rather than one milk-bar meal and one sit-down bistro/restaurant meal per day. Bistro Schronisko Krupówki and Krupowa Izba remain listed as real, verified, kid-friendly options — e.g. for a single splurge dinner the family may choose to have instead — but they are no longer built into the per-day cost arithmetic.)*
+
+## Local Food to Try
+
+| Specialty | Where | Notes | Link |
+|---|---|---|---|
+| Oscypek (smoked sheep's-milk cheese, grilled with cranberry sauce) | Krupówki Street stalls, or safer/more-authentic option: any sit-down highlander restaurant (e.g. Krupowa Izba, Bistro Schronisko Krupówki) | Zakopane's signature specialty; street-stall versions are hit-or-miss on freshness/authenticity — a restaurant serving it (grilled, with cranberry) is a safer bet for kids; mild, salty-smoky flavor children generally enjoy | [Oscypek guide — KrakowBuzz](https://krakowbuzz.com/zakopane/oscypek/) |
+| Kwaśnica (sour cabbage soup with smoked pork) | Any milk bar or highlander restaurant in Zakopane (e.g. Regionalny Bar Mleczny) | Hearty, warming regional soup — good cold-weather-in-the-mountains comfort food; mild for kids if ordered without extra spice | [Regionalny Bar Mleczny — profile & reviews](https://wanderlog.com/place/details/1061312/regionalny-bar-mleczny) |
+| Pierogi (dumplings, various fillings) | Bar mleczny (milk bar) options across Zakopane | Cheap, filling, kid-friendly staple — sweet (fruit/cheese) fillings especially popular with children | [zakopane.info — 5 places to eat in Zakopane](https://www.zakopane.info/5-miejsc-gdzie-warto-zjesc-w-zakopanem/) |
+| Grilled trout from local mountain fish farms | Bistro Schronisko Krupówki | Freshwater trout served with chips/salad — a lighter, less-smoky option for a picky-eater kid; recommended as the optional splurge-meal choice rather than part of the daily baseline | [Schronisko Krupówki — restaurant page](https://krupowki.pl/en/restaurant-zakopane-shelter/) |
+
+## Estimated Food Cost
+
+Assumptions: 3 calendar days (2026-07-12, -13, -14), family of 4 (2 adults + 2 children). Children's portions/meals assumed at roughly 57–60% of an adult's cost (smaller portions, milk-bar/kids-menu pricing).
+
+**Revised per-day cost model (family of 4 — 2 adults + 2 children):**
+- Breakfast: mostly self-catered/hotel or a light bakery item — **20 PLN/adult, 10 PLN/child** = (20×2)+(10×2) = **60 PLN/day** *(unchanged from v1)*
+- Lunch (milk bar / rest-stop cafe): **35 PLN/adult, 20 PLN/child** = (35×2)+(20×2) = **110 PLN/day** *(unchanged from v1)*
+- Dinner — **changed from a sit-down highlander bistro to the same milk bar (Regionalny Bar Mleczny)**, using its verified ≈35 PLN/person full-meal price: **35 PLN/adult, 20 PLN/child** = (35×2)+(20×2) = **110 PLN/day** *(down from 45/adult, 27/child = 144 PLN/day in v1)*
+- Daily total: 60 + 110 + 110 = **280 PLN/day** *(down from 314 PLN/day in v1)*
+
+**3-day total:** 280 PLN × 3 days = **840 PLN** *(down from 942 PLN in v1 — a 102 PLN reduction)*
+
+One-off treats (oscypek snack from a stall, ice cream) budgeted separately, unchanged: ~15 PLN/person once during the trip = 15 × 4 = **60 PLN**.
+
+**Estimated total food cost for the trip (family of 4): 840 + 60 = ≈ 900 PLN**
+
+**Net change from v1: 1,000 PLN → 900 PLN, a reduction of 100 PLN** (slightly more than the ≈90 PLN requested in the iteration plan, to give the overall trip budget a bit of extra real contingency beyond the bare minimum trim).
+
+This fits within the ~1,650–2,650 PLN remaining after transport (per `transport.md`), leaving more headroom for accommodation and activities within the overall 2,000–3,000 PLN trip budget (QG1).
+
+## Rationale & Assumptions
+
+- **Primary trim mechanism for this v2**: rather than swapping one of the three sit-down dinners for a milk-bar dinner on a single day, the whole 3-day *dinner* line in the cost model was moved to the milk bar (Regionalny Bar Mleczny), which has a directly-quoted price (≈35 PLN/person full meal) already verified and cited in v1. This is the "swap a sit-down dinner for a cheaper milk-bar dinner" option suggested in the iteration plan, applied consistently across all 3 dinners rather than just one, in order to reach the requested ≈90 PLN savings target (it produces 102 PLN of savings from meals alone, then treats were left unchanged, landing at a 100 PLN net total trim).
+- **Bistro Schronisko Krupówki and Krupowa Izba are kept in the Restaurants by Stop table** as real, verified, kid-friendly, cited options — explicitly flagged as an optional one-off "splurge" dinner the family could choose on one night instead of the milk bar, rather than removed outright, since both remain excellent family-suitable choices and the traveler may still want a sit-down meal once during the trip. If chosen, actual spend would be somewhat higher than the 900 PLN estimate below (this is called out so the aggregator/validator understand the estimate assumes the budget-conscious path throughout).
+- **No dietary restrictions to accommodate** (per `requirements-v2.md`), so the "Dietary Fit" column above simply confirms no conflicts rather than flagging vegetarian/allergen alternatives; all picks are standard Polish/highlander fare.
+- **Kid-suitability (QG7) prioritized over fine dining, unchanged from v1**: every restaurant chosen (including the now-primary milk-bar dinner) is casual/family-style — no adults-only bars, tasting menus, or venues requiring quiet/formal behavior from a 5- and 8-year-old. Milk bars are, if anything, more tolerant of children than a sit-down bistro (self-service, fast turnover, very casual/loud atmosphere), so this change does not regress QG7.
+- **Częstochowa lunch stop and Łódź departure-day breakfast** are unchanged from v1 and included for the same reasons: `transport.md`'s Legs table designates Częstochowa as a rest/lunch stop on both driving days, and the family needs breakfast in Łódź before departure, even though neither is an overnight "stop" in the Stops & Nights table.
+- **Prices for Krupowa Izba and the general Częstochowa restaurant range** were not published on their own sites; the ranges given are estimated from comparable, verified nearby establishments' pricing (Schronisko Krupówki, zakopane.info roundup) rather than invented figures — flagged here explicitly as an estimate, not a sourced menu price. This is unchanged from v1 and does not affect the v2 cost model since neither restaurant is part of the baseline dinner calculation anymore.
+- **Child-portion cost ratio (~57–60% of adult)** in the cost model is an assumption, not sourced from any single restaurant's kids'-menu pricing, since none of the verified sources published a separate children's price; it is a reasonable planning estimate for a budget-conscious family trip, unchanged from v1.
+- **One meal per day per venue type** (breakfast/lunch/dinner) is assumed as the planning unit; actual spend will vary if the family skips a meal out (e.g. self-catering breakfast at the hotel), chooses the optional splurge dinner at Schronisko Krupówki/Krupowa Izba, or adds extra snacks/ice cream beyond the 60 PLN one-off treat allowance (left unchanged from v1).
+- **TripAdvisor deliberately avoided** as a citation source per prior feedback; all links above are to official restaurant sites, restaurant-review aggregators (Wanderlog), or informational travel-guide sites (zakopane.info, KrakowBuzz) that were directly fetched and verified to load and support the claims made in v1 and carried forward unchanged into this v2 (no new sources were needed since the cost change reuses an already-verified price point).
