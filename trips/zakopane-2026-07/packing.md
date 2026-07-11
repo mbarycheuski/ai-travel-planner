@@ -13,6 +13,7 @@
 ## Clothing
 
 ### Adults (x2)
+
 - [ ] Waterproof/rain jacket (packable, hooded) — 1 per adult
 - [ ] Fleece or warm mid-layer (evenings dip toward 11–12 °C)
 - [ ] 3–4x long-sleeve tops / t-shirts for layering
@@ -26,6 +27,7 @@
 - [ ] Light hat or cap (sun breaks possible afternoons) + warm beanie for cool mornings/evenings
 
 ### Children (age 5 and age 8)
+
 - [ ] Waterproof jacket with hood — 1 per child (bright colour recommended for visibility on trails)
 - [ ] Waterproof trousers or rain-suit (useful for the wetter Day 1 and damp Day 3 morning outings)
 - [ ] Fleece/warm layer for both children
@@ -41,6 +43,7 @@
 - [ ] Comfort item(s) for the ~5-hour car journeys each way (favourite toy/blanket)
 
 ### Shared/Family
+
 - [ ] Umbrella (compact, 1–2 for the family) — backup for the museum/Krupówki stroll where a jacket alone may not be enough
 - [ ] Reusable swim bag / wet-clothes bag (for Aqua Park and hotel pool sessions)
 - [ ] Quick-dry travel towel(s) if not provided at Aqua Park (confirm on arrival; hotel pool towels likely provided)
@@ -90,6 +93,7 @@
 - [ ] Car essentials per Polish law: warning triangle, fire extinguisher, reflective vest(s) — confirm presence in own car before departure
 
 ## Sources
+
 - Weather figures and outlook per `weather.md`, itself sourced from the **Open-Meteo 7-day weather forecast** (accessed 2026-07-10, valid 2026-07-12 to 2026-07-14) — not re-fetched here, carried forward as recorded.
 - Activities and their gear implications (Aqua Park, Tatra Museum, Gubałówka funicular, Dolina Strążyska, Wielka Krokiew, Park Miejski, Mini Club): `activities.md`.
 - Accommodation amenities (Hotel Helios indoor pool/sauna): `accommodation.md`.

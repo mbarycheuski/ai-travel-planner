@@ -1,6 +1,7 @@
 # Iteration Plan v1
 
 ## Failed Gates
+
 - **QG1 — Budget cap.** `validation.md`: nominal total 2,945.6 PLN is only 54.4 PLN
   (1.8%) under the 3,000 PLN ceiling, with zero contingency and multiple
   unverified line items (accommodation ±100 PLN, two unpriced activity fees
@@ -8,6 +9,7 @@
   remaining headroom. Recommendation: trim ≥150 PLN to restore real buffer.
 
 ## Agents To Rerun
+
 - `accommodation-planner` — use the low end of its own cited 900–1,100 PLN
   range (900 PLN) or find a directly-quoted lower-cost qualifying option, to
   remove ~100 PLN of uncertainty.
@@ -21,6 +23,7 @@ No other artifacts are affected — transport, weather, activities, and packing
 did not change and are not rerun.
 
 ## Guidance Per Agent
+
 - **accommodation-planner**: Re-read `trips/zakopane-2026-07/accommodation.md`
   (your own prior output) plus `requirements-v2.md`. Keep Hotel Helios if you
   select the low end (900 PLN for 2 nights, i.e. ≈450 PLN/night) IF you can

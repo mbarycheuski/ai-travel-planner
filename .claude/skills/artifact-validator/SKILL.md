@@ -6,13 +6,14 @@ description: Structural template check for a workflow artifact — confirms requ
 # Artifact Validator
 
 A reusable structural check, distinct from the domain-specific `validator`
-agent. The `validator` judges whether the *travel plan* meets quality gates
+agent. The `validator` judges whether the _travel plan_ meets quality gates
 (budget, travel time, duplicates, ...). This skill instead checks that an
-individual *artifact file* is well-formed enough to be consumed at all —
+individual _artifact file_ is well-formed enough to be consumed at all —
 catching malformed output early, before it ever reaches a downstream agent or
 the validator.
 
 ## When to use this skill
+
 - Orchestrator: after each planning agent group returns, before dispatching
   the next group or the validator.
 - Orchestrator: before dispatching `daily-plan-builder`, on the latest version
@@ -27,22 +28,23 @@ The expected sections per artifact type (latest `-vN` version of each). The
 caller may pass a custom list for a new artifact type; otherwise use this
 registry:
 
-| Artifact | Required sections | Recommendation tables (Link required) |
-|---|---|---|
-| `requirements.md` | `## Confirmed`, `## Optional Preferences`, `## Constraints`, `## Assumptions (explicit)` | — |
-| `execution-plan.md` | `## Agents Required`, `## Execution Groups`, `## Quality Gates`, `## Iteration Strategy` | — |
-| `transport.md` | `## Mode`, `## Stops & Nights`, `## Legs`, `## Local Transport`, `## Estimated Transport Total`, `## Rationale & Assumptions` | Legs, Local Transport |
-| `weather.md` | one `## <Stop>` section per stop, `## Assumptions` | — (per-stop Method line cites the Open-Meteo method, not a URL) |
-| `accommodation.md` | `## Accommodations`, `## Estimated Accommodation Total`, `## Rationale & Assumptions` | Accommodations |
-| `activities.md` | `## Activities by Day/Stop`, `## Estimated Activities Total`, `## Rationale & Assumptions` | Activities by Day/Stop |
-| `food.md` | `## Restaurants by Stop`, `## Local Food to Try`, `## Estimated Food Cost`, `## Rationale & Assumptions` | Restaurants by Stop |
-| `packing.md` | `## Weather Outlook`, `## Clothing`, `## Electronics`, `## Travel Documents`, `## Medicines & Health`, `## Destination-Specific`, `## Sources` | — (Sources section instead) |
-| `budget.md` | `## Budget Breakdown`, `## Estimated Total`, `## Against Limit`, `## Assumptions` | — (cites source artifacts, not URLs) |
-| `validation.md` | a `# Validation Result: PASS` or `FAIL` heading (first line after the frontmatter), `## Gate Results`, `## Findings` | — |
-| `iteration-plan-vN.md` | `## Failed Gates`, `## Agents To Rerun`, `## Guidance Per Agent` | — |
-| `daily-plan.md` | `## Trip Summary`, `## Day-by-Day Itinerary`, `## Where You're Staying`, `## Getting There & Around`, `## Budget Summary`, `## Packing Checklist`, `## Travel Tips` | links carried through from inputs |
+| Artifact               | Required sections                                                                                                                                                   | Recommendation tables (Link required)                           |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| `requirements.md`      | `## Confirmed`, `## Optional Preferences`, `## Constraints`, `## Assumptions (explicit)`                                                                            | —                                                               |
+| `execution-plan.md`    | `## Agents Required`, `## Execution Groups`, `## Quality Gates`, `## Iteration Strategy`                                                                            | —                                                               |
+| `transport.md`         | `## Mode`, `## Stops & Nights`, `## Legs`, `## Local Transport`, `## Estimated Transport Total`, `## Rationale & Assumptions`                                       | Legs, Local Transport                                           |
+| `weather.md`           | one `## <Stop>` section per stop, `## Assumptions`                                                                                                                  | — (per-stop Method line cites the Open-Meteo method, not a URL) |
+| `accommodation.md`     | `## Accommodations`, `## Estimated Accommodation Total`, `## Rationale & Assumptions`                                                                               | Accommodations                                                  |
+| `activities.md`        | `## Activities by Day/Stop`, `## Estimated Activities Total`, `## Rationale & Assumptions`                                                                          | Activities by Day/Stop                                          |
+| `food.md`              | `## Restaurants by Stop`, `## Local Food to Try`, `## Estimated Food Cost`, `## Rationale & Assumptions`                                                            | Restaurants by Stop                                             |
+| `packing.md`           | `## Weather Outlook`, `## Clothing`, `## Electronics`, `## Travel Documents`, `## Medicines & Health`, `## Destination-Specific`, `## Sources`                      | — (Sources section instead)                                     |
+| `budget.md`            | `## Budget Breakdown`, `## Estimated Total`, `## Against Limit`, `## Assumptions`                                                                                   | — (cites source artifacts, not URLs)                            |
+| `validation.md`        | a `# Validation Result: PASS` or `FAIL` heading (first line after the frontmatter), `## Gate Results`, `## Findings`                                                | —                                                               |
+| `iteration-plan-vN.md` | `## Failed Gates`, `## Agents To Rerun`, `## Guidance Per Agent`                                                                                                    | —                                                               |
+| `daily-plan.md`        | `## Trip Summary`, `## Day-by-Day Itinerary`, `## Where You're Staying`, `## Getting There & Around`, `## Budget Summary`, `## Packing Checklist`, `## Travel Tips` | links carried through from inputs                               |
 
 ## Procedure
+
 Given a file path (and optionally a custom expected-section list):
 
 1. **Read the file.** If it doesn't exist, fail with "missing artifact".
@@ -73,6 +75,7 @@ Given a file path (and optionally a custom expected-section list):
    rather than the whole group.
 
 ## Output contract
+
 This is a check, not a content generator — it never edits the artifact under
 test. The caller decides what to do with a `FAIL` (typically: re-run the
 single responsible agent with the specific gap called out).

@@ -70,20 +70,20 @@ table columns, including a mandatory `Link` column on recommendation tables).
 
 ### Agent roster (`.claude/agents/`)
 
-| Agent | Responsibility | Artifact |
-|-------|----------------|----------|
-| `requirements-interviewer` | Formalizes the orchestrator's Q&A into structured requirements (incl. transport mode) — can't ask the user itself | `requirements.md` |
-| `flight-planner` | Flights + stops + local transport (runs when mode = flight) | `transport.md` |
-| `train-planner` | Rail legs + stops + local transport (runs when mode = train) | `transport.md` |
-| `car-planner` | Driving route + stops + fuel/tolls/parking (runs when mode = car) | `transport.md` |
-| `accommodation-planner` | Hotels with linked listings, costs, rationale | `accommodation.md` |
-| `activities-planner` | Attractions via live web search, duration, suitability | `activities.md` |
-| `food-planner` | Restaurants, local food (honors diet) | `food.md` |
-| `packing-planner` | Weather outlook (Open-Meteo MCP) + packing checklist | `packing.md` |
-| `budget-aggregator` | Aggregated cost breakdown + total | `budget.md` |
-| `validator` | Quality-gate check incl. citations → PASS/FAIL + findings | `validation.md` |
-| `daily-plan-builder` | Merge latest artifacts into a day-by-day plan (no new content) | `daily-plan.md` |
-| `html-builder` | Fill the predefined HTML template (no new content) | `travel-guide.html` |
+| Agent                     | Responsibility                                                                                                    | Artifact            |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------- |
+| `requirements-formalizer` | Formalizes the orchestrator's Q&A into structured requirements (incl. transport mode) — can't ask the user itself | `requirements.md`   |
+| `flight-planner`          | Flights + stops + local transport (runs when mode = flight)                                                       | `transport.md`      |
+| `train-planner`           | Rail legs + stops + local transport (runs when mode = train)                                                      | `transport.md`      |
+| `car-planner`             | Driving route + stops + fuel/tolls/parking (runs when mode = car)                                                 | `transport.md`      |
+| `accommodation-planner`   | Hotels with linked listings, costs, rationale                                                                     | `accommodation.md`  |
+| `activities-planner`      | Attractions via live web search, duration, suitability                                                            | `activities.md`     |
+| `food-planner`            | Restaurants, local food (honors diet)                                                                             | `food.md`           |
+| `packing-planner`         | Weather outlook (Open-Meteo MCP) + packing checklist                                                              | `packing.md`        |
+| `budget-aggregator`       | Aggregated cost breakdown + total                                                                                 | `budget.md`         |
+| `validator`               | Quality-gate check incl. citations → PASS/FAIL + findings                                                         | `validation.md`     |
+| `daily-plan-builder`      | Merge latest artifacts into a day-by-day plan (no new content)                                                    | `daily-plan.md`     |
+| `html-builder`            | Fill the predefined HTML template (no new content)                                                                | `travel-guide.html` |
 
 **Exactly one** of the three transport planners runs per trip, selected by the
 orchestrator (in `execution-plan.md`) from the confirmed transport mode — the workflow's clearest
@@ -122,10 +122,6 @@ Two reusable skills, invoked by the orchestrator/agents at multiple stages
 
 Each hook has a single responsibility:
 
-- `freeze-finished-guard.js` (`PreToolUse`) blocks any Write/Edit of the daily
-  plan whose on-disk `documentStatus` is `approved` or `rejected` — a terminal
-  daily plan is never edited in place; changes go into a new version. (No other
-  artifact carries a `documentStatus`.)
 - `approval-gate-guard.js` (`PreToolUse`) blocks writing `travel-guide.html`
   unless the latest daily plan records `documentStatus: approved` (the
   deterministic human-approval gate).

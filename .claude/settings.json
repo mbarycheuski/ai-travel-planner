@@ -33,7 +33,5 @@
       }
     ]
   },
-  "enabledMcpjsonServers": [
-    "open-meteo"
-  ]
+  "enabledMcpjsonServers": ["open-meteo"]
 }

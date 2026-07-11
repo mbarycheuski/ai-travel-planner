@@ -2,19 +2,20 @@
 
 ## Budget Breakdown
 
-| Category | Cost | Source Artifact |
-|---|---|---|
-| Transport | 386.6 PLN | `transport.md` — ## Estimated Transport Total (314.6 PLN fuel + 72 PLN tolls + 0 PLN parking, with 60 PLN parking cost offset by confirmed free parking at Hotel Helios per `accommodation-v2.md`) |
-| Accommodation | 900 PLN | `accommodation-v2.md` — ## Estimated Accommodation Total (450 PLN/night × 2 nights, low end of 900–1,100 PLN range, committed per iteration plan guidance) |
-| Activities | 559 PLN | `activities.md` — ## Estimated Activities Total (279 PLN Day 1 + 230 PLN Day 2 + 50 PLN Day 3) |
-| Food | 900 PLN | `food-v2.md` — ## Estimated Food Cost (840 PLN 3-day meals + 60 PLN treats/snacks; revised from 1,000 PLN in v1 by moving all dinners to milk-bar baseline) |
-| Contingency | 0 PLN | **Assumption: no explicit contingency line item allocated; real buffer documented in "Against Limit" row below** |
+| Category      | Cost      | Source Artifact                                                                                                                                                                                    |
+| ------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Transport     | 386.6 PLN | `transport.md` — ## Estimated Transport Total (314.6 PLN fuel + 72 PLN tolls + 0 PLN parking, with 60 PLN parking cost offset by confirmed free parking at Hotel Helios per `accommodation-v2.md`) |
+| Accommodation | 900 PLN   | `accommodation-v2.md` — ## Estimated Accommodation Total (450 PLN/night × 2 nights, low end of 900–1,100 PLN range, committed per iteration plan guidance)                                         |
+| Activities    | 559 PLN   | `activities.md` — ## Estimated Activities Total (279 PLN Day 1 + 230 PLN Day 2 + 50 PLN Day 3)                                                                                                     |
+| Food          | 900 PLN   | `food-v2.md` — ## Estimated Food Cost (840 PLN 3-day meals + 60 PLN treats/snacks; revised from 1,000 PLN in v1 by moving all dinners to milk-bar baseline)                                        |
+| Contingency   | 0 PLN     | **Assumption: no explicit contingency line item allocated; real buffer documented in "Against Limit" row below**                                                                                   |
 
 ## Estimated Total
 
 **2,745.6 PLN**
 
 Arithmetic:
+
 - Transport: 386.6 PLN
 - Accommodation: 900 PLN
 - Activities: 559 PLN

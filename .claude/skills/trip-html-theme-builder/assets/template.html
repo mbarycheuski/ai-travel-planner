@@ -1,136 +1,169 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{TRIP_TITLE}}</title>
-<style>
-  /* ============================================================
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{TRIP_TITLE}}</title>
+    <style>
+      /* ============================================================
      THEME TOKENS — the ONLY values the builder/hook customizes per trip.
      The header gradient AND the page background both derive from the
      accent family, so setting these styles the whole page in the trip's
      character (terracotta/cream for Tuscany, Atlantic blue for Lisbon,
      alpine green for Switzerland, ...). Set them in BOTH :root blocks.
      ============================================================ */
-  :root {
-    /* Per-trip accent family — neutral placeholder; the html-builder sets
+      :root {
+        /* Per-trip accent family — neutral placeholder; the html-builder sets
        these per trip (see the skill's Per-trip customization section) */
-    --accent:        #57606b;   /* header gradient start, links, emphasis */
-    --accent-dark:   #3d434b;   /* header gradient end, heading text */
-    --accent-light:  #e7e9ec;   /* pale tint — table heads, chips, day cards */
+        --accent: #57606b; /* header gradient start, links, emphasis */
+        --accent-dark: #3d434b; /* header gradient end, heading text */
+        --accent-light: #e7e9ec; /* pale tint — table heads, chips, day cards */
 
-    /* Per-trip surfaces (light tints of the accent family) */
-    --bg:            #f7f7f8;   /* page background */
-    --card-bg:       #ffffff;   /* card / section background */
+        /* Per-trip surfaces (light tints of the accent family) */
+        --bg: #f7f7f8; /* page background */
+        --card-bg: #ffffff; /* card / section background */
 
-    /* Neutrals (kept readable against the surfaces above) */
-    --ink:           #201f1e;   /* primary text */
-    --muted:         #63605c;   /* secondary text */
-    --border:        #e4e2df;   /* hairlines, card borders */
-    --border-strong: #cfccc7;
+        /* Neutrals (kept readable against the surfaces above) */
+        --ink: #201f1e; /* primary text */
+        --muted: #63605c; /* secondary text */
+        --border: #e4e2df; /* hairlines, card borders */
+        --border-strong: #cfccc7;
 
-    /* Semantic */
-    --ok:            #2f7d52;
-    --ok-bg:         #e8f4ec;
-    --warn:          #b23b36;
-    --warn-bg:       #fbeceb;
+        /* Semantic */
+        --ok: #2f7d52;
+        --ok-bg: #e8f4ec;
+        --warn: #b23b36;
+        --warn-bg: #fbeceb;
 
-    /* Design scale */
-    --radius:        16px;
-    --radius-sm:     10px;
-    --radius-pill:   999px;
-    --shadow-sm:     0 1px 2px rgba(20,20,20,.06), 0 1px 3px rgba(20,20,20,.05);
-    --shadow-md:     0 4px 12px rgba(20,20,20,.07), 0 2px 4px rgba(20,20,20,.05);
-    --shadow-lg:     0 12px 32px rgba(20,20,20,.12);
-    --maxw:          960px;
+        /* Design scale */
+        --radius: 16px;
+        --radius-sm: 10px;
+        --radius-pill: 999px;
+        --shadow-sm:
+          0 1px 2px rgba(20, 20, 20, 0.06), 0 1px 3px rgba(20, 20, 20, 0.05);
+        --shadow-md:
+          0 4px 12px rgba(20, 20, 20, 0.07), 0 2px 4px rgba(20, 20, 20, 0.05);
+        --shadow-lg: 0 12px 32px rgba(20, 20, 20, 0.12);
+        --maxw: 960px;
 
-    /* Derived (do not hand-edit per trip — computed from accent) */
-    --accent-ink:    #ffffff;                                              /* text on accent surfaces */
-    --nav-bg:        color-mix(in srgb, var(--card-bg) 82%, transparent);  /* sticky nav glass */
-    --hairline:      color-mix(in srgb, var(--accent) 22%, var(--border)); /* tinted rules */
-    --ring:          color-mix(in srgb, var(--accent) 45%, transparent);   /* focus ring */
-  }
+        /* Derived (do not hand-edit per trip — computed from accent) */
+        --accent-ink: #ffffff; /* text on accent surfaces */
+        --nav-bg: color-mix(
+          in srgb,
+          var(--card-bg) 82%,
+          transparent
+        ); /* sticky nav glass */
+        --hairline: color-mix(
+          in srgb,
+          var(--accent) 22%,
+          var(--border)
+        ); /* tinted rules */
+        --ring: color-mix(
+          in srgb,
+          var(--accent) 45%,
+          transparent
+        ); /* focus ring */
+      }
 
-  /* "and not print" keeps dark-mode tokens from leaking onto a printed page:
+      /* "and not print" keeps dark-mode tokens from leaking onto a printed page:
      without it, printing while the OS is in dark mode would force the page
      background to white (see @media print below) while --ink/--muted/etc.
      stayed at their light-on-dark values — near-invisible light text on
      white paper. */
-  @media (prefers-color-scheme: dark) and not print {
-    :root {
-      --accent:        #8b95a1;
-      --accent-dark:   #aab3bd;
-      --accent-light:  #2c2f33;
-      --bg:            #161514;
-      --card-bg:       #201f1d;
-      --ink:           #efeeec;
-      --muted:         #b8b4ae;
-      --border:        #38352f;
-      --border-strong: #48443c;
-      --ok:            #7fc998;
-      --ok-bg:         #1e2f25;
-      --warn:          #f0a09a;
-      --warn-bg:       #33201e;
-      --shadow-sm:     0 1px 2px rgba(0,0,0,.4);
-      --shadow-md:     0 4px 14px rgba(0,0,0,.45);
-      --shadow-lg:     0 14px 34px rgba(0,0,0,.55);
+      @media (prefers-color-scheme: dark) and not print {
+        :root {
+          --accent: #8b95a1;
+          --accent-dark: #aab3bd;
+          --accent-light: #2c2f33;
+          --bg: #161514;
+          --card-bg: #201f1d;
+          --ink: #efeeec;
+          --muted: #b8b4ae;
+          --border: #38352f;
+          --border-strong: #48443c;
+          --ok: #7fc998;
+          --ok-bg: #1e2f25;
+          --warn: #f0a09a;
+          --warn-bg: #33201e;
+          --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+          --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.45);
+          --shadow-lg: 0 14px 34px rgba(0, 0, 0, 0.55);
 
-      --accent-ink:    #1a1a1a;
-      --nav-bg:        color-mix(in srgb, var(--card-bg) 78%, transparent);
-    }
-  }
+          --accent-ink: #1a1a1a;
+          --nav-bg: color-mix(in srgb, var(--card-bg) 78%, transparent);
+        }
+      }
 
-  /* ============================================================
+      /* ============================================================
      BASE
      ============================================================ */
-  * { box-sizing: border-box; }
+      * {
+        box-sizing: border-box;
+      }
 
-  html {
-    scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
-  }
+      html {
+        scroll-behavior: smooth;
+        -webkit-text-size-adjust: 100%;
+      }
 
-  body {
-    margin: 0;
-    font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
-                 Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
-    /* Plain themed page background — a solid surface tint plus a faint accent
+      body {
+        margin: 0;
+        font-family:
+          ui-sans-serif,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          "Apple Color Emoji",
+          "Segoe UI Emoji",
+          sans-serif;
+        /* Plain themed page background — a solid surface tint plus a faint accent
        glow top-right. No background photo (removed by design). */
-    background:
-      radial-gradient(60% 40% at 100% 0%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 70%),
-      var(--bg);
-    background-repeat: no-repeat;
-    color: var(--ink);
-    line-height: 1.62;
-    font-size: 16px;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-  }
+        background:
+          radial-gradient(
+            60% 40% at 100% 0%,
+            color-mix(in srgb, var(--accent) 8%, transparent),
+            transparent 70%
+          ),
+          var(--bg);
+        background-repeat: no-repeat;
+        color: var(--ink);
+        line-height: 1.62;
+        font-size: 16px;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
 
-  a {
-    color: var(--accent-dark);
-    font-weight: 500;
-    text-decoration-color: var(--ring);
-    text-underline-offset: 2px;
-    transition: color .15s ease;
-  }
-  a:hover { color: var(--accent); }
+      a {
+        color: var(--accent-dark);
+        font-weight: 500;
+        text-decoration-color: var(--ring);
+        text-underline-offset: 2px;
+        transition: color 0.15s ease;
+      }
+      a:hover {
+        color: var(--accent);
+      }
 
-  :focus-visible {
-    outline: 2px solid var(--ring);
-    outline-offset: 2px;
-    border-radius: 4px;
-  }
+      :focus-visible {
+        outline: 2px solid var(--ring);
+        outline-offset: 2px;
+        border-radius: 4px;
+      }
 
-  ::selection { background: color-mix(in srgb, var(--accent) 25%, transparent); }
+      ::selection {
+        background: color-mix(in srgb, var(--accent) 25%, transparent);
+      }
 
-  .wrap {
-    max-width: var(--maxw);
-    margin: 0 auto;
-    padding: 0 1.25rem 4rem;
-  }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 0 1.25rem 4rem;
+      }
 
-  /* ============================================================
+      /* ============================================================
      HERO — general only (emoji + title + one-line subtitle).
      All trip DETAILS live in the Trip Summary section below.
      The hook themes this via the accent tokens.
@@ -145,484 +178,592 @@
      When {{HERO_IMAGE}} is `none`, layer 2 renders nothing and the hero
      looks exactly like the classic gradient header.
      ============================================================ */
-  header.hero {
-    --hero-image: none;   /* overridden inline per trip via {{HERO_IMAGE}} */
-    /* background-color is a separate (always-valid) property so an unfilled
+      header.hero {
+        --hero-image: none; /* overridden inline per trip via {{HERO_IMAGE}} */
+        /* background-color is a separate (always-valid) property so an unfilled
        {{HERO_IMAGE}} placeholder — invalid as a background-image token —
        can only invalidate background-image, leaving this flat accent grey
        showing rather than the whole background going transparent/white. */
-    background-color: var(--accent);
-    background-image:
-      linear-gradient(135deg,
-        color-mix(in srgb, var(--accent) 24%, transparent) 0%,
-        color-mix(in srgb, var(--accent-dark) 34%, transparent) 100%),
-      var(--hero-image, none);
-    background-size: cover, cover;
-    background-position: center, center;
-    background-repeat: no-repeat;
-    color: var(--accent-ink);
-    text-align: center;
-    /* Taller hero so more of the destination photo is visible; content stays
+        background-color: var(--accent);
+        background-image:
+          linear-gradient(
+            135deg,
+            color-mix(in srgb, var(--accent) 24%, transparent) 0%,
+            color-mix(in srgb, var(--accent-dark) 34%, transparent) 100%
+          ),
+          var(--hero-image, none);
+        background-size: cover, cover;
+        background-position: center, center;
+        background-repeat: no-repeat;
+        color: var(--accent-ink);
+        text-align: center;
+        /* Taller hero so more of the destination photo is visible; content stays
        vertically centered within it. */
-    padding: 3.5rem 1.5rem 3rem;
-    min-height: 30vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 0 0 28px 28px;
-    margin-bottom: 0;
-    box-shadow: var(--shadow-md);
-    position: relative;
-    overflow: hidden;
-  }
-  header.hero::before {                 /* soft corner glow, theme-agnostic */
-    content: "";
-    position: absolute;
-    inset: -40% -10% auto -10%;
-    height: 120%;
-    background:
-      radial-gradient(50% 60% at 18% 0%, rgba(255,255,255,.20), transparent 70%),
-      radial-gradient(45% 55% at 88% 8%, rgba(255,255,255,.14), transparent 70%);
-    pointer-events: none;
-  }
-  header.hero::after {                  /* fine top-lit sheen */
-    content: "";
-    position: absolute; inset: 0;
-    background: radial-gradient(120% 100% at 50% -20%, rgba(255,255,255,.22), transparent 60%);
-    pointer-events: none;
-  }
-  header.hero > * { position: relative; z-index: 1; }
-  header.hero .hero-kicker {
-    margin: 0 0 .6rem;
-    font-size: .78rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .12em;
-    opacity: .9;
-    text-shadow: 0 1px 4px rgba(0,0,0,.45);
-  }
-  header.hero h1 {
-    margin: 0;
-    font-size: clamp(1.85rem, 4.5vw, 2.6rem);
-    font-weight: 800;
-    letter-spacing: -0.025em;
-    line-height: 1.1;
-    text-wrap: balance;
-    text-shadow: 0 2px 8px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.4);   /* legibility over hero photo */
-  }
-  header.hero .hero-subtitle {
-    margin: .7rem auto 0;
-    max-width: 42ch;
-    font-size: 1.06rem;
-    font-weight: 500;
-    opacity: .96;
-    text-wrap: pretty;
-    text-shadow: 0 1px 5px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.4);   /* legibility over hero photo */
-  }
+        padding: 3.5rem 1.5rem 3rem;
+        min-height: 30vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 0 0 28px 28px;
+        margin-bottom: 0;
+        box-shadow: var(--shadow-md);
+        position: relative;
+        overflow: hidden;
+      }
+      header.hero::before {
+        /* soft corner glow, theme-agnostic */
+        content: "";
+        position: absolute;
+        inset: -40% -10% auto -10%;
+        height: 120%;
+        background:
+          radial-gradient(
+            50% 60% at 18% 0%,
+            rgba(255, 255, 255, 0.2),
+            transparent 70%
+          ),
+          radial-gradient(
+            45% 55% at 88% 8%,
+            rgba(255, 255, 255, 0.14),
+            transparent 70%
+          );
+        pointer-events: none;
+      }
+      header.hero::after {
+        /* fine top-lit sheen */
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          120% 100% at 50% -20%,
+          rgba(255, 255, 255, 0.22),
+          transparent 60%
+        );
+        pointer-events: none;
+      }
+      header.hero > * {
+        position: relative;
+        z-index: 1;
+      }
+      header.hero .hero-kicker {
+        margin: 0 0 0.6rem;
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        opacity: 0.9;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+      }
+      header.hero h1 {
+        margin: 0;
+        font-size: clamp(1.85rem, 4.5vw, 2.6rem);
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        line-height: 1.1;
+        text-wrap: balance;
+        text-shadow:
+          0 2px 8px rgba(0, 0, 0, 0.5),
+          0 1px 2px rgba(0, 0, 0, 0.4); /* legibility over hero photo */
+      }
+      header.hero .hero-subtitle {
+        margin: 0.7rem auto 0;
+        max-width: 42ch;
+        font-size: 1.06rem;
+        font-weight: 500;
+        opacity: 0.96;
+        text-wrap: pretty;
+        text-shadow:
+          0 1px 5px rgba(0, 0, 0, 0.5),
+          0 1px 2px rgba(0, 0, 0, 0.4); /* legibility over hero photo */
+      }
 
-  /* ============================================================
+      /* ============================================================
      SECTION NAV — sticky, static anchor links to the sections below.
      No script; degrades to a simple link row. Not a content slot.
      ============================================================ */
-  .toc {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    display: flex;
-    gap: .35rem;
-    overflow-x: auto;
-    scrollbar-width: none;
-    margin: 0 -1.25rem 1.75rem;
-    padding: .7rem 1.25rem;
-    background: var(--nav-bg);
-    backdrop-filter: saturate(1.4) blur(10px);
-    border-bottom: 1px solid var(--border);
-  }
-  .toc::-webkit-scrollbar { display: none; }
-  .toc a {
-    flex: 0 0 auto;
-    padding: .35rem .8rem;
-    border-radius: var(--radius-pill);
-    font-size: .85rem;
-    font-weight: 600;
-    color: var(--muted);
-    text-decoration: none;
-    white-space: nowrap;
-    transition: background .15s ease, color .15s ease;
-  }
-  .toc a:hover {
-    background: var(--accent-light);
-    color: var(--accent-dark);
-  }
+      .toc {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        display: flex;
+        gap: 0.35rem;
+        overflow-x: auto;
+        scrollbar-width: none;
+        margin: 0 -1.25rem 1.75rem;
+        padding: 0.7rem 1.25rem;
+        background: var(--nav-bg);
+        backdrop-filter: saturate(1.4) blur(10px);
+        border-bottom: 1px solid var(--border);
+      }
+      .toc::-webkit-scrollbar {
+        display: none;
+      }
+      .toc a {
+        flex: 0 0 auto;
+        padding: 0.35rem 0.8rem;
+        border-radius: var(--radius-pill);
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--muted);
+        text-decoration: none;
+        white-space: nowrap;
+        transition:
+          background 0.15s ease,
+          color 0.15s ease;
+      }
+      .toc a:hover {
+        background: var(--accent-light);
+        color: var(--accent-dark);
+      }
 
-  /* ============================================================
+      /* ============================================================
      SECTIONS
      ============================================================ */
-  section {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.6rem 1.7rem 1.85rem;
-    margin-bottom: 1.5rem;
-    box-shadow: var(--shadow-sm);
-    scroll-margin-top: 4.5rem;
-  }
+      section {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.6rem 1.7rem 1.85rem;
+        margin-bottom: 1.5rem;
+        box-shadow: var(--shadow-sm);
+        scroll-margin-top: 4.5rem;
+      }
 
-  h2 {
-    display: flex;
-    align-items: center;
-    gap: .55rem;
-    color: var(--accent-dark);
-    font-size: 1.3rem;
-    font-weight: 700;
-    letter-spacing: -0.015em;
-    margin: 0 0 1.15rem;
-    padding-bottom: .65rem;
-    border-bottom: 1px solid var(--hairline);
-  }
+      h2 {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        color: var(--accent-dark);
+        font-size: 1.3rem;
+        font-weight: 700;
+        letter-spacing: -0.015em;
+        margin: 0 0 1.15rem;
+        padding-bottom: 0.65rem;
+        border-bottom: 1px solid var(--hairline);
+      }
 
-  h3 {
-    color: var(--ink);
-    font-size: 1.05rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    margin: 1.5rem 0 .5rem;
-  }
-  h3:first-of-type { margin-top: .4rem; }
+      h3 {
+        color: var(--ink);
+        font-size: 1.05rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        margin: 1.5rem 0 0.5rem;
+      }
+      h3:first-of-type {
+        margin-top: 0.4rem;
+      }
 
-  p { margin: .5rem 0; }
+      p {
+        margin: 0.5rem 0;
+      }
 
-  /* Chips (party / transport / interests / budget) — now in Summary */
-  .chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: .5rem;
-    margin-bottom: 1.3rem;
-  }
-  .chip {
-    display: inline-flex;
-    align-items: center;
-    gap: .3rem;
-    background: var(--accent-light);
-    color: var(--accent-dark);
-    border: 1px solid var(--border-strong);
-    padding: .4rem .85rem;
-    border-radius: var(--radius-pill);
-    font-size: .85rem;
-    font-weight: 600;
-    white-space: nowrap;
-  }
-  /* Emphasized, not green — the total is a headline number, not a verdict
+      /* Chips (party / transport / interests / budget) — now in Summary */
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.3rem;
+      }
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        background: var(--accent-light);
+        color: var(--accent-dark);
+        border: 1px solid var(--border-strong);
+        padding: 0.4rem 0.85rem;
+        border-radius: var(--radius-pill);
+        font-size: 0.85rem;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      /* Emphasized, not green — the total is a headline number, not a verdict
      (whether it's good news depends on the limit, shown separately by the
      budget gauge/status text). Filled with the trip's own accent so it
      stands out without borrowing the ok/warn semantic colors. */
-  .chip.total {
-    background: var(--accent);
-    color: var(--accent-ink);
-    border-color: var(--accent);
-  }
+      .chip.total {
+        background: var(--accent);
+        color: var(--accent-ink);
+        border-color: var(--accent);
+      }
 
-  /* Trip summary strict fields — label/value grid.
+      /* Trip summary strict fields — label/value grid.
      Markup stays <p><strong>Label:</strong> value</p>; the strong is the
      first grid item and the value text becomes the second. */
-  .summary-fields {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0;
-    margin: 0;
-  }
-  .summary-fields p,
-  .summary-fields .field {
-    display: grid;
-    grid-template-columns: minmax(9rem, 12rem) 1fr;
-    gap: .25rem 1.1rem;
-    margin: 0;
-    padding: .7rem 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .summary-fields p:last-child,
-  .summary-fields .field:last-child { border-bottom: none; }
-  /* Interest tags reuse the chip visual language instead of a default
+      .summary-fields {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0;
+        margin: 0;
+      }
+      .summary-fields p,
+      .summary-fields .field {
+        display: grid;
+        grid-template-columns: minmax(9rem, 12rem) 1fr;
+        gap: 0.25rem 1.1rem;
+        margin: 0;
+        padding: 0.7rem 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .summary-fields p:last-child,
+      .summary-fields .field:last-child {
+        border-bottom: none;
+      }
+      /* Interest tags reuse the chip visual language instead of a default
      browser bullet list — the only place in Trip Summary that would
      otherwise clash with the chip row right above it. */
-  .summary-fields .field > ul {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: .4rem;
-    margin: 0;
-    padding: 0;
-  }
-  .summary-fields .field > ul li {
-    background: var(--accent-light);
-    color: var(--accent-dark);
-    border: 1px solid var(--border-strong);
-    padding: .3rem .7rem;
-    border-radius: var(--radius-pill);
-    font-size: .85rem;
-    font-weight: 600;
-  }
-  .summary-fields strong {
-    color: var(--muted);
-    font-weight: 600;
-    font-size: .82rem;
-    text-transform: uppercase;
-    letter-spacing: .04em;
-    align-self: baseline;
-    padding-top: .1rem;
-  }
+      .summary-fields .field > ul {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin: 0;
+        padding: 0;
+      }
+      .summary-fields .field > ul li {
+        background: var(--accent-light);
+        color: var(--accent-dark);
+        border: 1px solid var(--border-strong);
+        padding: 0.3rem 0.7rem;
+        border-radius: var(--radius-pill);
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+      .summary-fields strong {
+        color: var(--muted);
+        font-weight: 600;
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        align-self: baseline;
+        padding-top: 0.1rem;
+      }
 
-  /* ============================================================
+      /* ============================================================
      TABLES
      ============================================================ */
-  .table-scroll {
-    overflow-x: auto;
-    margin: .9rem 0;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: .93rem;
-  }
-  caption {
-    caption-side: top;
-    text-align: left;
-    font-weight: 500;
-    color: var(--muted);
-    padding: .1rem .2rem .7rem;
-    font-size: .9rem;
-  }
-  th, td {
-    text-align: left;
-    padding: .65rem .8rem;
-    border-bottom: 1px solid var(--border);
-    vertical-align: top;
-  }
-  /* Cost/duration/date-ish columns get tabular figures so amounts align
+      .table-scroll {
+        overflow-x: auto;
+        margin: 0.9rem 0;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.93rem;
+      }
+      caption {
+        caption-side: top;
+        text-align: left;
+        font-weight: 500;
+        color: var(--muted);
+        padding: 0.1rem 0.2rem 0.7rem;
+        font-size: 0.9rem;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 0.65rem 0.8rem;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+      }
+      /* Cost/duration/date-ish columns get tabular figures so amounts align
      down the column instead of jittering with each row's digit widths. */
-  #transport table td:nth-child(4),
-  #transport table td:nth-child(5),
-  #accommodation table td:nth-child(5),
-  #accommodation table td:nth-child(6),
-  #activities table td:nth-child(4),
-  #activities table td:nth-child(6),
-  #budget table td:nth-child(3),
-  #weather table td:nth-child(3),
-  #weather table td:nth-child(4) {
-    font-variant-numeric: tabular-nums;
-  }
-  th {
-    background: var(--accent-light);
-    color: var(--accent-dark);
-    font-weight: 700;
-    font-size: .74rem;
-    text-transform: uppercase;
-    letter-spacing: .05em;
-    white-space: nowrap;
-  }
-  tbody tr:nth-child(even) td {
-    background: color-mix(in srgb, var(--accent-light) 22%, transparent);
-  }
-  tbody tr:hover td { background: color-mix(in srgb, var(--accent-light) 55%, transparent); }
-  tr:last-child td { border-bottom: none; }
-  /* Neutral, not green — a total-row is just an arithmetic sum (accommodation
+      #transport table td:nth-child(4),
+      #transport table td:nth-child(5),
+      #accommodation table td:nth-child(5),
+      #accommodation table td:nth-child(6),
+      #activities table td:nth-child(4),
+      #activities table td:nth-child(6),
+      #budget table td:nth-child(3),
+      #weather table td:nth-child(3),
+      #weather table td:nth-child(4) {
+        font-variant-numeric: tabular-nums;
+      }
+      th {
+        background: var(--accent-light);
+        color: var(--accent-dark);
+        font-weight: 700;
+        font-size: 0.74rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        white-space: nowrap;
+      }
+      tbody tr:nth-child(even) td {
+        background: color-mix(in srgb, var(--accent-light) 22%, transparent);
+      }
+      tbody tr:hover td {
+        background: color-mix(in srgb, var(--accent-light) 55%, transparent);
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      /* Neutral, not green — a total-row is just an arithmetic sum (accommodation
      total, activities total, budget grand total), not a verdict. Green is
      reserved for an actual positive judgment (under-budget), applied via
      .note-box/.budget-gauge-fill, never onto a plain total. */
-  tr.total-row td {
-    font-weight: 700;
-    background: var(--accent-light) !important;
-    color: var(--accent-dark);
-  }
-  tr.total-row:hover td { background: var(--accent-light) !important; }
+      tr.total-row td {
+        font-weight: 700;
+        background: var(--accent-light) !important;
+        color: var(--accent-dark);
+      }
+      tr.total-row:hover td {
+        background: var(--accent-light) !important;
+      }
 
-  /* Budget gauge — a one-glance spent-vs-limit bar under the budget table,
+      /* Budget gauge — a one-glance spent-vs-limit bar under the budget table,
      since {{BUDGET_STATUS}}/{{BUDGET_AGAINST_LIMIT}} already say this in
      text; the bar just makes "how close to the limit" scannable instantly. */
-  .budget-gauge {
-    height: 10px;
-    border-radius: var(--radius-pill);
-    background: var(--accent-light);
-    overflow: hidden;
-    margin: .9rem 0 0;
-  }
-  .budget-gauge-fill {
-    height: 100%;
-    border-radius: var(--radius-pill);
-    background: var(--ok);
-  }
-  .budget-gauge-fill.over { background: var(--warn); }
+      .budget-gauge {
+        height: 10px;
+        border-radius: var(--radius-pill);
+        background: var(--accent-light);
+        overflow: hidden;
+        margin: 0.9rem 0 0;
+      }
+      .budget-gauge-fill {
+        height: 100%;
+        border-radius: var(--radius-pill);
+        background: var(--ok);
+      }
+      .budget-gauge-fill.over {
+        background: var(--warn);
+      }
 
-  /* ============================================================
+      /* ============================================================
      ITINERARY — day cards
      ============================================================ */
-  #itinerary { counter-reset: daycard; }
-  .day-card {
-    counter-increment: daycard;
-    position: relative;
-    border: 1px solid var(--border);
-    border-left: 4px solid var(--accent);
-    background: color-mix(in srgb, var(--accent-light) 45%, var(--card-bg));
-    border-radius: var(--radius-sm);
-    padding: 1.15rem 1.35rem 1.25rem;
-    margin-bottom: 1.1rem;
-    box-shadow: var(--shadow-sm);
-  }
-  .day-card:last-child { margin-bottom: 0; }
-  /* Auto-numbered position badge — purely decorative (CSS counter, no
+      #itinerary {
+        counter-reset: daycard;
+      }
+      .day-card {
+        counter-increment: daycard;
+        position: relative;
+        border: 1px solid var(--border);
+        border-left: 4px solid var(--accent);
+        background: color-mix(in srgb, var(--accent-light) 45%, var(--card-bg));
+        border-radius: var(--radius-sm);
+        padding: 1.15rem 1.35rem 1.25rem;
+        margin-bottom: 1.1rem;
+        box-shadow: var(--shadow-sm);
+      }
+      .day-card:last-child {
+        margin-bottom: 0;
+      }
+      /* Auto-numbered position badge — purely decorative (CSS counter, no
      content slot) so a reader scrolling a long itinerary always knows
      which day-card they're on, independent of the h3's own "Day N" text. */
-  .day-card::before {
-    content: "Day " counter(daycard);
-    position: absolute;
-    top: -.65rem;
-    right: 1.1rem;
-    background: var(--accent);
-    color: var(--accent-ink);
-    font-size: .7rem;
-    font-weight: 700;
-    letter-spacing: .03em;
-    padding: .25rem .7rem;
-    border-radius: var(--radius-pill);
-    box-shadow: var(--shadow-sm);
-  }
-  .day-card h3 {
-    margin: 0 0 .8rem;
-    color: var(--accent-dark);
-    font-size: 1.08rem;
-  }
-  .timeline { list-style: none; margin: 0; padding: 0; }
-  .timeline li {
-    display: flex;
-    gap: .95rem;
-    padding: .55rem 0;
-    border-bottom: 1px dashed var(--border-strong);
-  }
-  .timeline li:last-child { border-bottom: none; }
-  .time {
-    flex: 0 0 auto;
-    min-width: 104px;
-    align-self: flex-start;
-    font-weight: 700;
-    color: var(--accent-dark);
-    font-variant-numeric: tabular-nums;
-    font-size: .82rem;
-    letter-spacing: .01em;
-  }
+      .day-card::before {
+        content: "Day " counter(daycard);
+        position: absolute;
+        top: -0.65rem;
+        right: 1.1rem;
+        background: var(--accent);
+        color: var(--accent-ink);
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        padding: 0.25rem 0.7rem;
+        border-radius: var(--radius-pill);
+        box-shadow: var(--shadow-sm);
+      }
+      .day-card h3 {
+        margin: 0 0 0.8rem;
+        color: var(--accent-dark);
+        font-size: 1.08rem;
+      }
+      .timeline {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .timeline li {
+        display: flex;
+        gap: 0.95rem;
+        padding: 0.55rem 0;
+        border-bottom: 1px dashed var(--border-strong);
+      }
+      .timeline li:last-child {
+        border-bottom: none;
+      }
+      .time {
+        flex: 0 0 auto;
+        min-width: 104px;
+        align-self: flex-start;
+        font-weight: 700;
+        color: var(--accent-dark);
+        font-variant-numeric: tabular-nums;
+        font-size: 0.82rem;
+        letter-spacing: 0.01em;
+      }
 
-  /* ============================================================
+      /* ============================================================
      BOXES & LISTS
      ============================================================ */
-  /* Body text always stays --ink for readability; only the box's accent
+      /* Body text always stays --ink for readability; only the box's accent
      color (border + strong/label) carries the ok/warn/info meaning — a
      warn-box full of red prose is harder to read than a neutral one with
      a red accent, and .info-box gives non-critical notes (FYI, not risk)
      a home instead of forcing them into the warning visual language. */
-  .note-box,
-  .warn-box,
-  .info-box {
-    border-radius: var(--radius-sm);
-    padding: .9rem 1.1rem;
-    margin: 1rem 0 0;
-    font-size: .92rem;
-    color: var(--ink);
-  }
-  .note-box {
-    background: var(--ok-bg);
-    border: 1px solid color-mix(in srgb, var(--ok) 30%, transparent);
-    border-left: 3px solid var(--ok);
-  }
-  .note-box strong { color: var(--ok); }
-  .warn-box {
-    background: var(--warn-bg);
-    border: 1px solid color-mix(in srgb, var(--warn) 40%, transparent);
-    border-left: 3px solid var(--warn);
-  }
-  .warn-box strong { color: var(--warn); }
-  .info-box {
-    background: var(--accent-light);
-    border: 1px solid var(--border-strong);
-    border-left: 3px solid var(--accent);
-  }
-  .info-box strong { color: var(--accent-dark); }
+      .note-box,
+      .warn-box,
+      .info-box {
+        border-radius: var(--radius-sm);
+        padding: 0.9rem 1.1rem;
+        margin: 1rem 0 0;
+        font-size: 0.92rem;
+        color: var(--ink);
+      }
+      .note-box {
+        background: var(--ok-bg);
+        border: 1px solid color-mix(in srgb, var(--ok) 30%, transparent);
+        border-left: 3px solid var(--ok);
+      }
+      .note-box strong {
+        color: var(--ok);
+      }
+      .warn-box {
+        background: var(--warn-bg);
+        border: 1px solid color-mix(in srgb, var(--warn) 40%, transparent);
+        border-left: 3px solid var(--warn);
+      }
+      .warn-box strong {
+        color: var(--warn);
+      }
+      .info-box {
+        background: var(--accent-light);
+        border: 1px solid var(--border-strong);
+        border-left: 3px solid var(--accent);
+      }
+      .info-box strong {
+        color: var(--accent-dark);
+      }
 
-  .checklist {
-    list-style: none;
-    padding: 0;
-    margin: .5rem 0 0;
-    columns: 2;
-    column-gap: 2.5rem;
-  }
-  .checklist li {
-    break-inside: avoid;
-    padding: .32rem 0;
-    font-size: .94rem;
-  }
-  .checklist li label {
-    display: flex;
-    align-items: flex-start;
-    gap: .6rem;
-    cursor: pointer;
-  }
-  .checklist input[type="checkbox"] {
-    margin: .28rem 0 0;
-    width: 17px; height: 17px;
-    accent-color: var(--accent);
-    flex-shrink: 0;
-    cursor: pointer;
-  }
+      .checklist {
+        list-style: none;
+        padding: 0;
+        margin: 0.5rem 0 0;
+        columns: 2;
+        column-gap: 2.5rem;
+      }
+      .checklist li {
+        break-inside: avoid;
+        padding: 0.32rem 0;
+        font-size: 0.94rem;
+      }
+      .checklist li label {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.6rem;
+        cursor: pointer;
+      }
+      .checklist input[type="checkbox"] {
+        margin: 0.28rem 0 0;
+        width: 17px;
+        height: 17px;
+        accent-color: var(--accent);
+        flex-shrink: 0;
+        cursor: pointer;
+      }
 
-  .tips-list { padding-left: 1.2rem; margin: .4rem 0 0; }
-  .tips-list li { margin-bottom: .65rem; }
-  .tips-list li::marker { color: var(--accent); }
+      .tips-list {
+        padding-left: 1.2rem;
+        margin: 0.4rem 0 0;
+      }
+      .tips-list li {
+        margin-bottom: 0.65rem;
+      }
+      .tips-list li::marker {
+        color: var(--accent);
+      }
 
-  /* ============================================================
+      /* ============================================================
      RESPONSIVE
      ============================================================ */
-  @media (max-width: 640px) {
-    body { font-size: 15px; }
-    .checklist { columns: 1; }
-    header.hero { padding: 3.5rem 1.25rem 3.25rem; min-height: 34vh; }
-    table { font-size: .85rem; }
-    .time { min-width: 82px; }
-    section { padding: 1.3rem 1.2rem 1.45rem; }
-    .summary-fields p,
-    .summary-fields .field { grid-template-columns: 1fr; gap: .1rem; padding: .6rem 0; }
-    .summary-fields strong { padding-top: 0; }
-  }
+      @media (max-width: 640px) {
+        body {
+          font-size: 15px;
+        }
+        .checklist {
+          columns: 1;
+        }
+        header.hero {
+          padding: 3.5rem 1.25rem 3.25rem;
+          min-height: 34vh;
+        }
+        table {
+          font-size: 0.85rem;
+        }
+        .time {
+          min-width: 82px;
+        }
+        section {
+          padding: 1.3rem 1.2rem 1.45rem;
+        }
+        .summary-fields p,
+        .summary-fields .field {
+          grid-template-columns: 1fr;
+          gap: 0.1rem;
+          padding: 0.6rem 0;
+        }
+        .summary-fields strong {
+          padding-top: 0;
+        }
+      }
 
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    * { transition: none !important; }
-  }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        * {
+          transition: none !important;
+        }
+      }
 
-  @media print {
-    html { scroll-behavior: auto; }
-    body { background: #fff !important; font-size: 11pt; }
-    .wrap { padding-bottom: 1rem; max-width: none; }
-    .toc { display: none; }
-    section {
-      box-shadow: none;
-      border: 1px solid #ccc;
-      break-inside: avoid;
-    }
-    .table-scroll { overflow: visible; }
-    header.hero {
-      background: var(--accent) !important;
-      border-radius: 0 0 12px 12px;
-      -webkit-print-color-adjust: exact; print-color-adjust: exact;
-    }
-    th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    a { color: inherit; text-decoration: underline; }
-  }
-</style>
-</head>
-<body>
-
-  <!-- ============================================================
+      @media print {
+        html {
+          scroll-behavior: auto;
+        }
+        body {
+          background: #fff !important;
+          font-size: 11pt;
+        }
+        .wrap {
+          padding-bottom: 1rem;
+          max-width: none;
+        }
+        .toc {
+          display: none;
+        }
+        section {
+          box-shadow: none;
+          border: 1px solid #ccc;
+          break-inside: avoid;
+        }
+        .table-scroll {
+          overflow: visible;
+        }
+        header.hero {
+          background: var(--accent) !important;
+          border-radius: 0 0 12px 12px;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        th {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        a {
+          color: inherit;
+          text-decoration: underline;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ============================================================
        HERO — general only. Emoji + title + one general subtitle line.
        NO party / transport / budget / interest chips here — those are
        DETAILS and belong in the Trip Summary section below.
@@ -633,82 +774,100 @@
        accent overlay keeps text legible) — or `none` to fall back to the
        plain themed gradient.
        ============================================================ -->
-  <!-- {{HERO_IMAGE}} must use single quotes inside url(...) — e.g. url('data:image/jpeg;base64,…') — since it's injected into this double-quoted style attribute; double quotes here truncate the attribute and corrupt the page. -->
-  <header class="hero" style="--hero-image: {{HERO_IMAGE}};">
-    <p class="hero-kicker">Travel Guide</p>
-    <h1>{{TRIP_TITLE}}</h1>
-    <p class="hero-subtitle">{{TRIP_SUBTITLE}}</p>
-  </header>
+    <!-- {{HERO_IMAGE}} must use single quotes inside url(...) — e.g. url('data:image/jpeg;base64,…') — since it's injected into this double-quoted style attribute; double quotes here truncate the attribute and corrupt the page. -->
+    <header class="hero" style="--hero-image: {{HERO_IMAGE}};">
+      <p class="hero-kicker">Travel Guide</p>
+      <h1>{{TRIP_TITLE}}</h1>
+      <p class="hero-subtitle">{{TRIP_SUBTITLE}}</p>
+    </header>
 
-<div class="wrap">
-
-  <!-- ============================================================
+    <div class="wrap">
+      <!-- ============================================================
        SECTION NAV — static anchors to the sections below (no slots).
        ============================================================ -->
-  <nav class="toc" aria-label="Trip guide sections">
-    <a href="#summary">Summary</a>
-    <a href="#transport">Getting there</a>
-    <a href="#itinerary">Itinerary</a>
-    <a href="#accommodation">Stay</a>
-    <a href="#activities">Activities</a>
-    <a href="#dining">Dining</a>
-    <a href="#budget">Budget</a>
-    <a href="#weather">Weather</a>
-    <a href="#packing">Packing</a>
-    <a href="#tips">Tips</a>
-  </nav>
+      <nav class="toc" aria-label="Trip guide sections">
+        <a href="#summary">Summary</a>
+        <a href="#transport">Getting there</a>
+        <a href="#itinerary">Itinerary</a>
+        <a href="#accommodation">Stay</a>
+        <a href="#activities">Activities</a>
+        <a href="#dining">Dining</a>
+        <a href="#budget">Budget</a>
+        <a href="#weather">Weather</a>
+        <a href="#packing">Packing</a>
+        <a href="#tips">Tips</a>
+      </nav>
 
-  <!-- ============================================================
+      <!-- ============================================================
        TRIP SUMMARY — all the trip details live here.
        ============================================================ -->
-  <section id="summary">
-    <h2>📋 Trip Summary</h2>
-    <div class="chips">
-      <span class="chip">👪 {{PARTY}}</span>
-      <span class="chip">{{TRANSPORT_MODE_EMOJI}} {{TRANSPORT_MODE}}</span>
-      {{INTEREST_CHIPS}}
-      <span class="chip total">💰 {{BUDGET_TOTAL}}</span>
-    </div>
-    <div class="summary-fields">
-      <p><strong>Destination:</strong> {{DESTINATION}}</p>
-      <p><strong>Dates:</strong> {{DATES_DETAIL}}</p>
-      <p><strong>Party:</strong> {{PARTY_DETAIL}}</p>
-      <p><strong>Transport mode:</strong> {{TRANSPORT_MODE_DETAIL}}</p>
-      <p><strong>Budget:</strong> {{BUDGET_TOTAL}} against a limit of {{BUDGET_LIMIT}} ({{BUDGET_STATUS}})</p>
-      <div class="field"><strong>Interests covered:</strong> <ul>{{INTERESTS_LIST}}</ul></div>
-    </div>
-  </section>
+      <section id="summary">
+        <h2>📋 Trip Summary</h2>
+        <div class="chips">
+          <span class="chip">👪 {{PARTY}}</span>
+          <span class="chip">{{TRANSPORT_MODE_EMOJI}} {{TRANSPORT_MODE}}</span>
+          {{INTEREST_CHIPS}}
+          <span class="chip total">💰 {{BUDGET_TOTAL}}</span>
+        </div>
+        <div class="summary-fields">
+          <p><strong>Destination:</strong> {{DESTINATION}}</p>
+          <p><strong>Dates:</strong> {{DATES_DETAIL}}</p>
+          <p><strong>Party:</strong> {{PARTY_DETAIL}}</p>
+          <p><strong>Transport mode:</strong> {{TRANSPORT_MODE_DETAIL}}</p>
+          <p>
+            <strong>Budget:</strong> {{BUDGET_TOTAL}} against a limit of
+            {{BUDGET_LIMIT}} ({{BUDGET_STATUS}})
+          </p>
+          <div class="field">
+            <strong>Interests covered:</strong>
+            <ul>
+              {{INTERESTS_LIST}}
+            </ul>
+          </div>
+        </div>
+      </section>
 
-  <!-- ============================================================
+      <!-- ============================================================
        GETTING THERE & AROUND
        ============================================================ -->
-  <section id="transport">
-    <h2>{{TRANSPORT_MODE_EMOJI}} Getting There &amp; Around</h2>
-    <div class="table-scroll">
-      <table>
-        <caption>{{TRANSPORT_LEGS_CAPTION}}</caption>
-        <thead>
-          <tr><th>Leg</th><th>Detail</th><th>Day/Date</th><th>Duration</th><th>Est. Cost</th></tr>
-        </thead>
-        <tbody>
-          {{TRANSPORT_LEG_ROWS}}
-        </tbody>
-      </table>
-    </div>
-    <h3>Local transport</h3>
-    <ul>
-      {{LOCAL_TRANSPORT_ITEMS}}
-    </ul>
-    <div class="info-box"><strong>Transport subtotal used in budget:</strong> {{TRANSPORT_TOTAL}}</div>
-    {{TRANSPORT_WARNINGS}}
-  </section>
+      <section id="transport">
+        <h2>{{TRANSPORT_MODE_EMOJI}} Getting There &amp; Around</h2>
+        <div class="table-scroll">
+          <table>
+            <caption>
+              {{TRANSPORT_LEGS_CAPTION}}
+            </caption>
+            <thead>
+              <tr>
+                <th>Leg</th>
+                <th>Detail</th>
+                <th>Day/Date</th>
+                <th>Duration</th>
+                <th>Est. Cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{TRANSPORT_LEG_ROWS}}
+            </tbody>
+          </table>
+        </div>
+        <h3>Local transport</h3>
+        <ul>
+          {{LOCAL_TRANSPORT_ITEMS}}
+        </ul>
+        <div class="info-box">
+          <strong>Transport subtotal used in budget:</strong>
+          {{TRANSPORT_TOTAL}}
+        </div>
+        {{TRANSPORT_WARNINGS}}
+      </section>
 
-  <!-- ============================================================
+      <!-- ============================================================
        DAY-BY-DAY ITINERARY
        ============================================================ -->
-  <section id="itinerary">
-    <h2>🗓️ Day-by-Day Itinerary</h2>
-    <!-- BEGIN REPEAT: {{DAY_CARDS}} = one .day-card per day, in order.
+      <section id="itinerary">
+        <h2>🗓️ Day-by-Day Itinerary</h2>
+        <!-- BEGIN REPEAT: {{DAY_CARDS}} = one .day-card per day, in order.
          Each day card MUST follow EXACTLY this template:
 
          <div class="day-card">
@@ -724,174 +883,218 @@
          - The second <span> holds the activity text, with every source link kept as an <a href>.
          - Do NOT add columns, tables, or extra wrappers inside a day card.
     -->
-    {{DAY_CARDS}}
-    <!-- END REPEAT -->
-    {{ITINERARY_NOTES}}
-  </section>
+        {{DAY_CARDS}}
+        <!-- END REPEAT -->
+        {{ITINERARY_NOTES}}
+      </section>
 
-  <!-- ============================================================
+      <!-- ============================================================
        ACCOMMODATION
        ============================================================ -->
-  <section id="accommodation">
-    <h2>🏠 Where You're Staying</h2>
-    <div class="table-scroll">
-      <table>
-        <thead>
-          <tr><th>Stop</th><th>Property</th><th>Stars</th><th>Key Features</th><th>Cost/night × Nights</th><th>Subtotal</th></tr>
-        </thead>
-        <tbody>
-          {{ACCOMMODATION_ROWS}}
-          <tr class="total-row"><td colspan="5">Accommodation total</td><td>{{ACCOMMODATION_TOTAL}}</td></tr>
-        </tbody>
-      </table>
-    </div>
-    {{ACCOMMODATION_NOTES}}
-  </section>
+      <section id="accommodation">
+        <h2>🏠 Where You're Staying</h2>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Stop</th>
+                <th>Property</th>
+                <th>Stars</th>
+                <th>Key Features</th>
+                <th>Cost/night × Nights</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{ACCOMMODATION_ROWS}}
+              <tr class="total-row">
+                <td colspan="5">Accommodation total</td>
+                <td>{{ACCOMMODATION_TOTAL}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        {{ACCOMMODATION_NOTES}}
+      </section>
 
-  <!-- ============================================================
+      <!-- ============================================================
        ACTIVITIES
        ============================================================ -->
-  <section id="activities">
-    <h2>🎡 Activity Schedule</h2>
-    <div class="table-scroll">
-      <table>
-        <thead>
-          <tr><th>Day</th><th>Activity</th><th>Type</th><th>Duration</th><th>Suitability</th><th>Cost</th></tr>
-        </thead>
-        <tbody>
-          {{ACTIVITY_ROWS}}
-          <tr class="total-row"><td colspan="5">Activities total</td><td>{{ACTIVITIES_TOTAL}}</td></tr>
-        </tbody>
-      </table>
-    </div>
-    {{ACTIVITY_NOTES}}
-  </section>
+      <section id="activities">
+        <h2>🎡 Activity Schedule</h2>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Day</th>
+                <th>Activity</th>
+                <th>Type</th>
+                <th>Duration</th>
+                <th>Suitability</th>
+                <th>Cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{ACTIVITY_ROWS}}
+              <tr class="total-row">
+                <td colspan="5">Activities total</td>
+                <td>{{ACTIVITIES_TOTAL}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        {{ACTIVITY_NOTES}}
+      </section>
 
-  <!-- ============================================================
+      <!-- ============================================================
        DINING
        ============================================================ -->
-  <section id="dining">
-    <h2>🍽️ Restaurant Recommendations</h2>
-    <div class="table-scroll">
-      <table>
-        <thead>
-          <tr><th>Stop</th><th>Restaurant</th><th>Cuisine</th><th>Price Range</th><th>Dietary Fit</th></tr>
-        </thead>
-        <tbody>
-          {{RESTAURANT_ROWS}}
-        </tbody>
-      </table>
-    </div>
-    <h3>Local food to try</h3>
-    <div class="info-box">
-      {{LOCAL_FOOD_ITEMS}}
-    </div>
-    <div class="info-box"><strong>Food subtotal used in budget:</strong> {{FOOD_TOTAL}}</div>
-  </section>
+      <section id="dining">
+        <h2>🍽️ Restaurant Recommendations</h2>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Stop</th>
+                <th>Restaurant</th>
+                <th>Cuisine</th>
+                <th>Price Range</th>
+                <th>Dietary Fit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{RESTAURANT_ROWS}}
+            </tbody>
+          </table>
+        </div>
+        <h3>Local food to try</h3>
+        <div class="info-box">{{LOCAL_FOOD_ITEMS}}</div>
+        <div class="info-box">
+          <strong>Food subtotal used in budget:</strong> {{FOOD_TOTAL}}
+        </div>
+      </section>
 
-  <!-- ============================================================
+      <!-- ============================================================
        BUDGET
        ============================================================ -->
-  <section id="budget">
-    <h2>💰 Budget Summary</h2>
-    <div class="table-scroll">
-      <table>
-        <thead>
-          <tr><th>Category</th><th>Notes</th><th>Cost</th></tr>
-        </thead>
-        <tbody>
-          {{BUDGET_ROWS}}
-          <tr class="total-row"><td colspan="2"><strong>Estimated total</strong></td><td><strong>{{BUDGET_TOTAL}}</strong></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <!-- {{BUDGET_STATUS_BOX_CLASS}} = "note-box" (green) when spent <= limit,
+      <section id="budget">
+        <h2>💰 Budget Summary</h2>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Notes</th>
+                <th>Cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{BUDGET_ROWS}}
+              <tr class="total-row">
+                <td colspan="2"><strong>Estimated total</strong></td>
+                <td><strong>{{BUDGET_TOTAL}}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- {{BUDGET_STATUS_BOX_CLASS}} = "note-box" (green) when spent <= limit,
          "warn-box" (red) when spent > limit — this is the ONE place green
          is earned rather than assumed: it reflects the actual under/over
          verdict, not just "this is a total". Never hardcode note-box here. -->
-    <div class="{{BUDGET_STATUS_BOX_CLASS}}">
-      <strong>Against the limit:</strong> {{BUDGET_AGAINST_LIMIT}}
-    </div>
-    <!-- Gauge fill width is spent/limit as a percentage, CAPPED at 100
+        <div class="{{BUDGET_STATUS_BOX_CLASS}}">
+          <strong>Against the limit:</strong> {{BUDGET_AGAINST_LIMIT}}
+        </div>
+        <!-- Gauge fill width is spent/limit as a percentage, CAPPED at 100
          (never render past the bar's edge even if over budget); class
          matches {{BUDGET_STATUS_BOX_CLASS}}'s verdict — "over" when spent
          > limit, otherwise omitted (defaults to --ok). -->
-    <div class="budget-gauge" role="img" aria-label="Budget {{BUDGET_STATUS}}">
-      <div class="budget-gauge-fill {{BUDGET_GAUGE_FILL_CLASS}}" style="width: {{BUDGET_GAUGE_PERCENT}}%;"></div>
-    </div>
-  </section>
+        <div
+          class="budget-gauge"
+          role="img"
+          aria-label="Budget {{BUDGET_STATUS}}"
+        >
+          <div
+            class="budget-gauge-fill {{BUDGET_GAUGE_FILL_CLASS}}"
+            style="width: {{BUDGET_GAUGE_PERCENT}}%;"
+          ></div>
+        </div>
+      </section>
 
-  <!-- ============================================================
+      <!-- ============================================================
        WEATHER — its own section (was previously inside Packing).
        ============================================================ -->
-  <section id="weather">
-    <h2>🌤️ Weather</h2>
-    <p>{{WEATHER_OUTLOOK}}</p>
-    <div class="table-scroll">
-      <table>
-        <thead>
-          <tr><th>Day/Date</th><th>Conditions</th><th>High / Low</th><th>Precip. chance</th></tr>
-        </thead>
-        <tbody>
-          <!-- Each row's Conditions cell starts with one matching emoji
+      <section id="weather">
+        <h2>🌤️ Weather</h2>
+        <p>{{WEATHER_OUTLOOK}}</p>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Day/Date</th>
+                <th>Conditions</th>
+                <th>High / Low</th>
+                <th>Precip. chance</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Each row's Conditions cell starts with one matching emoji
                (☀️ clear, ⛅ partly cloudy, ☁️ overcast, 🌧️ rain, ⛈️ storms,
                ❄️ snow, 🌫️ fog) so the table scans without reading every
                cell — same emoji-as-icon language used in section headers. -->
-          {{WEATHER_ROWS}}
-        </tbody>
-      </table>
-    </div>
-    {{WEATHER_NOTES}}
-  </section>
+              {{WEATHER_ROWS}}
+            </tbody>
+          </table>
+        </div>
+        {{WEATHER_NOTES}}
+      </section>
 
-  <!-- ============================================================
+      <!-- ============================================================
        PACKING — sectioned checklists. Every item is a checkbox.
        ============================================================ -->
-  <section id="packing">
-    <h2>🧳 Packing Checklist</h2>
+      <section id="packing">
+        <h2>🧳 Packing Checklist</h2>
 
-    <h3>Clothing</h3>
-    <ul class="checklist">
-      {{PACKING_CLOTHING_ITEMS}}
-    </ul>
+        <h3>Clothing</h3>
+        <ul class="checklist">
+          {{PACKING_CLOTHING_ITEMS}}
+        </ul>
 
-    <h3>Electronics</h3>
-    <ul class="checklist">
-      {{PACKING_ELECTRONICS_ITEMS}}
-    </ul>
+        <h3>Electronics</h3>
+        <ul class="checklist">
+          {{PACKING_ELECTRONICS_ITEMS}}
+        </ul>
 
-    <h3>Travel Documents</h3>
-    <ul class="checklist">
-      {{PACKING_DOCUMENTS_ITEMS}}
-    </ul>
+        <h3>Travel Documents</h3>
+        <ul class="checklist">
+          {{PACKING_DOCUMENTS_ITEMS}}
+        </ul>
 
-    <h3>Medicines &amp; Health</h3>
-    <ul class="checklist">
-      {{PACKING_MEDICINES_ITEMS}}
-    </ul>
+        <h3>Medicines &amp; Health</h3>
+        <ul class="checklist">
+          {{PACKING_MEDICINES_ITEMS}}
+        </ul>
 
-    <h3>Destination-Specific</h3>
-    <ul class="checklist">
-      {{PACKING_DESTINATION_ITEMS}}
-    </ul>
-    <!-- Every packing item MUST be a checkbox wrapped in a label so tapping
+        <h3>Destination-Specific</h3>
+        <ul class="checklist">
+          {{PACKING_DESTINATION_ITEMS}}
+        </ul>
+        <!-- Every packing item MUST be a checkbox wrapped in a label so tapping
          the item text (not just the tiny box) toggles it:
          <li><label><input type="checkbox"> item text</label></li>
          Never render packing items as plain bullets, tables, or prose. -->
-  </section>
+      </section>
 
-  <!-- ============================================================
+      <!-- ============================================================
        TRAVEL TIPS
        ============================================================ -->
-  <section id="tips">
-    <h2>💡 Travel Tips</h2>
-    <ul class="tips-list">
-      {{TIP_ITEMS}}
-    </ul>
-    <!-- Travel tips MUST always be a bullet-point list: <li><strong>Topic:</strong> tip</li>
+      <section id="tips">
+        <h2>💡 Travel Tips</h2>
+        <ul class="tips-list">
+          {{TIP_ITEMS}}
+        </ul>
+        <!-- Travel tips MUST always be a bullet-point list: <li><strong>Topic:</strong> tip</li>
          Never render tips as a table, numbered list, or paragraphs. -->
-  </section>
-
-</div>
-</body>
+      </section>
+    </div>
+  </body>
 </html>

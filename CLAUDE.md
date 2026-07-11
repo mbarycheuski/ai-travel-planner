@@ -16,8 +16,7 @@ request (same destination + month → same slug) **resumes** from
   (one of `draft`, `approved`, `rejected`). `draft` is the default working
   state; `approved` is set by the orchestrator after human approval (Stage 7);
   `rejected` — with a `reason:` line capturing the traveler's rejection
-  reason — when the traveler requests changes. Both `approved` and `rejected`
-  are **frozen** (see freeze rule + **Enforcement**).
+  reason — when the traveler requests changes.
 - **Never overwrite; always version** (`transport.md` → `transport-v2.md`). The
   orchestrator tracks the latest version per artifact and passes latest paths
   downstream.
@@ -45,19 +44,19 @@ request (same destination + month → same slug) **resumes** from
 
 ## Agent roster (`.claude/agents/`)
 
-| Agent | Responsibility | Artifact |
-|---|---|---|
-| `requirements-interviewer` | Structured requirements incl. transport mode | `requirements.md` |
-| `weather-planner` | Per-stop weather outlook via the Open-Meteo MCP | `weather.md` |
-| `flight-planner` / `train-planner` / `car-planner` | Transport for the chosen mode | `transport.md` |
-| `accommodation-planner` | Hotels with linked listings, costs, rationale | `accommodation.md` |
-| `activities-planner` | Attractions, duration, suitability | `activities.md` |
-| `food-planner` | Restaurants, local food, dietary constraints | `food.md` |
-| `packing-planner` | Packing checklist, using `weather.md`'s outlook | `packing.md` |
-| `budget-aggregator` | Cost breakdown + total (invents no numbers) | `budget.md` |
-| `validator` | Quality gates incl. QG-CITE → PASS/FAIL + findings | `validation.md` |
-| `daily-plan-builder` | Merge latest artifacts (no new content) | `daily-plan.md` |
-| `html-builder` | Fill the predefined HTML template (no new content) | `travel-guide.html` |
+| Agent                                              | Responsibility                                     | Artifact            |
+| -------------------------------------------------- | -------------------------------------------------- | ------------------- |
+| `requirements-formalizer`                          | Structured requirements incl. transport mode       | `requirements.md`   |
+| `weather`                                          | Per-stop weather outlook via the Open-Meteo MCP    | `weather.md`        |
+| `flight-planner` / `train-planner` / `car-planner` | Transport for the chosen mode                      | `transport.md`      |
+| `accommodation-planner`                            | Hotels with linked listings, costs, rationale      | `accommodation.md`  |
+| `activities-planner`                               | Attractions, duration, suitability                 | `activities.md`     |
+| `food-planner`                                     | Restaurants, local food, dietary constraints       | `food.md`           |
+| `packing-planner`                                  | Packing checklist, using `weather.md`'s outlook    | `packing.md`        |
+| `budget-aggregator`                                | Cost breakdown + total (invents no numbers)        | `budget.md`         |
+| `validator`                                        | Quality gates incl. QG-CITE → PASS/FAIL + findings | `validation.md`     |
+| `daily-plan-builder`                               | Merge latest artifacts (no new content)            | `daily-plan.md`     |
+| `html-builder`                                     | Fill the predefined HTML template (no new content) | `travel-guide.html` |
 
 **Pipeline:** `requirements` → `execution-plan` → `transport` + `weather` →
 `accommodation`/`activities`/`food` → `packing` + `budget` → `validation` →
@@ -80,7 +79,7 @@ Link to these — don't copy their content here (copies drift out of sync).
   `final-plan.md` artifacts and `-agent` sub-agent names) — treat them as
   historical, not as templates for the current artifact set.
 - **Tooling / MCP** → `open-meteo` (`.mcp.json`; no key), called exclusively by
-  the **`weather-planner`** sub-agent, which writes its outlook to
+  the **`weather`** sub-agent, which writes its outlook to
   `weather.md`; `packing-planner` and `daily-plan-builder` read that file as
   an input artifact and never call the weather API themselves. `html-builder`
   sources the guide's hero/background images at build time via **WebSearch**
@@ -94,9 +93,8 @@ Link to these — don't copy their content here (copies drift out of sync).
 (rather than trusting the orchestrator to remember it) lives in its own hook.
 Shared frontmatter parsing lives in `lib/frontmatter.js`.
 
-| Hook | Event | Single responsibility |
-|---|---|---|
-| `freeze-finished-guard.js` | `PreToolUse` (Write\|Edit) | **Freeze rule** — block any Write/Edit of the daily plan whose on-disk `documentStatus` is `approved` or `rejected`. Change goes into a new version (`daily-plan-v2.md`, `documentStatus: draft`) instead. The write that *first* flips a doc to approved/rejected is allowed (on disk it is still a draft at that moment); only later edits are blocked. Every other artifact has no `documentStatus`, and `travel-guide.html` has no frontmatter, so both are naturally exempt. |
-| `approval-gate-guard.js` | `PreToolUse` (Write) | **Approval gate** — block Write of `travel-guide.html` unless the latest `daily-plan(-vN).md` in the run records `documentStatus: approved`. |
-| `no-leak-guard.js` | `PreToolUse` (Write) | **No-leak gate** — block Write of `travel-guide.html` whose content names any internal workflow artifact (`validation.md`, `transport.md`, …), so a stray "(flagged in validation.md)" can never reach the published guide. |
-| `post-write-state.js` | `PostToolUse` (Write) | **State sync** — keep `workflow-state.json` in step/version sync on every tracked artifact write, reading lifecycle status from the artifact's frontmatter. The orchestrator hand-maintains only `iteration_count`. |
+| Hook                     | Event                 | Single responsibility                                                                                                                                                                                                                                                             |
+| ------------------------ | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `approval-gate-guard.js` | `PreToolUse` (Write)  | **Approval gate** — block Write of `travel-guide.html` unless the latest `daily-plan(-vN).md` in the run records `documentStatus: approved`.                                                                                                                                      |
+| `no-leak-guard.js`       | `PreToolUse` (Write)  | **No-leak gate** — block Write of `travel-guide.html` whose content names any internal workflow artifact (`validation.md`, `transport.md`, …), so a stray "(flagged in validation.md)" can never reach the published guide.                                                       |
+| `post-write-state.js`    | `PostToolUse` (Write) | **State sync** — keep `workflow-state.json` in step/version sync on every tracked artifact write, reading lifecycle status from the artifact's frontmatter. The orchestrator hand-maintains only `iteration_count`. Recognizes validation PASS/FAIL status from artifact content. |

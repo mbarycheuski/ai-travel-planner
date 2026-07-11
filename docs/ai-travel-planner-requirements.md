@@ -40,7 +40,7 @@ transport mode.
   review-site page, a restaurant to its page, a transport leg to the
   operator/booking page. A recommendation without a resolvable `http(s)://`
   link fails validation (gate `QG-CITE`). The only sanctioned exceptions:
-  `budget.md` cites the source *artifacts* its numbers came from, and
+  `budget.md` cites the source _artifacts_ its numbers came from, and
   `packing.md` cites its weather/entry-requirement sources in a `## Sources`
   section.
 - **Artifacts have strict formats.** Every sub-agent's definition embeds the
@@ -51,7 +51,7 @@ transport mode.
 - Common workflow capabilities (artifact template validation, HTML theming)
   must be implemented as reusable skills usable across multiple steps, not
   duplicated per agent. Requirements intake is a dedicated sub-agent
-  (`requirements-interviewer`) rather than a skill, since it owns its own
+  (`requirements-formalizer`) rather than a skill, since it owns its own
   artifact (`requirements.md`), like every other content sub-agent.
 - The final result must remain substantively consistent across repeated runs
   with the same confirmed input (same destinations, same budget envelope,
@@ -69,7 +69,7 @@ transport mode.
 Every agent has a single responsibility.
 
 Every agent produces exactly one primary artifact. (The three transport
-planners share one artifact *type* — `transport.md` — because only one of
+planners share one artifact _type_ — `transport.md` — because only one of
 them ever runs per trip.)
 
 Agents never directly modify another agent's artifact.
@@ -141,10 +141,8 @@ the validator, and the resume path can consume them.
 
 ## Hooks Requirements
 
-- `PreToolUse` hooks that enforce workflow rules: a freeze rule blocking any
-  Write/Edit of a daily plan whose on-disk `documentStatus` is `approved` or
-  `rejected` (changes must go into a new version instead); an approval gate
-  blocking `travel-guide.html` unless the latest `daily-plan(-vN).md` records
+- `PreToolUse` hooks that enforce workflow rules: an approval gate blocking
+  `travel-guide.html` unless the latest `daily-plan(-vN).md` records
   `documentStatus: approved`; and a no-leak gate blocking `travel-guide.html`
   if its content names any internal workflow artifact.
 - A `PostToolUse` hook that reacts to a real workflow event (updates `workflow-state.json` whenever a tracked artifact is written).
@@ -167,8 +165,8 @@ the validator, and the resume path can consume them.
 ## MCP Requirements
 
 - At least one community or custom MCP server is installed and configured at the project level. This implementation uses, in a real workflow step:
-  - **Open-Meteo** ([cmer81/open-meteo-mcp](https://github.com/cmer81/open-meteo-mcp)) — weather source, called exclusively by `weather-planner`, which writes its per-stop outlook to `weather.md`. No API key. (project-level MCP, `.mcp.json`) `packing-planner` and `daily-plan-builder` consume `weather.md` as an input artifact and never call the weather API themselves.
-  `accommodation-planner`, `activities-planner`, and `food-planner` source real listings/attractions/restaurants via `WebSearch`/`WebFetch` rather than an MCP server. `html-builder` finds the guide's hero and background photos the same way (WebSearch, Wikimedia Commons preferred), then downloads and embeds them — no image-generation plugin is used.
+  - **Open-Meteo** ([cmer81/open-meteo-mcp](https://github.com/cmer81/open-meteo-mcp)) — weather source, called exclusively by `weather`, which writes its per-stop outlook to `weather.md`. No API key. (project-level MCP, `.mcp.json`) `packing-planner` and `daily-plan-builder` consume `weather.md` as an input artifact and never call the weather API themselves.
+    `accommodation-planner`, `activities-planner`, and `food-planner` source real listings/attractions/restaurants via `WebSearch`/`WebFetch` rather than an MCP server. `html-builder` finds the guide's hero and background photos the same way (WebSearch, Wikimedia Commons preferred), then downloads and embeds them — no image-generation plugin is used.
 
 ## Documentation Requirements
 
@@ -196,7 +194,7 @@ Split across two actors, because sub-agents cannot ask the user questions
 - **Orchestrator** (the `/plan-trip` main loop) — analyzes the user's
   request, identifies missing information against the intake checklist, and
   asks follow-up questions when required (batched, ≤4 per round).
-- **`requirements-interviewer`** sub-agent — formalizes the request + the
+- **`requirements-formalizer`** sub-agent — formalizes the request + the
   orchestrator's Q&A transcript into the structured artifact.
 
 ### Responsibilities
@@ -205,13 +203,13 @@ Split across two actors, because sub-agents cannot ask the user questions
 - Identify missing information against the intake checklist (orchestrator).
 - Ask follow-up questions when required, batched ≤4 per round (orchestrator).
 - Formalize the request + answers into the four-section artifact
-  (`requirements-interviewer`).
+  (`requirements-formalizer`).
 - Never invent missing requirements — unanswered items become explicit
-  assumptions (`requirements-interviewer`).
+  assumptions (`requirements-formalizer`).
 - Confirm the **transport mode** (flight / train / car): it drives planner
-  selection (`requirements-interviewer`).
+  selection (`requirements-formalizer`).
 - Re-parse the written artifact to confirm all sections and checklist fields
-  are present (`requirements-interviewer`).
+  are present (`requirements-formalizer`).
 
 Examples of clarification questions:
 
@@ -255,7 +253,7 @@ requirements.md
 
 - Analyze requirements.
 - Select exactly **one** transport planner from the confirmed mode.
-- Determine which other planning agents are required, from: `weather-planner`,
+- Determine which other planning agents are required, from: `weather`,
   `accommodation-planner`, `activities-planner`, `food-planner`,
   `packing-planner`, `budget-aggregator` (`validator`, `daily-plan-builder`,
   and `html-builder` always run).
@@ -288,7 +286,7 @@ placeholders, **citation coverage**) before the next group runs.
 Typical grouping:
 
 - **Group A** (parallel, no deps beyond `requirements.md`): `<mode>-planner`,
-  `weather-planner`
+  `weather`
 - **Group B** (parallel, needs `transport.md` → `## Stops & Nights`):
   `accommodation-planner`, `activities-planner`, `food-planner`
 - **Group C** (parallel, needs Groups A+B): `packing-planner` (reads
@@ -297,7 +295,7 @@ Typical grouping:
   alongside them), `budget-aggregator`
 
 If the destination itself is still open (the traveler wants suggestions, not
-yet narrowed to one place), `weather-planner` and `packing-planner` are
+yet narrowed to one place), `weather` and `packing-planner` are
 deferred out of the current groups until a later requirements revision
 confirms a destination.
 
@@ -383,7 +381,7 @@ Output: `food.md` — strict format:
 
 ### Packing Planner
 
-Reads the weather outlook from `weather.md` (written by `weather-planner`) —
+Reads the weather outlook from `weather.md` (written by `weather`) —
 has no weather tools and never calls the Open-Meteo MCP itself.
 
 Output: `packing.md` — strict format:
@@ -547,13 +545,10 @@ plan itself. The orchestrator `Edit`s the latest `daily-plan(-vN).md`
 frontmatter in place:
 
 - **APPROVED** → `documentStatus: draft` flips to `documentStatus: approved`
-  (optionally with an `approvalNotes:` line). This first flip is allowed even
-  though a freeze hook otherwise blocks Write/Edit of an already-terminal
-  daily plan — on disk the document is still `draft` at the moment of this
-  edit.
+  (optionally with an `approvalNotes:` line).
 - **CHANGES_REQUESTED** → flips to `documentStatus: rejected` with a
   `reason:` line capturing the traveler's rejection reason in their own
-  words. The orchestrator then re-dispatches `requirements-interviewer` with
+  words. The orchestrator then re-dispatches `requirements-formalizer` with
   the feedback and the latest `requirements.md`, producing a new version
   (`requirements-v2.md`) as a structured change note, and starts another
   targeted iteration (Stage 5) that regenerates a new daily-plan version
@@ -656,7 +651,7 @@ travel-guide.html
 User
  │
  ▼
-Requirements intake (orchestrator asks + requirements-interviewer formalizes)
+Requirements intake (orchestrator asks + requirements-formalizer formalizes)
  │
  ▼
 requirements.md
@@ -668,7 +663,7 @@ Coordinate (orchestrator; selects ONE transport planner + agent set)
 execution-plan.md
  │
  ▼
-Group A (parallel): <mode>-planner, weather-planner
+Group A (parallel): <mode>-planner, weather
  │
  ▼
 Group B (parallel): accommodation-planner, activities-planner, food-planner
@@ -730,7 +725,7 @@ flowchart TD
     req --> ForkA
 
     ForkA --> TransA["flight-planner /<br/>train-planner /<br/>car-planner<br/>(exactly one)"]
-    ForkA --> WeatherA["weather-planner<br/>(Open-Meteo MCP)"]
+    ForkA --> WeatherA["weather<br/>(Open-Meteo MCP)"]
 
     TransA -.-> transport[/"transport.md"/]
     WeatherA -.-> weather[/"weather.md"/]

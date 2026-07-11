@@ -1,24 +1,27 @@
 # Transport Plan — Car
 
 ## Mode
+
 Car (matches confirmed requirement: "Transport mode: CAR (driving from Łódź to Zakopane; own/rental car)")
 
 ## Stops & Nights
-| Order | Stop | Nights | Purpose |
-|---|---|---|---|
-| 1 | Łódź | 0 (origin) | Departure point |
-| 2 | Zakopane | 2 | Base for the whole trip — hotel with pool, family sightseeing |
+
+| Order | Stop     | Nights     | Purpose                                                       |
+| ----- | -------- | ---------- | ------------------------------------------------------------- |
+| 1     | Łódź     | 0 (origin) | Departure point                                               |
+| 2     | Zakopane | 2          | Base for the whole trip — hotel with pool, family sightseeing |
 
 Single-destination out-and-back trip (no loop, no backtracking): drive south on
 2026-07-12, stay 2 nights in Zakopane, drive back north on 2026-07-14.
 
 ## Legs
-| # | From → To | Day/Date | Detail | Duration | Est. Cost | Link |
-|---|---|---|---|---|---|---|
-| 1 | Łódź → Częstochowa (rest/lunch stop) | 2026-07-12 | S8/A1 south via Piotrków Trybunalski; ~150 km; free (no toll on this A1 stretch for cars) | ~1h50m | Fuel ≈ 62.6 PLN | [flagma.pl route Łódź–Zakopane](https://flagma.pl/en/distance-lodz-zakopane/) |
-| 2 | Częstochowa → Zakopane | 2026-07-12 | A1/S1 → A4 (Katowice–Kraków, tolled) → S7 "Zakopianka" → Zakopane; ~227 km | ~3h05m | Fuel ≈ 94.7 PLN + Toll 36 PLN | [flagma.pl route Łódź–Zakopane](https://flagma.pl/en/distance-lodz-zakopane/); toll: [A4 Katowice–Kraków 2026 rates](https://www.wkatowicach.eu/informacje/w-drodze/Podwyzki-oplat-na-A4-KatowiceKrakow-od-1-kwietnia-2026-Sprawdz-nowe-stawki/idn:11841) |
-| 3 | Zakopane → Częstochowa (rest/lunch stop) | 2026-07-14 | Reverse of Leg 2: S7 → A4 (tolled) → A1/S1; ~227 km | ~3h05m | Fuel ≈ 94.7 PLN + Toll 36 PLN | [flagma.pl route Łódź–Zakopane](https://flagma.pl/en/distance-lodz-zakopane/); toll: [A4 Katowice–Kraków 2026 rates](https://www.wkatowicach.eu/informacje/w-drodze/Podwyzki-oplat-na-A4-KatowiceKrakow-od-1-kwietnia-2026-Sprawdz-nowe-stawki/idn:11841) |
-| 4 | Częstochowa → Łódź | 2026-07-14 | Reverse of Leg 1: A1/S8 north; ~150 km; free | ~1h50m | Fuel ≈ 62.6 PLN | [flagma.pl route Łódź–Zakopane](https://flagma.pl/en/distance-lodz-zakopane/) |
+
+| #   | From → To                                | Day/Date   | Detail                                                                                    | Duration | Est. Cost                     | Link                                                                                                                                                                                                                                                      |
+| --- | ---------------------------------------- | ---------- | ----------------------------------------------------------------------------------------- | -------- | ----------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Łódź → Częstochowa (rest/lunch stop)     | 2026-07-12 | S8/A1 south via Piotrków Trybunalski; ~150 km; free (no toll on this A1 stretch for cars) | ~1h50m   | Fuel ≈ 62.6 PLN               | [flagma.pl route Łódź–Zakopane](https://flagma.pl/en/distance-lodz-zakopane/)                                                                                                                                                                             |
+| 2   | Częstochowa → Zakopane                   | 2026-07-12 | A1/S1 → A4 (Katowice–Kraków, tolled) → S7 "Zakopianka" → Zakopane; ~227 km                | ~3h05m   | Fuel ≈ 94.7 PLN + Toll 36 PLN | [flagma.pl route Łódź–Zakopane](https://flagma.pl/en/distance-lodz-zakopane/); toll: [A4 Katowice–Kraków 2026 rates](https://www.wkatowicach.eu/informacje/w-drodze/Podwyzki-oplat-na-A4-KatowiceKrakow-od-1-kwietnia-2026-Sprawdz-nowe-stawki/idn:11841) |
+| 3   | Zakopane → Częstochowa (rest/lunch stop) | 2026-07-14 | Reverse of Leg 2: S7 → A4 (tolled) → A1/S1; ~227 km                                       | ~3h05m   | Fuel ≈ 94.7 PLN + Toll 36 PLN | [flagma.pl route Łódź–Zakopane](https://flagma.pl/en/distance-lodz-zakopane/); toll: [A4 Katowice–Kraków 2026 rates](https://www.wkatowicach.eu/informacje/w-drodze/Podwyzki-oplat-na-A4-KatowiceKrakow-od-1-kwietnia-2026-Sprawdz-nowe-stawki/idn:11841) |
+| 4   | Częstochowa → Łódź                       | 2026-07-14 | Reverse of Leg 1: A1/S8 north; ~150 km; free                                              | ~1h50m   | Fuel ≈ 62.6 PLN               | [flagma.pl route Łódź–Zakopane](https://flagma.pl/en/distance-lodz-zakopane/)                                                                                                                                                                             |
 
 **Notes on route/QG2 (daily travel time):** Two independent route-planner
 checks — [flagma.pl](https://flagma.pl/en/distance-lodz-zakopane/) (377 km,
@@ -36,14 +39,16 @@ car. Total driving time per direction (excluding the rest stop itself) is
 ~4h55m, consistent with both cited sources.
 
 ## Local Transport
-| Stop | Option | Est. Cost | Link |
-|---|---|---|---|
-| Zakopane | Hotel parking (2 nights) — assume paid on-site/nearby lot at a budget hotel | ≈ 30 PLN/night → 60 PLN total (assumption, see below) | [Zakopane parking guide — zones & rates](https://explorepoland.info/krakow/around-krakow/parking-in-zakopane/) |
-| Zakopane | Town centre (Krupówki) is fully walkable from most budget hotels — no car needed for daily sightseeing once parked | 0 PLN | [Zakopane parking guide — zones & rates](https://explorepoland.info/krakow/around-krakow/parking-in-zakopane/) |
-| Zakopane | Public paid parking, Zone A (city centre, if hotel lot unavailable) — 8:00–21:00 daily | 7 PLN 1st hr, 8.2 PLN 2nd hr, 9.6 PLN 3rd hr, 7 PLN/hr after (4 PLN minimum) | [Zakopane parking guide — zones & rates](https://explorepoland.info/krakow/around-krakow/parking-in-zakopane/) |
-| Zakopane (Tatra NP day trip, if used) | Park-and-ride style lot near Palenica Białczańska (Morskie Oko access) | 35–75 PLN/day depending on season/day and how early booked | [Zakopane parking guide — zones & rates](https://explorepoland.info/krakow/around-krakow/parking-in-zakopane/) |
+
+| Stop                                  | Option                                                                                                             | Est. Cost                                                                    | Link                                                                                                           |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Zakopane                              | Hotel parking (2 nights) — assume paid on-site/nearby lot at a budget hotel                                        | ≈ 30 PLN/night → 60 PLN total (assumption, see below)                        | [Zakopane parking guide — zones & rates](https://explorepoland.info/krakow/around-krakow/parking-in-zakopane/) |
+| Zakopane                              | Town centre (Krupówki) is fully walkable from most budget hotels — no car needed for daily sightseeing once parked | 0 PLN                                                                        | [Zakopane parking guide — zones & rates](https://explorepoland.info/krakow/around-krakow/parking-in-zakopane/) |
+| Zakopane                              | Public paid parking, Zone A (city centre, if hotel lot unavailable) — 8:00–21:00 daily                             | 7 PLN 1st hr, 8.2 PLN 2nd hr, 9.6 PLN 3rd hr, 7 PLN/hr after (4 PLN minimum) | [Zakopane parking guide — zones & rates](https://explorepoland.info/krakow/around-krakow/parking-in-zakopane/) |
+| Zakopane (Tatra NP day trip, if used) | Park-and-ride style lot near Palenica Białczańska (Morskie Oko access)                                             | 35–75 PLN/day depending on season/day and how early booked                   | [Zakopane parking guide — zones & rates](https://explorepoland.info/krakow/around-krakow/parking-in-zakopane/) |
 
 ## Estimated Transport Total
+
 - Fuel: (62.6 + 94.7) PLN × 2 directions = 157.3 × 2 = **314.6 PLN**
   (assumption: 7 L/100 km consumption × 5.96 PLN/L petrol price, per
   [GlobalPetrolPrices Poland, July 2026](https://www.globalpetrolprices.com/Poland/gasoline_prices/))
@@ -57,6 +62,7 @@ This leaves roughly 1550–2550 PLN of the 2000–3000 PLN total budget for
 accommodation, food, and activities — well within QG1.
 
 ## Rationale & Assumptions
+
 - **Own car assumed, not a rental.** The requirements say "own/rental car"
   without deciding between them; for a 2-night domestic road trip for a
   family of 4, using their own car is the lower-cost, higher-certainty
