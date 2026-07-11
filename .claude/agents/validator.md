@@ -24,7 +24,8 @@ Judge whether the complete travel plan meets every quality gate and every requir
 
 ## Baseline checks (always, in addition to the plan's gates)
 
-- Budget total ≤ user limit (`budget.md` vs requirements).
+- Budget total ≤ user limit (`budget.md` vs requirements; when the traveler stated the limit in another currency, compare against the converted limit recorded in `requirements.md`).
+- **Trip currency** — every cost in every cost-bearing artifact (transport, accommodation, activities, food, budget) is expressed in the trip currency recorded in `requirements.md` (the destination's local currency — PLN for Poland, EUR for Germany, …). A cost quoted in any other currency is a FAIL naming the artifact and row.
 - Daily travel time ≤ user limit (`transport.md` `## Legs` durations).
 - **Transport mode matches the confirmed requirement** (`transport.md` `## Mode` vs requirements).
 - **QG-CITE — citation coverage**: every recommendation row in every content artifact (transport legs & local transport, accommodations, activities, restaurants & local food) has a `Link` cell containing a markdown link with an `http(s)://` URL. Count the rows checked and report any uncited row with its artifact and table. `budget.md` is exempt (it cites source artifacts instead); `packing.md` satisfies this via its `## Sources` section.

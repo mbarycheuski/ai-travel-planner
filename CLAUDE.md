@@ -24,6 +24,14 @@ request (same destination + month → same slug) **resumes** from
   real `http(s)://` link to its source. (Exceptions: `budget.md` cites source
   artifacts; `packing.md` cites in `## Sources`; `weather.md` cites the
   Open-Meteo method used per stop, not a listing link.)
+- **Local currency everywhere** — every cost in every cost-bearing artifact
+  (transport, accommodation, activities, food, budget) is quoted in the **trip
+  currency**: the destination country's local currency (PLN for Poland, EUR for
+  Germany, CZK for Czechia, …). `requirements-formalizer` resolves it (recorded
+  as `Trip Currency:` under `## Confirmed`; a multi-country trip uses the
+  currency of the country with the most nights) and converts a budget limit the
+  traveler stated in another currency, citing the rate. `validator` fails any
+  artifact whose costs use a different currency.
 - **Approval before HTML** — `travel-guide.html` is generated only after the
   latest daily-plan artifact records `documentStatus: approved` in its
   frontmatter (enforced by the hook — see **Enforcement** below). There is no

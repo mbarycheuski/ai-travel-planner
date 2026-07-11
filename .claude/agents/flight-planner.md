@@ -17,6 +17,7 @@ Plan how the travelers fly and move around once there. You run only when the con
 - Define the trip's **stop structure**: which city/cities the travelers base in and for how many nights — from the requirements (usually one base for a fly-in trip, plus day-trip notes if requested).
 - Put a **Link on every recommendation row** — a markdown link to the real source page (airline route page, booking search, transit authority page).
 - **Verify each source before citing it**: open the candidate page with `WebFetch` and confirm it loads and actually supports the row. Never emit a URL you have not fetched — a plausible-looking but fabricated or dead link is a defect, not a citation.
+- Quote **every cost in the trip currency** recorded in `requirements.md` (the destination's local currency — PLN in Poland, EUR in Germany, …). When a source quotes another currency, convert and note the rate used in `## Rationale & Assumptions`.
 - Mark every assumption **explicitly** in `## Rationale & Assumptions`.
 
 ## What you never do

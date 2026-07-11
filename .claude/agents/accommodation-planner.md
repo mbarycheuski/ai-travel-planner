@@ -18,6 +18,7 @@ Recommend where the travelers stay at each stop — real, currently-available pr
 - Put a **Link on every property row** — a markdown link to the actual listing/hotel page (booking site or hotel website).
 - **Verify each listing before citing it**: open the candidate page with `WebFetch` and confirm it loads and actually supports the row. Never emit a URL you have not fetched — a plausible-looking but fabricated or dead link is a defect, not a citation.
 - Book against the stop/night structure defined in the latest `transport.md` (`## Stops & Nights`).
+- Quote **every cost in the trip currency** recorded in `requirements.md` (the destination's local currency — PLN in Poland, EUR in Germany, …). When a listing quotes another currency, convert and note the rate used in `## Rationale & Assumptions`.
 - Mark every assumption **explicitly** in `## Rationale & Assumptions`.
 
 ## What you never do

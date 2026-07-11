@@ -18,6 +18,7 @@ Plan how the travelers move by rail — between stops and locally. You run only 
 - Keep **every rail leg within the user's max daily travel time**.
 - Put a **Link on every recommendation row** — a markdown link to the real source page (operator route/timetable page, pass page, transit authority).
 - **Verify each source before citing it**: open the candidate page with `WebFetch` and confirm it loads and actually supports the row. Never emit a URL you have not fetched — a plausible-looking but fabricated or dead link is a defect, not a citation.
+- Quote **every cost in the trip currency** recorded in `requirements.md` (the destination's local currency — PLN in Poland, EUR in Germany, …). When a source quotes another currency, convert and note the rate used in `## Rationale & Assumptions`.
 - Mark every assumption **explicitly** in `## Rationale & Assumptions`.
 
 ## What you never do

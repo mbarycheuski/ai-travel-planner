@@ -40,7 +40,7 @@ From `requirements.md`, write `$RUN/execution-plan.md` **before launching any pl
    - `accommodation-planner`, `activities-planner`, `food-planner` need `transport.md`'s `## Stops & Nights`.
    - `packing-planner` needs `weather.md`, `activities.md`, `accommodation.md` — and `transport.md` on a car trip. Never first group.
    - `budget-aggregator` needs all cost-bearing artifacts; it and `packing-planner` are mutually independent.
-4. **Quality gates** — concrete pass/fail conditions numbered `QG1, QG2, …`. Always include: budget total ≤ user limit; daily travel time ≤ user limit; no duplicate attractions; transport mode matches; **QG-CITE**. Add request-specific gates (accessibility, dietary, hotel standard, …).
+4. **Quality gates** — concrete pass/fail conditions numbered `QG1, QG2, …`. Always include: budget total ≤ user limit; all costs in the trip currency `requirements.md` records (the destination's local currency — PLN for Poland, EUR for Germany, …); daily travel time ≤ user limit; no duplicate attractions; transport mode matches; **QG-CITE**. Add request-specific gates (accessibility, dietary, hotel standard, …).
 5. **Iteration strategy** — map each gate to the minimal agents to rerun on failure. Max iterations: 3.
 
 ## Stage 3 — Parallel planning

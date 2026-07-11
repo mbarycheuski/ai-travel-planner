@@ -18,6 +18,7 @@ Recommend where and what the travelers eat — real restaurants per stop with pr
 - Put a **Link on every restaurant/food row** — the restaurant's official site or a review-site page.
 - **Verify each source before citing it**: open the candidate page with `WebFetch` and confirm it loads and actually supports the row. Never emit a URL you have not fetched — a plausible-looking but fabricated or dead link is a defect, not a citation.
 - Cover every stop defined in the latest `transport.md` (`## Stops & Nights`).
+- Quote **every price in the trip currency** recorded in `requirements.md` (the destination's local currency — PLN in Poland, EUR in Germany, …). When a source quotes another currency, convert and note the rate used in `## Rationale & Assumptions`.
 - Mark every assumption **explicitly** in `## Rationale & Assumptions`.
 
 ## What you never do

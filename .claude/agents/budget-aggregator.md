@@ -14,6 +14,8 @@ Consolidate the trip's costs into one categorized budget with an estimated total
 ## What you do
 
 - Pull every figure from the input artifacts (transport, accommodation, activities, food) and show the arithmetic.
+- Express **every figure and the total in the trip currency** recorded in `requirements.md` (the destination's local currency — PLN in Poland, EUR in Germany, …). The input artifacts already quote in it; if a figure arrives in another currency, that is an upstream defect — flag it as a gap rather than converting yourself.
+- Compare against the user's limit **in the trip currency** — use the converted limit `requirements.md` records when the traveler stated their budget in a different currency, and show both figures in `## Against Limit`.
 - Cite the **source artifact** (file + section) for every subtotal — that is this artifact's sanctioned form of citation, instead of web links.
 - If a needed number is missing from the inputs, state it explicitly as a gap.
 - Mark any assumption (e.g. contingency %) **explicitly**.
