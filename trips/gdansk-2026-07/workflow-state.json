@@ -1,0 +1,68 @@
+{
+  "run": "gdansk-2026-07",
+  "steps": {
+    "requirements": {
+      "status": "completed",
+      "artifact": "requirements-v2.md",
+      "version": 2
+    },
+    "execution-plan": {
+      "status": "completed",
+      "artifact": "execution-plan.md",
+      "version": 1
+    },
+    "weather": {
+      "status": "completed",
+      "artifact": "weather.md",
+      "version": 1
+    },
+    "transport": {
+      "status": "completed",
+      "artifact": "transport.md",
+      "version": 1
+    },
+    "activities": {
+      "status": "completed",
+      "artifact": "activities.md",
+      "version": 1
+    },
+    "accommodation": {
+      "status": "completed",
+      "artifact": "accommodation-v2.md",
+      "version": 2
+    },
+    "food": {
+      "status": "completed",
+      "artifact": "food.md",
+      "version": 1
+    },
+    "packing": {
+      "status": "completed",
+      "artifact": "packing.md",
+      "version": 1
+    },
+    "budget": {
+      "status": "completed",
+      "artifact": "budget-v3.md",
+      "version": 3
+    },
+    "iteration-plan": {
+      "status": "completed",
+      "artifact": "iteration-plan-v2.md",
+      "version": 2
+    },
+    "validation": {
+      "status": "passed",
+      "artifact": "validation-v2.md",
+      "version": 2
+    },
+    "daily-plan": {
+      "status": "approved",
+      "artifact": "daily-plan.md",
+      "version": 1
+    }
+  },
+  "iteration_count": 2,
+  "retry_limit": 3,
+  "updated_at": "2026-07-13T09:00:15.194Z"
+}
