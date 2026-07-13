@@ -52,7 +52,7 @@
 <!-- ===== Travel coordinator (hub) ===== -->
 <rect class="node n-blue" x="200" y="114" width="280" height="56" rx="8"/>
 <text class="title t-blue" x="340" y="134">Travel coordinator</text>
-<text class="sub s-blue" x="340" y="154">Hub · orchestrates every stage below</text>
+<text class="sub s-blue" x="340" y="154">Orchestrates every stage below</text>
 
 <!-- ===== Requirements ===== -->
 <rect class="node n-purple" x="220" y="220" width="240" height="56" rx="8"/>
@@ -67,7 +67,7 @@
 <!-- ===== Group A container ===== -->
 <rect class="group-box" x="20" y="412" width="640" height="190" rx="12"/>
 <text class="group-title" x="40" y="436">Group A — parallel</text>
-<text class="group-sub" x="40" y="454">Needs requirements · exactly one transport agent by mode</text>
+<text class="group-sub" x="40" y="454">Needs requirements, exactly one transport agent by mode</text>
 
 <rect class="node n-teal" x="95" y="466" width="150" height="56" rx="8"/>
 <text class="title t-teal" x="170" y="486">Flight</text>
@@ -88,7 +88,7 @@
 <!-- ===== Group B container ===== -->
 <rect class="group-box" x="20" y="632" width="640" height="118" rx="12"/>
 <text class="group-title" x="40" y="656">Group B — parallel</text>
-<text class="group-sub" x="40" y="674">Needs transport stops</text>
+<text class="group-sub" x="40" y="674">Needs transport stops + weather</text>
 
 <rect class="node n-teal" x="95" y="686" width="150" height="56" rx="8"/>
 <text class="title t-teal" x="170" y="706">Accommodation</text>
@@ -119,7 +119,7 @@
 <rect class="node n-amber" x="220" y="928" width="240" height="56" rx="8"/>
 <text class="title t-amber" x="340" y="948">Validator</text>
 <text class="sub s-amber" x="340" y="968">Checks quality gates</text>
-<text class="loop" x="470" y="956">↻ FAIL — targeted retry (max 3)</text>
+<text class="loop" x="470" y="956">↻ fail — targeted retry (max 3)</text>
 
 <!-- ===== Daily plan builder ===== -->
 <rect class="node n-rose" x="220" y="1034" width="240" height="56" rx="8"/>

@@ -2,6 +2,7 @@
 description: Run the multi-agent AI travel-planner workflow end-to-end (requirements → coordination → parallel planning → validation → iteration → approval → HTML guide).
 argument-hint: <free-text travel request>
 allowed-tools: Task, AskUserQuestion, Read, Write, Edit, Glob, Bash, Skill
+model: sonnet
 ---
 
 You are the **Orchestrator** of the AI Travel Planner workflow. The traveler's request is in `$ARGUMENTS` (if empty, ask for it first).
@@ -37,7 +38,7 @@ From `requirements.md`, write `$RUN/execution-plan.md` **before launching any pl
 2. **Other agents** — include those the requirements justify (usually all); `validator`, `daily-plan-builder`, `html-builder` always run. **Destination gate:** schedule `weather` and `packing-planner` only when Destination Status is `confirmed`. When `open`, note them in `## Iteration Strategy` as _deferred, not skipped_ — once a revised `requirements-vN.md` flips to `confirmed`, re-run this stage to slot in `weather`, then `packing-planner`, before validation.
 3. **Execution groups** — parallel groups honoring the data dependencies; state each group's dependency explicitly:
    - `weather` needs only `requirements.md` → first group, with the transport planner.
-   - `accommodation-planner`, `activities-planner`, `food-planner` need `transport.md`'s `## Stops & Nights`.
+   - `accommodation-planner`, `activities-planner`, `food-planner` need `transport.md`'s `## Stops & Nights`. `activities-planner` also reads the latest `weather.md` (from the first group) when Destination Status is `confirmed`, to weigh outdoor picks against the forecast.
    - `packing-planner` needs `weather.md`, `activities.md`, `accommodation.md` — and `transport.md` on a car trip. Never first group.
    - `budget-aggregator` needs all cost-bearing artifacts; it and `packing-planner` are mutually independent.
 4. **Quality gates** — concrete pass/fail conditions numbered `QG1, QG2, …`. Always include: budget total ≤ user limit; all costs in the trip currency `requirements.md` records (the destination's local currency — PLN for Poland, EUR for Germany, …); daily travel time ≤ user limit; no duplicate attractions; transport mode matches; **QG-CITE**. Add request-specific gates (accessibility, dietary, hotel standard, …).

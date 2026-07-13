@@ -57,7 +57,7 @@ in the repo — don't duplicate the workflow description here.
 - **Enforcement** → `.claude/hooks/` (shared parsing in `lib/frontmatter.js`,
   I/O in `lib/hook-io.js`); wired in `.claude/settings.json`; one hook = one
   responsibility.
-- **Sample runs** → `trips/krakow-2026-07/` (happy path) and
-  `trips/zakopane-2026-07/` (a validation-driven iteration, with `-v2`
-  artifacts and `iteration-plan-v1.md`). Both use the current roster and are
-  good references for artifact shape.
+- **Sample runs** → a few example runs are committed under `trips/`,
+  demonstrating different scenarios (e.g. a happy path and a
+  validation-driven iteration with `-vN` artifacts). They use the current
+  roster and are good references for artifact shape.

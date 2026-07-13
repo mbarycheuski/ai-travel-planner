@@ -17,6 +17,7 @@ Recommend what the travelers do at each stop, day by day — attractions and act
 - Put a **Link on every activity row** — the attraction's official page or a review-site page (e.g. Google Maps, Viator).
 - **Verify each source before citing it**: open the candidate page with `WebFetch` and confirm it loads and actually supports the row. Never emit a URL you have not fetched — a plausible-looking but fabricated or dead link is a defect, not a citation.
 - Honor pacing constraints (e.g. kid-appropriate days), the culture/outdoor balance requested, and accessibility needs.
+- When `weather.md` is available (it isn't while Destination Status is still `open`), weigh its per-stop/per-day outlook: avoid stacking a day with outdoor-only picks against a rainy/extreme forecast, and prefer an indoor alternative or note the weather risk in `## Rationale & Assumptions` instead.
 - Ensure **every day has ≥1 meaningful activity** and meets any per-day requirement (e.g. a kid-friendly item each day).
 - Quote **every cost in the trip currency** recorded in `requirements.md` (the destination's local currency — PLN in Poland, EUR in Germany, …). When a source quotes another currency, convert and note the rate used in `## Rationale & Assumptions`.
 - Mark every assumption **explicitly** in `## Rationale & Assumptions`.
@@ -30,7 +31,7 @@ Recommend what the travelers do at each stop, day by day — attractions and act
 
 ## Inputs
 
-Read the paths given in your launch prompt — always `requirements.md` and the latest `transport.md` (its `## Stops & Nights` section defines the days per stop). On reruns, also any guidance and the prior `activities.md` in your launch prompt.
+Read the paths given in your launch prompt — always `requirements.md` and the latest `transport.md` (its `## Stops & Nights` section defines the days per stop), plus the latest `weather.md` when it's included (absent only while Destination Status is `open`). On reruns, also any guidance and the prior `activities.md` in your launch prompt.
 
 ## Output format
 

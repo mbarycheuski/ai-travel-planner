@@ -49,7 +49,7 @@ restarting.
 | `accommodation-planner` | Hotels with linked listings, costs, rationale | `accommodation.md` |
 | `activities-planner` | Attractions with duration, cost, suitability | `activities.md` |
 | `food-planner` | Restaurants and local food, honoring dietary constraints | `food.md` |
-| `packing-planner` | Packing checklist built from the weather outlook | `packing.md` |
+| `packing-planner` | Packing checklist grounded in the weather outlook, tailored to activities, accommodation, and (for car trips) transport | `packing.md` |
 | `budget-aggregator` | Categorized cost breakdown + total (invents no numbers) | `budget.md` |
 | `validator` | Quality-gate check incl. `QG-CITE` → PASS/FAIL + findings | `validation.md` |
 | `daily-plan-builder` | Merge latest artifacts into a day-by-day plan (no new content) | `daily-plan.md` |
@@ -86,8 +86,7 @@ column on recommendation tables.
 Typical execution groups (Stage 3):
 
 - **Group A** (needs `requirements.md`): `<mode>-planner`, `weather`
-- **Group B** (needs `transport.md` stops): `accommodation-planner`,
-  `activities-planner`, `food-planner`
+- **Group B** (needs `transport.md` stops and `weather.md): `accommodation-planner`, `activities-planner`, `food-planner`
 - **Group C** (needs A + B): `packing-planner`, `budget-aggregator`
 
 ## Supporting components
@@ -98,9 +97,8 @@ Typical execution groups (Stage 3):
 - **Hooks** (`.claude/hooks/`, one responsibility each): `approval-gate-guard`
   and `no-leak-guard` (PreToolUse, gate the HTML write) and `post-write-state`
   (PostToolUse, keeps `workflow-state.json` in sync).
-- **MCP / sourcing**: `open-meteo` (no key) supplies weather, called only by
-  `weather`. Content agents source real pages via `WebSearch`/`WebFetch`;
-  `html-builder` sources and embeds images the same way.
+- **MCP / sourcing**: [`open-meteo`](https://www.npmjs.com/package/open-meteo-mcp-server)
+  (no key) supplies weather. Content agents source real pages via `WebSearch`/`WebFetch`; `html-builder` sources and embeds images the same way.
 
 ## Flow
 
@@ -126,6 +124,7 @@ flowchart TD
     WeatherA -.-> weather[/"weather.md"/]
 
     transport --> ForkB{{"Group B (parallel)"}}
+    weather --> ActA
     ForkB --> AccA["accommodation-planner"]
     ForkB --> ActA["activities-planner"]
     ForkB --> FoodA["food-planner"]

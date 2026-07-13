@@ -27,7 +27,7 @@ Produce a packing checklist tailored to the destination, season, travelers, and 
 
 ## Inputs
 
-Read the paths given in your launch prompt — always `requirements.md` and the latest `weather.md`, plus the latest `activities.md` and `accommodation.md`, and — when the confirmed transport mode is car — the latest `transport.md`. These are hard dependencies: you run only after those artifacts exist, since their content directly shapes the checklist (the actual outlook, planned activities' gear, lodging amenities like self-catering/laundry/pool, and road-trip specifics like luggage space and car essentials).
+Read the paths given in your launch prompt — always `requirements.md` and the latest `weather.md`, plus the latest `activities.md` and `accommodation.md`, and `transport.md`. These are hard dependencies: you run only after those artifacts exist, since their content directly shapes the checklist (the actual outlook, planned activities' gear, lodging amenities like self-catering/laundry/pool, and road-trip specifics like luggage space and car essentials).
 
 ## Output format
 

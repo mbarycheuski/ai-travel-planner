@@ -22,8 +22,7 @@ first use, approve the project MCP server (`open-meteo`) when prompted.
 ## Run it
 
 ```
-/plan-trip Plan a 5-day trip to Lisbon for a family (2 adults, 2 kids).
-Departure from Warsaw on August 1, 2026.
+/plan-trip Plan a 5-day family trip to Lisbon. We're 2 adults and 2 kids (ages 5 and 8). Departure from Warsaw on August 1, 2026. We prefer a comfortable trip with sightseeing, nearby beaches, good local restaurants, activities for children, and minimal walking due to the summer heat.
 ```
 
 The `/plan-trip` command asks any clarifying questions (including transport mode
@@ -51,15 +50,15 @@ the first pending/failed one — no finished work is redone.
 
 Each run is isolated under `trips/<destination>-<date>/`: all planning artifacts
 (`requirements.md`, `transport.md`, …), the `daily-plan.md`, the final
-`travel-guide.html`, and `workflow-state.json`. Sample runs are committed on
-purpose — `trips/krakow-2026-07/` (happy path) and `trips/zakopane-2026-07/`
-(a validation-driven iteration) — to demonstrate different scenarios.
+`travel-guide.html`, and `workflow-state.json`. A few sample runs are committed
+under `trips/` on purpose, to demonstrate different scenarios (e.g. a happy
+path and a validation-driven iteration).
 
 ## Tools & technologies
 
 - **Claude Code** — sub-agents (`.claude/agents/`), reusable skills
   (`.claude/skills/`), and hooks (`.claude/hooks/`, Node.js).
-- **`open-meteo` MCP** (`.mcp.json`, no API key) — weather source, called by the
-  `weather` agent.
+- **[`open-meteo` MCP](https://www.npmjs.com/package/open-meteo-mcp-server)**
+  (`.mcp.json`, no API key) — weather source, called by the `weather` agent.
 - **Live web** (`WebSearch` / `WebFetch`) — recommendations and images are
   sourced from real pages at runtime, not from model memory.
