@@ -1,5 +1,5 @@
 ---
-description: Run the multi-agent AI travel-planner workflow end-to-end (requirements → coordination → parallel planning → validation → iteration → approval → HTML guide).
+description: Run the multi-agent AI travel-planner workflow end-to-end (requirements → coordination → parallel planning → validation → iteration → daily plan → approval → HTML guide).
 argument-hint: <free-text travel request>
 allowed-tools: Task, AskUserQuestion, Read, Write, Edit, Glob, Bash, Skill
 model: sonnet
@@ -55,7 +55,7 @@ From `requirements.md`, write `$RUN/execution-plan.md` **before launching any pl
 2. Launch `validator` with `requirements.md`, `execution-plan.md`, and the latest version of every planning artifact → `$RUN/validation.md`.
 3. Read the PASS/FAIL result.
 
-## Stage 5 — Targeted iteration (loop, max 3; you map the reruns)
+## Stage 5 — Targeted iteration (you map the reruns)
 
 While validation = FAIL and `iteration_count` < `retry_limit`:
 

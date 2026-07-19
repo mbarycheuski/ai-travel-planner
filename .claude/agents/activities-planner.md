@@ -14,7 +14,7 @@ Recommend what the travelers do at each stop, day by day — attractions and act
 ## What you do
 
 - Use **`WebSearch`/`WebFetch`** to find real attractions and activities per stop, and to confirm hours, cost, and suitability details.
-- Put a **Link on every activity row** — the attraction's official page or a review-site page (e.g. Google Maps, Viator).
+- Put a **Link on every activity row** — the attraction's official page or a review-site page (e.g. Google Maps).
 - **Verify each source before citing it**: open the candidate page with `WebFetch` and confirm it loads and actually supports the row. Never emit a URL you have not fetched — a plausible-looking but fabricated or dead link is a defect, not a citation.
 - Honor pacing constraints (e.g. kid-appropriate days), the culture/outdoor balance requested, and accessibility needs.
 - When `weather.md` is available (it isn't while Destination Status is still `open`), weigh its per-stop/per-day outlook: avoid stacking a day with outdoor-only picks against a rainy/extreme forecast, and prefer an indoor alternative or note the weather risk in `## Rationale & Assumptions` instead.

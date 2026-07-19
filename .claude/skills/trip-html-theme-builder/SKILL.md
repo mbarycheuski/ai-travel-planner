@@ -1,6 +1,7 @@
 ---
 name: trip-html-theme-builder
 description: Reusable HTML rendering rules and a predefined trip-guide template with fully structured sections (hero, strict-field trip summary, transport tables, day-card itinerary, checklists, budget). Defines how an approved daily plan is turned into a standalone HTML travel guide with an identical structure across runs, customized per trip only through theme tokens. Used by html-builder.
+allowed-tools: Read, Write, Glob, Bash, WebSearch
 ---
 
 # Trip HTML Theme Builder
@@ -25,8 +26,7 @@ and a small theme layer vary per trip.
    downloaded, and embedded as a base64 `data:` URI — the _finished HTML_ never
    contains a live `https://` image reference, `<img>` tag, or other external
    asset link; the source URL is only used at build time to fetch the bytes,
-   which are then inlined. (There is no page-background photo — the page sits on
-   the plain themed background.)
+   which are then inlined.
 2. **No new travel content**: everything rendered comes verbatim from the
    approved `daily-plan.md` (plus its carried-through citations). The renderer
    reformats; it never adds, drops, or "improves" recommendations.

@@ -56,4 +56,4 @@ Write to the given path (`budget.md` or `budget-vN.md`). Headers verbatim; the t
 
 ## Completion reply
 
-After writing, reply with only the output path, the total, and OVER/UNDER limit.
+After writing, reply with only the output path and a one-line summary (including the total and OVER/UNDER limit).

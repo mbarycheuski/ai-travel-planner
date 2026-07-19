@@ -30,7 +30,7 @@ Produce a real, sourced weather outlook for every stop on the trip.
 
 ## Inputs
 
-Read the paths given in your launch prompt — always `requirements.md`, for the confirmed destination(s), dates/month, and Destination Status. This is your only dependency; you read no other planning artifact.
+Read the paths given in your launch prompt — always `requirements.md`, for the confirmed destination(s), dates/month, and Destination Status. This is your only planning-artifact dependency. On reruns, also any guidance and the prior `weather.md` in your launch prompt.
 
 ## Output format
 
