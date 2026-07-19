@@ -1,0 +1,68 @@
+{
+  "run": "lisbon-2026-08",
+  "steps": {
+    "requirements": {
+      "status": "completed",
+      "artifact": "requirements-v2.md",
+      "version": 2
+    },
+    "execution-plan": {
+      "status": "completed",
+      "artifact": "execution-plan.md",
+      "version": 1
+    },
+    "weather": {
+      "status": "completed",
+      "artifact": "weather.md",
+      "version": 1
+    },
+    "transport": {
+      "status": "completed",
+      "artifact": "transport.md",
+      "version": 1
+    },
+    "accommodation": {
+      "status": "completed",
+      "artifact": "accommodation.md",
+      "version": 1
+    },
+    "food": {
+      "status": "completed",
+      "artifact": "food.md",
+      "version": 1
+    },
+    "activities": {
+      "status": "completed",
+      "artifact": "activities.md",
+      "version": 1
+    },
+    "packing": {
+      "status": "completed",
+      "artifact": "packing.md",
+      "version": 1
+    },
+    "budget": {
+      "status": "completed",
+      "artifact": "budget.md",
+      "version": 1
+    },
+    "validation": {
+      "status": "passed",
+      "artifact": "validation.md",
+      "version": 1
+    },
+    "daily-plan": {
+      "status": "approved",
+      "artifact": "daily-plan.md",
+      "version": 1
+    },
+    "travel-guide": {
+      "status": "completed",
+      "artifact": "travel-guide.html",
+      "version": 1
+    }
+  },
+  "iteration_count": 0,
+  "retry_limit": 3,
+  "updated_at": "2026-07-19T20:03:42.622Z"
+}

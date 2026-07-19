@@ -1,0 +1,22 @@
+# Accommodation
+
+## Accommodations
+
+| Stop | Property | Stars | Key Features | Cost/night × Nights | Subtotal | Link |
+| ---- | -------- | ----- | ------------ | ------------------- | -------- | ---- |
+| Lisbon | VIP Executive Éden Aparthotel | 4-star | Rooftop/outdoor seasonal swimming pool with terrace bar; 4-person family apartments (double bed + sofa bed, kitchenette, living area — ideal for 2 adults + 2 children ages 5/8); located on Restauradores Square in the Baixa/Chiado core, directly matching the transport plan's Baixa-Chiado airport-transfer zone and the "minimal walking" preference (city's main sights, Rossio, and Metro/taxi pickup all within a few minutes' level walk); air conditioning (important for August heat); no step-free-access claim found, so not marketed as fully accessible, but no accessibility need was stated in requirements | €190/night × 4 | €760 | [VIP Executive Éden Aparthotel — official hotel page](https://www.viphotels.com/en/hotels/vip-executive-eden-in-lisbon/) |
+
+## Estimated Accommodation Total
+
+- 1 four-person family apartment × 4 nights (Aug 1 → Aug 5, 2026) × €190/night = **€760**
+- **Accommodation total: €760** (EUR, trip currency — no conversion needed)
+
+## Rationale & Assumptions
+
+- **Property selection vs. preferences**: `requirements-v2.md` calls for a "4-star family hotel with a pool." VIP Executive Éden Aparthotel is confirmed 4-star on its own official site (viphotels.com — fetched and verified) and has a seasonal outdoor/rooftop swimming pool (confirmed via the same official page and independently via a third-party aggregator, hotelsoflisbon.com listing, and TripAdvisor search results). Its 59 four-person apartments (double bed + sofa bed) directly fit a family of 2 adults + 2 children in one unit, avoiding the cost and logistics of booking two rooms.
+- **Location vs. "minimal walking" constraint**: the property sits on Restauradores Square, immediately adjacent to Rossio and the Baixa/Chiado district that `transport.md` already assumes for the airport transfer (~15–20 min door-to-door taxi, per `transport.md` Leg 2/3). This keeps the family's daily radius of movement flat and central, consistent with the hard "minimal walking / comfortable pace" constraint for two young children in August heat — most central sights and the metro/taxi rank are reachable without long walks or stairs-heavy interchanges.
+- **Alternative considered and rejected**: Martinhal Lisbon Chiado Family Suites was researched as a strongly family-branded option (kids' club, baby concierge) in the same Chiado neighborhood, but search results returned conflicting/unconfirmed information on whether it has an on-site pool for this property (one source suggested pool access is only via the separate Martinhal Cascais property, reached by train) — this could not be verified as a genuine on-site pool via a fetched, authoritative source, so it was not selected in order to strictly honor the stated "hotel with a pool" preference.
+- **Rate estimate — explicit assumption**: the property's official site and most aggregators (Booking.com, KAYAK, Hotels.com, Expedia) returned only indicative/base-rate figures (e.g., rates "from" ~€76–€135 in shoulder season, average ~€180–€196/night in search snapshots) rather than a bookable quote for the specific 2 adults + 2 children occupancy on Aug 1–5, 2026 (several booking-platform pages could not be fetched directly due to bot-protection/empty responses). August is Lisbon's peak summer season, so **€190/night is used as a planning-estimate rate for the 4-person apartment** (toward the upper end of the observed range, reflecting peak-season demand) — this should be reconfirmed/re-quoted at actual booking time, and `budget-aggregator` should treat this line as a moderate-confidence estimate, not a locked quote.
+- **Currency**: all costs stated in EUR (the trip currency per `requirements-v2.md`); no conversion was required since the property's own site and Portuguese/EU booking channels quote natively in EUR.
+- **Single-base assumption**: per `transport.md`'s `## Stops & Nights`, the trip is a single 4-night Lisbon base (Aug 1 arrival day → Aug 5 departure day) with no other overnight stops (Cascais/Estoril are day trips only), so exactly one property/booking is recommended, at 4 nights.
+- **Accessibility**: `requirements-v2.md` states no accessibility needs, so step-free access was not used as a filter; this is flagged only for completeness since the property's marketing materials did not explicitly advertise accessible rooms.
