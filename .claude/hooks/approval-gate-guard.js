@@ -1,12 +1,18 @@
 #!/usr/bin/env node
-// PreToolUse (Write) — blocks writing travel-guide.html unless the latest
-// daily-plan(-vN).md in the run directory records documentStatus: approved.
-// Assumes html-builder writes travel-guide.html exactly once (per CLAUDE.md);
-// if that ever becomes an in-place Edit, this gate needs Edit coverage too.
-const fs = require("fs");
-const path = require("path");
-const { readFrontmatter, documentStatus } = require("./lib/frontmatter");
-const { withWritePayload } = require("./lib/hook-io");
+// PreToolUse (Write) — blocks travel-guide.html unless the latest daily plan
+// records documentStatus: approved. Assumes html-builder writes the file
+// exactly once; an in-place Edit would need Edit coverage too.
+import fs from "fs";
+import path from "path";
+import { readFrontmatter, documentStatus } from "./lib/frontmatter.js";
+import { withWritePayload } from "./lib/hook-io.js";
+import {
+  TRAVEL_GUIDE_FILE_REGEX,
+  DocumentStatus,
+} from "./lib/workflow-artifacts.js";
+
+const DAILY_PLAN_FILE_REGEX = /^daily-plan(?:-v(\d+))?\.md$/i;
+const DEFAULT_VERSION = 1;
 
 function latestDailyPlanStatus(dir) {
   let best = 0;
@@ -19,11 +25,11 @@ function latestDailyPlanStatus(dir) {
     return { status, name };
   }
   for (const f of entries) {
-    const m = /^daily-plan(?:-v(\d+))?\.md$/i.exec(f);
+    const m = DAILY_PLAN_FILE_REGEX.exec(f);
     if (!m) continue;
-    const v = m[1] ? Number(m[1]) : 1;
-    if (v >= best) {
-      best = v;
+    const version = m[1] ? Number(m[1]) : DEFAULT_VERSION;
+    if (version >= best) {
+      best = version;
       name = f;
       status = documentStatus(readFrontmatter(path.join(dir, f)));
     }
@@ -33,7 +39,7 @@ function latestDailyPlanStatus(dir) {
 
 withWritePayload((payload, filePath) => {
   const { status, name } = latestDailyPlanStatus(path.dirname(filePath));
-  if (status !== "approved") {
+  if (status !== DocumentStatus.APPROVED) {
     process.stderr.write(
       `Blocked: cannot write "travel-guide.html" — publishing requires a deterministic ` +
         `human-approval gate. The latest daily plan (${name || "daily-plan.md"}) ` +
@@ -43,4 +49,4 @@ withWritePayload((payload, filePath) => {
     process.exit(2);
   }
   process.exit(0);
-});
+}, TRAVEL_GUIDE_FILE_REGEX);

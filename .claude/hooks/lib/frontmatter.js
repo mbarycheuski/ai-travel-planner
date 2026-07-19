@@ -1,18 +1,22 @@
-// Minimal flat `key: value` frontmatter reader shared by the workflow hooks.
-const fs = require("fs");
+import fs from "fs";
+import { DocumentStatus } from "./workflow-artifacts.js";
 
-function parseFrontmatter(content) {
-  const m = /^﻿?---\r?\n([\s\S]*?)\r?\n---/.exec(content || "");
-  if (!m) return {};
+const FRONTMATTER_BLOCK_REGEX = /^﻿?---\r?\n([\s\S]*?)\r?\n---/;
+const FRONTMATTER_LINE_REGEX = /^([A-Za-z0-9_]+):\s*(.*?)\s*$/;
+const QUOTED_VALUE_REGEX = /^["']|["']$/g;
+
+export function parseFrontmatter(content) {
+  const block = FRONTMATTER_BLOCK_REGEX.exec(content || "");
+  if (!block) return {};
   const fields = {};
-  for (const line of m[1].split(/\r?\n/)) {
-    const kv = /^([A-Za-z0-9_]+):\s*(.*?)\s*$/.exec(line);
-    if (kv) fields[kv[1]] = kv[2].replace(/^["']|["']$/g, "");
+  for (const line of block[1].split(/\r?\n/)) {
+    const kv = FRONTMATTER_LINE_REGEX.exec(line);
+    if (kv) fields[kv[1]] = kv[2].replace(QUOTED_VALUE_REGEX, "");
   }
   return fields;
 }
 
-function readFrontmatter(filePath) {
+export function readFrontmatter(filePath) {
   if (!fs.existsSync(filePath)) return {};
   try {
     return parseFrontmatter(fs.readFileSync(filePath, "utf8"));
@@ -21,10 +25,9 @@ function readFrontmatter(filePath) {
   }
 }
 
-function documentStatus(fields) {
-  return String(fields.documentStatus || fields.documentstatus || "")
+export function documentStatus(fields) {
+  const raw = String(fields.documentStatus || fields.documentstatus || "")
     .trim()
     .toLowerCase();
+  return Object.values(DocumentStatus).includes(raw) ? raw : "";
 }
-
-module.exports = { parseFrontmatter, readFrontmatter, documentStatus };
