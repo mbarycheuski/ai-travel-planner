@@ -40,8 +40,7 @@ and a small theme layer vary per trip.
    the title, emoji, and one general subtitle line, over an AI-generated,
    trip-related header photo** — every trip detail (party, transport, budget,
    interests, dates breakdown) lives in the Trip Summary section, not the
-   header. The page itself sits on the plain themed background (no background
-   photo).
+   header (see **Hero image** below for the page background).
 5. **Fixed inner markup**: rows/items must follow the exact shapes the
    template documents (see Slot reference) — itinerary days are `.day-card`
    blocks with a `.timeline` list. Two shapes are absolute:
@@ -86,9 +85,12 @@ There is **no page-background photo** — the page sits on the plain themed
 background. The renderer **finds the one hero photo itself** at build time via
 web search, downloads it, and embeds it:
 
-- Run a destination-specific `WebSearch` (from the trip's destination in the
-  daily plan) targeting an iconic, landscape establishing shot of the
-  destination (e.g. `"<destination> skyline landscape wide"`).
+- Run a destination-specific `WebSearch` (from the trip's destination and
+  travel dates in the daily plan) targeting an iconic, landscape establishing
+  shot that matches the trip's season — e.g. `"<destination> skyline summer"`
+  for a July trip, `"<destination> skyline winter snow"` for a December trip.
+  Reject a result that visibly contradicts the trip's season (snow for a
+  summer trip, bare trees for winter, etc.) and re-search instead.
 - Prefer stable, freely-licensed, directly-linkable image sources —
   **Wikimedia Commons** (`upload.wikimedia.org`) is the first choice, since its
   URLs point straight at the raw file and its images are safe to reuse.
@@ -98,21 +100,11 @@ hero-image.jpg`; add `--ssl-no-revoke` if `curl` fails with a schannel/cert
   revocation error — common on Windows sandboxes with no path to the CA's
   OCSP/CRL endpoint) and confirm the file is actually an image (non-trivial
   size, recognizable image `file` type) before using it.
-- **Downscale and recompress before embedding — mandatory.** Wikimedia
-  originals are routinely 3000–6000 px wide and 3–10 MB; embedded raw as base64
-  they balloon the guide to tens of MB and the header photo is slow to load.
-  Resize the image so its **long edge is ≤ 1800 px** and re-encode as **JPEG
-  quality ~82**, targeting **< 500 KB** (aim for ~200–350 KB). Use whatever
-  tool is present, e.g. Python/Pillow:
-  `python -c "from PIL import Image; im=Image.open('hero-image.jpg').convert('RGB'); im.thumbnail((1800,1800)); im.save('hero-image.jpg','JPEG',quality=82,optimize=True)"`
-  (`pip install Pillow` first if missing). If ImageMagick is available,
-  `magick <in> -resize 1800x1800\> -quality 82 <out>` works too. Verify the
-  recompressed file is < ~500 KB before encoding; the finished
-  `travel-guide.html` should be ~1 MB, not tens of MB.
-- base64-encode the **downscaled** file (e.g. `base64 -w0 "<path>"`) and set the
-  `{{HERO_IMAGE}}` slot to `url('data:image/<jpeg|png>;base64,<encoded data>')`
-  — **single quotes**, since this value is injected into an already
-  double-quoted `style="..."` HTML attribute — matching the actual file type.
+- base64-encode the file as downloaded, no resizing or recompression (e.g.
+  `base64 -w0 "<path>"`), and set the `{{HERO_IMAGE}}` slot to
+  `url('data:image/<jpeg|png>;base64,<encoded data>')` — **single quotes**,
+  since this value is injected into an already double-quoted `style="..."`
+  HTML attribute — matching the actual file type.
 - **Fill the image through the template slot** — set `{{HERO_IMAGE}}` on the
   `<header class="hero" style="--hero-image: …">` attribute. Do **not** hardcode
   the base64 into the `<style>` block or strip that inline `style` attribute;
@@ -151,14 +143,14 @@ its links must be updated to match — but the builder never changes that set.
 
 ### Trip Summary — chips + strict fields (every field must be filled; no field may be dropped)
 
-The chip row (moved out of the hero) sits at the top of this section:
+The chip row sits at the top of this section:
 
 | Slot                                    | Filled with                                                                           |
 | --------------------------------------- | ------------------------------------------------------------------------------------- |
 | `{{PARTY}}`                             | short party chip text, e.g. "2 adults + 2 kids (5 & 8)"                               |
 | `{{TRANSPORT_MODE}}`                    | "Flight" / "Train" / "Car" (chip)                                                     |
 | `{{INTEREST_CHIPS}}`                    | zero or more `<span class="chip">…</span>` for interests (🏛️ Museums, 🌳 Parks, …)    |
-| `{{BUDGET_TOTAL}}`                      | estimated total (hero-removed; used in the `chip total`, summary, and budget section) |
+| `{{BUDGET_TOTAL}}`                      | estimated total; used in the `chip total`, summary, and budget section                |
 | `{{DESTINATION}}`                       | destination(s) + trip shape in one line                                               |
 | `{{DATES_DETAIL}}`                      | exact dates incl. weekdays                                                            |
 | `{{PARTY_DETAIL}}`                      | traveler count + ages                                                                 |
@@ -200,20 +192,15 @@ Optional slots (`{{TRANSPORT_WARNINGS}}`, `{{ITINERARY_NOTES}}`,
 replaced with an empty string when there is nothing to say — never left as
 literal `{{...}}`.
 
-Note: weather now has its **own section** (between budget and packing); the
-packing section no longer carries a weather line — its slots are only the five
-`{{PACKING_*_ITEMS}}` checklists.
-
 ## Procedure
 
 1. Read `assets/template.html` (path: `.claude/skills/trip-html-theme-builder/assets/template.html`).
 2. Read the approved `daily-plan.md` (latest approved version).
 3. Choose the theme tokens for this trip (accent color family in both light
    and dark `:root` blocks, hero + transport emoji). Find the header photo via
-   web search, download, downscale/recompress, and base64-encode it (see
-   **Hero image**), and set `{{HERO_IMAGE}}` to
-   `url('data:image/<jpeg|png>;base64,…')` — single quotes, see note above —
-   or `none` where no usable image was found.
+   web search, download it, and base64-encode it (see **Hero image**), and set
+   `{{HERO_IMAGE}}` to `url('data:image/<jpeg|png>;base64,…')` — single
+   quotes, see note above — or `none` where no usable image was found.
 4. Convert each daily-plan section into the slot markup above, preserving all
    links.
 5. Replace every `{{...}}` slot; confirm **no `{{` remains** in the output.
