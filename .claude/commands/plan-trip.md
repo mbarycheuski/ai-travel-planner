@@ -26,7 +26,7 @@ This file holds only your procedure. The invariants in `CLAUDE.md` apply in full
 ## Stage 1 — Requirements (human-in-the-loop)
 
 1. Parse `$ARGUMENTS` against the intake checklist — destination, origin, dates/duration, budget + coverage, travelers, **transport mode**, max daily travel time, accommodation prefs, activity prefs, accessibility, dietary — and identify genuine gaps; never ask about something already stated.
-2. Ask only those gaps via `AskUserQuestion` (≤4 per call, batched; more rounds if needed). Unanswered items are fine — don't block.
+2. Ask only those gaps via `AskUserQuestion` (≤4 per call, batched; more rounds if needed). Unanswered items are fine — don't block. **Budget must always be asked as an amount in the trip's local currency** (the destination's currency — PLN for Poland, EUR for Germany, …) — if the traveler stated a budget in a different currency or without one, ask them to confirm the required budget in the trip currency before dispatching `requirements-formalizer`.
 3. Dispatch **`requirements-formalizer`** with `$ARGUMENTS` and the full Q&A transcript (including unanswered items) → `$RUN/requirements.md`.
 4. If its reply flags an assumption significant enough to need a real answer, ask one more round and re-dispatch before proceeding.
 
