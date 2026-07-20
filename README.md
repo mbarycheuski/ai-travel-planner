@@ -54,6 +54,16 @@ Each run is isolated under `trips/<destination>-<date>/`: all planning artifacts
 under `trips/` on purpose, to demonstrate different scenarios (e.g. a happy
 path and a validation-driven iteration).
 
+## ⚠️ Known Limitations & Issues
+
+- **No real booking API data.** Accommodation and transport pricing comes from
+  live web search over public listing/offer pages, not a real booking API.
+  Actual booking-time prices (taxes, dynamic pricing, availability) are often
+  higher than the public offer price the workflow captures.
+- **Token-heavy.** Each planning sub-agent makes multiple `WebSearch`/`WebFetch`
+  calls to source and cite recommendations, so a full run can consume a large
+  number of tokens — especially across validation-driven iterations.
+
 ## Tools & technologies
 
 - **Claude Code** — sub-agents (`.claude/agents/`), reusable skills
